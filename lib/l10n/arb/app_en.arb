@@ -1,0 +1,479 @@
+{
+  "@@locale": "en",
+  "appName": "Crete",
+  "@appName": {
+    "description": "The name of the application"
+  },
+  "welcome": "Welcome to Crete",
+  "@welcome": {
+    "description": "Welcome message on the main screen"
+  },
+  "loading": "Loading...",
+  "@loading": {
+    "description": "Loading indicator text"
+  },
+  "error": "Error",
+  "@error": {
+    "description": "Generic error message"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button text"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button text"
+  },
+  "ok": "OK",
+  "@ok": {
+    "description": "OK button text"
+  },
+  "close": "Close",
+  "@close": {
+    "description": "Close button text"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Save button text"
+  },
+  "delete": "Delete",
+  "@delete": {
+    "description": "Delete button text"
+  },
+  "edit": "Edit",
+  "@edit": {
+    "description": "Edit button text"
+  },
+  "add": "Add",
+  "@add": {
+    "description": "Add button text"
+  },
+  "search": "Search",
+  "@search": {
+    "description": "Search placeholder text"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings screen title"
+  },
+  "profile": "Profile",
+  "@profile": {
+    "description": "Profile screen title"
+  },
+  "wallet": "Wallet",
+  "@wallet": {
+    "description": "Wallet screen title"
+  },
+  "transactions": "Transactions",
+  "@transactions": {
+    "description": "Transactions screen title"
+  },
+  "balance": "Balance",
+  "@balance": {
+    "description": "Balance label"
+  },
+  "send": "Send",
+  "@send": {
+    "description": "Send button text"
+  },
+  "receive": "Receive",
+  "@receive": {
+    "description": "Receive button text"
+  },
+  "amount": "Amount",
+  "@amount": {
+    "description": "Amount label"
+  },
+  "address": "Address",
+  "@address": {
+    "description": "Address label"
+  },
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Confirm button text"
+  },
+  "transaction": "Transaction",
+  "@transaction": {
+    "description": "Transaction label"
+  },
+  "pending": "Pending",
+  "@pending": {
+    "description": "Pending status"
+  },
+  "completed": "Completed",
+  "@completed": {
+    "description": "Completed status"
+  },
+  "failed": "Failed",
+  "@failed": {
+    "description": "Failed status"
+  },
+  "networkError": "Network connection error. Please check your internet connection and try again.",
+  "@networkError": {
+    "description": "Network error message"
+  },
+  "invalidAddress": "Invalid address format",
+  "@invalidAddress": {
+    "description": "Invalid address error message"
+  },
+  "insufficientBalance": "Insufficient balance",
+  "@insufficientBalance": {
+    "description": "Insufficient balance error message"
+  },
+  "transactionFailed": "Transaction failed. Please try again.",
+  "@transactionFailed": {
+    "description": "Transaction failed error message"
+  },
+  "connectWallet": "Connect Wallet",
+  "@connectWallet": {
+    "description": "Connect wallet button text"
+  },
+  "disconnectWallet": "Disconnect Wallet",
+  "@disconnectWallet": {
+    "description": "Disconnect wallet button text"
+  },
+  "walletConnected": "Wallet Connected",
+  "@walletConnected": {
+    "description": "Wallet connected status message"
+  },
+  "walletDisconnected": "Wallet Disconnected",
+  "@walletDisconnected": {
+    "description": "Wallet disconnected status message"
+  },
+  "noTransactions": "No transactions found",
+  "@noTransactions": {
+    "description": "Empty transactions list message"
+  },
+  "refresh": "Refresh",
+  "@refresh": {
+    "description": "Refresh button text"
+  },
+  "copy": "Copy",
+  "@copy": {
+    "description": "Copy button text"
+  },
+  "copied": "Copied to clipboard",
+  "@copied": {
+    "description": "Copied to clipboard message"
+  },
+  "share": "Share",
+  "@share": {
+    "description": "Share button text"
+  },
+  "back": "Back",
+  "@back": {
+    "description": "Back button text"
+  },
+  "next": "Next",
+  "@next": {
+    "description": "Next button text"
+  },
+  "previous": "Previous",
+  "@previous": {
+    "description": "Previous button text"
+  },
+  "done": "Done",
+  "@done": {
+    "description": "Done button text"
+  },
+  "skip": "Skip",
+  "@skip": {
+    "description": "Skip button text"
+  },
+  "continueButton": "Continue",
+  "@continueButton": {
+    "description": "Continue button text"
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Language setting label"
+  },
+  "theme": "Theme",
+  "@theme": {
+    "description": "Theme setting label"
+  },
+  "notifications": "Notifications",
+  "@notifications": {
+    "description": "Notifications setting label"
+  },
+  "security": "Security",
+  "@security": {
+    "description": "Security setting label"
+  },
+  "about": "About",
+  "@about": {
+    "description": "About section label"
+  },
+  "version": "Version",
+  "@version": {
+    "description": "Version label"
+  },
+  "signOut": "Sign Out",
+  "@signOut": {
+    "description": "Sign out button text"
+  },
+  "signIn": "Sign In",
+  "@signIn": {
+    "description": "Sign in button text"
+  },
+  "signUp": "Sign Up",
+  "@signUp": {
+    "description": "Sign up button text"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Email label"
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Password label"
+  },
+  "confirmPassword": "Confirm Password",
+  "@confirmPassword": {
+    "description": "Confirm password label"
+  },
+  "forgotPassword": "Forgot Password?",
+  "@forgotPassword": {
+    "description": "Forgot password link text"
+  },
+  "resetPassword": "Reset Password",
+  "@resetPassword": {
+    "description": "Reset password button text"
+  },
+  "enterEmail": "Enter your email address",
+  "@enterEmail": {
+    "description": "Enter email placeholder"
+  },
+  "enterPassword": "Enter your password",
+  "@enterPassword": {
+    "description": "Enter password placeholder"
+  },
+  "invalidEmail": "Please enter a valid email address",
+  "@invalidEmail": {
+    "description": "Invalid email error message"
+  },
+  "passwordTooShort": "Password must be at least 8 characters long",
+  "@passwordTooShort": {
+    "description": "Password too short error message"
+  },
+  "passwordMismatch": "Passwords do not match",
+  "@passwordMismatch": {
+    "description": "Password mismatch error message"
+  },
+  "accountCreated": "Account created successfully",
+  "@accountCreated": {
+    "description": "Account created success message"
+  },
+  "welcomeBack": "Welcome back!",
+  "@welcomeBack": {
+    "description": "Welcome back message"
+  },
+  "solanaNetwork": "Solana Network",
+  "@solanaNetwork": {
+    "description": "Solana network label"
+  },
+  "mainnet": "Mainnet",
+  "@mainnet": {
+    "description": "Mainnet network option"
+  },
+  "devnet": "Devnet",
+  "@devnet": {
+    "description": "Devnet network option"
+  },
+  "testnet": "Testnet",
+  "@testnet": {
+    "description": "Testnet network option"
+  },
+  "blinks": "Blinks",
+  "@blinks": {
+    "description": "Blinks feature label"
+  },
+  "actionRequired": "Action Required",
+  "@actionRequired": {
+    "description": "Action required message"
+  },
+  "processingTransaction": "Processing transaction...",
+  "@processingTransaction": {
+    "description": "Processing transaction message"
+  },
+  "transactionSuccess": "Transaction completed successfully",
+  "@transactionSuccess": {
+    "description": "Transaction success message"
+  },
+  "configurationError": "Configuration Error",
+  "@configurationError": {
+    "description": "Configuration error title"
+  },
+  "connectionTimeout": "Connection timeout. Please try again.",
+  "@connectionTimeout": {
+    "description": "Connection timeout error message"
+  },
+  "unknownError": "An unknown error occurred. Please try again.",
+  "@unknownError": {
+    "description": "Unknown error message"
+  },
+  "noInternetConnection": "No internet connection. Please check your network settings.",
+  "@noInternetConnection": {
+    "description": "No internet connection error message"
+  },
+  "serverError": "Server error. Please try again later.",
+  "@serverError": {
+    "description": "Server error message"
+  },
+  "maintenance": "The app is currently under maintenance. Please try again later.",
+  "@maintenance": {
+    "description": "Maintenance message"
+  },
+  "updateRequired": "App update required. Please update to continue.",
+  "@updateRequired": {
+    "description": "Update required message"
+  },
+  "updateAvailable": "A new version is available. Update now?",
+  "@updateAvailable": {
+    "description": "Update available message"
+  },
+  "later": "Later",
+  "@later": {
+    "description": "Later button text"
+  },
+  "update": "Update",
+  "@update": {
+    "description": "Update button text"
+  },
+  "justNow": "Just now",
+  "@justNow": {
+    "description": "Time indicator for very recent times"
+  },
+  "minuteAgo": "{count} minute ago",
+  "@minuteAgo": {
+    "description": "Time indicator for minutes ago (singular)",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesAgo": "{count} minutes ago",
+  "@minutesAgo": {
+    "description": "Time indicator for minutes ago (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hourAgo": "{count} hour ago",
+  "@hourAgo": {
+    "description": "Time indicator for hours ago (singular)",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hoursAgo": "{count} hours ago",
+  "@hoursAgo": {
+    "description": "Time indicator for hours ago (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dayAgo": "{count} day ago",
+  "@dayAgo": {
+    "description": "Time indicator for days ago (singular)",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "daysAgo": "{count} days ago",
+  "@daysAgo": {
+    "description": "Time indicator for days ago (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "weekAgo": "{count} week ago",
+  "@weekAgo": {
+    "description": "Time indicator for weeks ago (singular)",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "weeksAgo": "{count} weeks ago",
+  "@weeksAgo": {
+    "description": "Time indicator for weeks ago (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "monthAgo": "{count} month ago",
+  "@monthAgo": {
+    "description": "Time indicator for months ago (singular)",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "monthsAgo": "{count} months ago",
+  "@monthsAgo": {
+    "description": "Time indicator for months ago (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "yearAgo": "{count} year ago",
+  "@yearAgo": {
+    "description": "Time indicator for years ago (singular)",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "yearsAgo": "{count} years ago",
+  "@yearsAgo": {
+    "description": "Time indicator for years ago (plural)",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "yesterday": "Yesterday",
+  "@yesterday": {
+    "description": "Yesterday label"
+  },
+  "today": "Today",
+  "@today": {
+    "description": "Today label"
+  },
+  "tomorrow": "Tomorrow",
+  "@tomorrow": {
+    "description": "Tomorrow label"
+  },
+  "ended": "Ended",
+  "@ended": {
+    "description": "Status for ended/expired items"
+  },
+  "remaining": "remaining",
+  "@remaining": {
+    "description": "Suffix for time remaining"
+  },
+  "lessThanMinute": "Less than 1m remaining",
+  "@lessThanMinute": {
+    "description": "Very short time remaining"
+  }
+}

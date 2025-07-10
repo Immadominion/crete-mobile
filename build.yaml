@@ -1,0 +1,24 @@
+targets:
+  $default:
+    builders:
+      injectable_generator:injectable_builder:
+        options:
+          auto_register: true
+          # Generate for development and test environments  
+          environment: all
+
+      json_serializable:
+        options:
+          # Use camelCase for JSON keys
+          field_rename: none
+          # Include null fields in JSON
+          include_if_null: true
+          # Make generated code more robust
+          checked: true
+          # Generate explicitToJson method
+          explicit_to_json: true
+
+      retrofit_generator:
+        options:
+          # Generate for all environments
+          environment: all

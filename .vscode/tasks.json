@@ -1,0 +1,129 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Flutter: Run Dev",
+      "type": "shell",
+      "command": "flutter",
+      "args": ["run", "--flavor", "dev", "--dart-define-from-file=.env.dev"],
+      "group": "build",
+      "isBackground": false,
+      "problemMatcher": []
+    },
+    {
+      "label": "Flutter: Run Staging",
+      "type": "shell",
+      "command": "flutter",
+      "args": [
+        "run",
+        "--flavor",
+        "staging",
+        "--dart-define-from-file=.env.staging"
+      ],
+      "group": "build",
+      "isBackground": false,
+      "problemMatcher": ["$dart-flutter"]
+    },
+    {
+      "label": "Flutter: Run Prod",
+      "type": "shell",
+      "command": "flutter",
+      "args": [
+        "run",
+        "--release",
+        "--flavor",
+        "prod",
+        "--dart-define-from-file=.env.prod"
+      ],
+      "group": "build",
+      "isBackground": false,
+      "problemMatcher": ["$dart-flutter"]
+    },
+    {
+      "label": "Flutter: Get Dependencies",
+      "type": "shell",
+      "command": "flutter",
+      "args": ["pub", "get"],
+      "group": "build",
+      "isBackground": false,
+      "problemMatcher": []
+    },
+    {
+      "label": "Flutter: Generate Code",
+      "type": "shell",
+      "command": "flutter",
+      "args": [
+        "packages",
+        "pub",
+        "run",
+        "build_runner",
+        "build",
+        "--delete-conflicting-outputs"
+      ],
+      "group": "build",
+      "isBackground": false,
+      "problemMatcher": []
+    },
+    {
+      "label": "Flutter: Clean & Rebuild",
+      "type": "shell",
+      "command": "flutter",
+      "args": ["clean"],
+      "group": "build",
+      "isBackground": false,
+      "problemMatcher": [],
+      "dependsOrder": "sequence",
+      "dependsOn": ["Flutter: Get Dependencies", "Flutter: Generate Code"]
+    },
+    {
+      "label": "Flutter: Analyze",
+      "type": "shell",
+      "command": "flutter",
+      "args": ["analyze"],
+      "group": "test",
+      "isBackground": false,
+      "problemMatcher": ["$dart-flutter-analyze"]
+    },
+    {
+      "label": "Flutter: Test",
+      "type": "shell",
+      "command": "flutter",
+      "args": ["test"],
+      "group": "test",
+      "isBackground": false,
+      "problemMatcher": ["$dart-flutter-test"]
+    },
+    {
+      "label": "Build: Full Build Script",
+      "type": "shell",
+      "command": "./scripts/build.sh",
+      "group": "build",
+      "isBackground": false,
+      "problemMatcher": []
+    },
+    {
+      "label": "Build: Watch Code Generation",
+      "type": "shell",
+      "command": "./scripts/watch.sh",
+      "group": "build",
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "Setup: Install Git Hooks",
+      "type": "shell",
+      "command": "./scripts/setup-hooks.sh",
+      "group": "build",
+      "isBackground": false,
+      "problemMatcher": []
+    },
+    {
+      "label": "Quality: Pre-commit Checks",
+      "type": "shell",
+      "command": "./scripts/pre-commit.sh",
+      "group": "test",
+      "isBackground": false,
+      "problemMatcher": []
+    }
+  ]
+}

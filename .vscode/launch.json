@@ -1,0 +1,61 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Dev",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "args": ["--flavor", "dev", "--dart-define-from-file=.env.dev"],
+      "flutterMode": "debug"
+    },
+    {
+      "name": "Debug Staging",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "args": ["--flavor", "staging", "--dart-define-from-file=.env.staging"],
+      "flutterMode": "debug"
+    },
+    {
+      "name": "Debug Production",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "args": ["--flavor", "prod", "--dart-define-from-file=.env.prod"],
+      "flutterMode": "debug"
+    },
+    {
+      "name": "Profile Dev",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "args": ["--flavor", "dev", "--dart-define-from-file=.env.dev"],
+      "flutterMode": "profile"
+    },
+    {
+      "name": "Profile Staging",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "args": ["--flavor", "staging", "--dart-define-from-file=.env.staging"],
+      "flutterMode": "profile"
+    },
+    {
+      "name": "Profile Production",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "args": ["--flavor", "prod", "--dart-define-from-file=.env.prod"],
+      "flutterMode": "profile"
+    },
+    {
+      "name": "Release Production",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "args": ["--flavor", "prod", "--dart-define-from-file=.env.prod"],
+      "flutterMode": "release"
+    }
+  ]
+}

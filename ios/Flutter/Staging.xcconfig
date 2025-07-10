@@ -1,0 +1,20 @@
+#include "Generated.xcconfig"
+
+// Staging Configuration
+API_BASE_URL=https://api.staging.crete.dev
+WEBSOCKET_URL=wss://ws.staging.crete.dev
+SOLANA_RPC_URL=https://api.devnet.solana.com
+SOLANA_CLUSTER=devnet
+APP_NAME=Crete Staging
+APP_ENVIRONMENT=staging
+ENABLE_DISCORD_IMPORT=true
+ENABLE_GUEST_MODE=true
+ENABLE_ANALYTICS=true
+BLINKS_API_URL=https://blinks.staging.crete.dev
+NOTIFICATION_SERVICE_URL=https://notifications.staging.crete.dev
+ENABLE_DEBUG_LOGS=true
+ENABLE_NETWORK_LOGGING=true
+
+// Bundle Configuration
+PRODUCT_BUNDLE_IDENTIFIER=com.crete.app.staging
+PRODUCT_NAME=Crete Staging

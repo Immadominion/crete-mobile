@@ -1,0 +1,20 @@
+#include "Generated.xcconfig"
+
+// Production Configuration
+API_BASE_URL=https://api.crete.dev
+WEBSOCKET_URL=wss://ws.crete.dev
+SOLANA_RPC_URL=https://api.mainnet-beta.solana.com
+SOLANA_CLUSTER=mainnet-beta
+APP_NAME=Crete
+APP_ENVIRONMENT=production
+ENABLE_DISCORD_IMPORT=true
+ENABLE_GUEST_MODE=true
+ENABLE_ANALYTICS=true
+BLINKS_API_URL=https://blinks.crete.dev
+NOTIFICATION_SERVICE_URL=https://notifications.crete.dev
+ENABLE_DEBUG_LOGS=false
+ENABLE_NETWORK_LOGGING=false
+
+// Bundle Configuration
+PRODUCT_BUNDLE_IDENTIFIER=com.crete.app
+PRODUCT_NAME=Crete
