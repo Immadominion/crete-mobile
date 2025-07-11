@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // Primary Colors - Solana-inspired purple theme
-  static const Color primary = Color(0xFF8B5CF6); // Purple-500
-  static const Color primaryDark = Color(0xFF7C3AED); // Purple-600
-  static const Color primaryLight = Color(0xFFA78BFA); // Purple-400
-  static const Color primaryExtraLight = Color(0xFFC4B5FD); // Purple-300
+  // Primary Colors - Updated brand colors
+  static const Color primary = Color(0xFF4A0989); // Primary button color
+  static const Color primaryDark = Color(0xFF3A0668); // Darker shade
+  static const Color primaryLight = Color(0xFF9D4EDD); // Some tab in design color
+  static const Color primaryExtraLight = Color(0xFF9D4EDD0D); // With opacity
 
-  // Secondary Colors - Accent colors for highlights
-  static const Color secondary = Color(0xFF10B981); // Emerald-500
-  static const Color secondaryDark = Color(0xFF059669); // Emerald-600
-  static const Color secondaryLight = Color(0xFF34D399); // Emerald-400
+  // Secondary Colors - Additional brand colors
+  static const Color secondary = Color(0xFF48E5C2); // Crete logo color
+  static const Color secondaryDark = Color(0xFF159677); // Darker teal
+  static const Color secondaryButton = Color(0xFFDE0298); // Secondary button color
+  static const Color tertiaryButton = Color(0xFFB4E5BC); // Tertiary button color
 
   // Neutral Colors
   static const Color black = Color(0xFF000000);
@@ -26,28 +27,35 @@ class AppColors {
   static const Color gray800 = Color(0xFF262626);
   static const Color gray900 = Color(0xFF171717);
 
+  // Navigation Colors
+  static const Color navigationInactive = Color(0xFF717171); // Inactive icons
+  static const Color navigationBackground = Color(0xFF5865F2); // Navigation background
+  static const Color navigationBackgroundSecondary = Color(0xFF5865F233); // Secondary container
+
   // Semantic Colors
-  static const Color success = Color(0xFF10B981); // Green-500
+  static const Color success = Color(0xFF058D00); // DAO voting completed
   static const Color warning = Color(0xFFF59E0B); // Amber-500
-  static const Color error = Color(0xFFEF4444); // Red-500
+  static const Color error = Color(0xFFD20808); // DAO failed color
   static const Color info = Color(0xFF3B82F6); // Blue-500
 
   // DAO Status Colors
-  static const Color daoActive = Color(0xFF10B981); // Green
+  static const Color daoActive = Color(0xFF058D00); // DAO completed
   static const Color daoInactive = Color(0xFF6B7280); // Gray
   static const Color daoPending = Color(0xFFF59E0B); // Amber
+  static const Color daoVotingInProgress = Color(0xFFDDA900); // DAO voting in progress
 
   // Voting Colors
-  static const Color voteYes = Color(0xFF10B981); // Green
-  static const Color voteNo = Color(0xFFEF4444); // Red
+  static const Color voteYes = Color(0xFF058D00); // DAO completed green
+  static const Color voteNo = Color(0xFFD20808); // DAO failed red
   static const Color voteAbstain = Color(0xFF6B7280); // Gray
 
   // Chat Colors
-  static const Color chatBubbleMe = Color(0xFF8B5CF6); // Primary
+  static const Color chatBubbleMe = Color(0xFF4A0989); // Primary
   static const Color chatBubbleOther = Color(0xFFF3F4F6); // Light gray
-  static const Color chatOnline = Color(0xFF10B981); // Green
+  static const Color chatOnline = Color(0xFF058D00); // Green
   static const Color chatAway = Color(0xFFF59E0B); // Amber
   static const Color chatOffline = Color(0xFF6B7280); // Gray
+  static const Color chatDivider = Color(0xFF2D2D2D); // Chat divider color
 
   // Background Colors
   static const Color backgroundPrimary = Color(0xFFFFFFFF);
@@ -55,11 +63,14 @@ class AppColors {
   static const Color backgroundTertiary = Color(0xFFF3F4F6);
 
   // Dark Mode Colors
-  static const Color darkBackgroundPrimary = Color(0xFF111827);
+  static const Color darkBackgroundPrimary = Color(0xFF313131); // App background dark mode
   static const Color darkBackgroundSecondary = Color(0xFF1F2937);
   static const Color darkBackgroundTertiary = Color(0xFF374151);
   static const Color darkTextPrimary = Color(0xFFFFFFFF);
   static const Color darkTextSecondary = Color(0xFFD1D5DB);
+  static const Color darkTextHeading = Color(0xFFB5B5B5); // DAO page headings dark mode
+  static const Color darkIconBackground = Color(0xFF353535); // Icon background dark mode
+  static const Color darkIconForeground = Color(0xFF0B0B0B); // Icon foreground dark mode
 
   // Wallet Colors
   static const Color phantom = Color(0xFF4C1D95); // Deep purple
@@ -79,9 +90,9 @@ class AppColors {
   static ColorScheme get darkColorScheme => const ColorScheme.dark(
     primary: primaryLight,
     onPrimary: gray900,
-    secondary: secondaryLight,
+    secondary: secondary,
     onSecondary: gray900,
-    surface: darkBackgroundSecondary,
+    surface: darkBackgroundPrimary,
     error: error,
     onError: gray900,
   );

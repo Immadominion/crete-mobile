@@ -2,6 +2,7 @@
 class RoutePaths {
   // Core Routes
   static const String home = '/';
+  static const String dashboard = '/dashboard';
   static const String onboarding = '/onboarding';
   static const String login = '/login';
   static const String signup = '/signup';
@@ -29,6 +30,7 @@ class RoutePaths {
   
   // Utility Routes
   static const String settings = '/settings';
+  static const String themeTest = '/theme-test';
   static const String invite = '/invite';
   static const String error = '/error';
 }
@@ -37,6 +39,7 @@ class RoutePaths {
 class RouteNames {
   // Core Routes
   static const String home = 'home';
+  static const String dashboard = 'dashboard';
   static const String onboarding = 'onboarding';
   static const String login = 'login';
   static const String signup = 'signup';
@@ -64,6 +67,7 @@ class RouteNames {
   
   // Utility Routes
   static const String settings = 'settings';
+  static const String themeTest = 'theme-test';
   static const String invite = 'invite';
   static const String error = 'error';
 }
