@@ -54,7 +54,7 @@ class DaoAppBar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(100.r),
                   ),
                   padding: EdgeInsets.symmetric(
-                    horizontal: 15.w,
+                    horizontal: 16.5.w,
                     vertical: 2.5.h,
                   ),
                   fixedSize: Size(108.w, 27.h),

@@ -4,14 +4,20 @@ class AppColors {
   // Primary Colors - Updated brand colors
   static const Color primary = Color(0xFF4A0989); // Primary button color
   static const Color primaryDark = Color(0xFF3A0668); // Darker shade
-  static const Color primaryLight = Color(0xFF9D4EDD); // Some tab in design color
+  static const Color primaryLight = Color(
+    0xFF9D4EDD,
+  ); // Some tab in design color
   static const Color primaryExtraLight = Color(0xFF9D4EDD0D); // With opacity
 
   // Secondary Colors - Additional brand colors
   static const Color secondary = Color(0xFF48E5C2); // Crete logo color
   static const Color secondaryDark = Color(0xFF159677); // Darker teal
-  static const Color secondaryButton = Color(0xFFDE0298); // Secondary button color
-  static const Color tertiaryButton = Color(0xFFB4E5BC); // Tertiary button color
+  static const Color secondaryButton = Color(
+    0xFFDE0298,
+  ); // Secondary button color
+  static const Color tertiaryButton = Color(
+    0xFFB4E5BC,
+  ); // Tertiary button color
 
   // Neutral Colors
   static const Color black = Color(0xFF000000);
@@ -22,15 +28,19 @@ class AppColors {
   static const Color gray300 = Color(0xFFD4D4D4);
   static const Color gray400 = Color(0xFFA3A3A3);
   static const Color gray500 = Color(0xFF737373);
-  static const Color gray600 = Color(0xFF525252);
-  static const Color gray700 = Color(0xFF404040);
+  static const Color gray600 = Color(0xFF2C2C2C);
+  static const Color gray700 = Color(0x33626262);
   static const Color gray800 = Color(0xFF262626);
   static const Color gray900 = Color(0xFF171717);
 
   // Navigation Colors
   static const Color navigationInactive = Color(0xFF717171); // Inactive icons
-  static const Color navigationBackground = Color(0xFF5865F2); // Navigation background
-  static const Color navigationBackgroundSecondary = Color(0xFF5865F233); // Secondary container
+  static const Color navigationBackground = Color(
+    0xFF5865F2,
+  ); // Navigation background
+  static const Color navigationBackgroundSecondary = Color(
+    0xFF5865F233,
+  ); // Secondary container
 
   // Semantic Colors
   static const Color success = Color(0xFF058D00); // DAO voting completed
@@ -42,7 +52,9 @@ class AppColors {
   static const Color daoActive = Color(0xFF058D00); // DAO completed
   static const Color daoInactive = Color(0xFF6B7280); // Gray
   static const Color daoPending = Color(0xFFF59E0B); // Amber
-  static const Color daoVotingInProgress = Color(0xFFDDA900); // DAO voting in progress
+  static const Color daoVotingInProgress = Color(
+    0xFFDDA900,
+  ); // DAO voting in progress
 
   // Voting Colors
   static const Color voteYes = Color(0xFF058D00); // DAO completed green
@@ -63,14 +75,22 @@ class AppColors {
   static const Color backgroundTertiary = Color(0xFFF3F4F6);
 
   // Dark Mode Colors
-  static const Color darkBackgroundPrimary = Color(0xFF313131); // App background dark mode
+  static const Color darkBackgroundPrimary = Color(
+    0xFF111111,
+  ); // App background dark mode - 0xFF111111
   static const Color darkBackgroundSecondary = Color(0xFF1F2937);
   static const Color darkBackgroundTertiary = Color(0xFF374151);
   static const Color darkTextPrimary = Color(0xFFFFFFFF);
   static const Color darkTextSecondary = Color(0xFFD1D5DB);
-  static const Color darkTextHeading = Color(0xFFB5B5B5); // DAO page headings dark mode
-  static const Color darkIconBackground = Color(0xFF353535); // Icon background dark mode
-  static const Color darkIconForeground = Color(0xFF0B0B0B); // Icon foreground dark mode
+  static const Color darkTextHeading = Color(
+    0xFFB5B5B5,
+  ); // DAO page headings dark mode
+  static const Color darkIconBackground = Color(
+    0xFF353535,
+  ); // Icon background dark mode
+  static const Color darkIconForeground = Color(
+    0xFF0B0B0B,
+  ); // Icon foreground dark mode
 
   // Wallet Colors
   static const Color phantom = Color(0xFF4C1D95); // Deep purple

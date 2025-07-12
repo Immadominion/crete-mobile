@@ -73,6 +73,8 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/animations/
+    - assets/icons/svgs/
+    - assets/icons/svgs/bottom-navigation/
 
   # Fonts
   fonts:
@@ -92,8 +94,8 @@ flutter:
           weight: 400
         - asset: assets/fonts/SFPro-Medium.ttf
           weight: 500
-        # - asset: assets/fonts/SFPRODISPLAYREGULAR.OTF
-          # weight: 600
+        - asset: assets/fonts/SFPro-Regular.ttf
+          weight: 600
 
 # App Icon Configuration
 flutter_launcher_icons:

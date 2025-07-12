@@ -37,6 +37,7 @@ class AppTheme {
     navigationBarTheme: _navigationBarTheme,
     dividerTheme: _darkDividerTheme,
     chipTheme: _chipTheme,
+    shadowColor: AppColors.gray700,
   );
 
   // Light Theme Components
@@ -144,7 +145,7 @@ class AppTheme {
       const BottomNavigationBarThemeData(
         type: BottomNavigationBarType.fixed,
         elevation: 8,
-        backgroundColor: AppColors.darkBackgroundPrimary,
+        backgroundColor: AppColors.black,
         selectedItemColor: AppColors.primary,
         unselectedItemColor: AppColors.navigationInactive,
       );
@@ -157,19 +158,14 @@ class AppTheme {
 
   // Light Divider Theme
   static DividerThemeData get _lightDividerTheme =>
-      const DividerThemeData(
-        thickness: 1,
-        space: 1,
-        color: AppColors.gray200,
-      );
+      const DividerThemeData(thickness: 1, space: 1, color: AppColors.gray200);
 
   // Dark Divider Theme
-  static DividerThemeData get _darkDividerTheme =>
-      const DividerThemeData(
-        thickness: 1,
-        space: 1,
-        color: AppColors.chatDivider,
-      );
+  static DividerThemeData get _darkDividerTheme => const DividerThemeData(
+    thickness: 1,
+    space: 1,
+    color: AppColors.chatDivider,
+  );
 
   static ChipThemeData get _chipTheme => ChipThemeData(
     shape: RoundedRectangleBorder(

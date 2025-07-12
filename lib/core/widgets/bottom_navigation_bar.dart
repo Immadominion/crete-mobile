@@ -1,32 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../theme/colors.dart';
 import '../theme/spacing.dart';
 
 class AppBottomNavigationBar extends StatelessWidget {
-  final int currentIndex;
-  final ValueChanged<int> onTap;
-
   const AppBottomNavigationBar({
     super.key,
     required this.currentIndex,
     required this.onTap,
   });
+  final int currentIndex;
+  final ValueChanged<int> onTap;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80.h,
+      height: 84.h,
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, -5),
-          ),
-        ],
+        color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+        border: Border(
+          top: BorderSide(color: Theme.of(context).shadowColor, width: 1.sp),
+        ),
       ),
       child: SafeArea(
         child: Row(
@@ -41,8 +35,8 @@ class AppBottomNavigationBar extends StatelessWidget {
             _buildNavItem(
               context: context,
               index: 1,
-              iconPath: 'assets/icons/svgs/bottom-navigation/compass.svg',
-              label: 'Explore',
+              iconPath: 'assets/icons/svgs/bottom-navigation/Watch.svg',
+              label: 'Activity',
             ),
             _buildNavItem(
               context: context,
@@ -53,9 +47,10 @@ class AppBottomNavigationBar extends StatelessWidget {
             _buildNavItem(
               context: context,
               index: 3,
-              iconPath: 'assets/icons/svgs/bottom-navigation/Watch.svg',
-              label: 'Activity',
+              iconPath: 'assets/icons/svgs/bottom-navigation/compass.svg',
+              label: 'Explore',
             ),
+
             _buildNavItem(
               context: context,
               index: 4,
@@ -74,8 +69,8 @@ class AppBottomNavigationBar extends StatelessWidget {
     required String iconPath,
     required String label,
   }) {
-    final isActive = currentIndex == index;
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    // final isActive = currentIndex == index;
+    // final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return GestureDetector(
       onTap: () => onTap(index),
@@ -85,39 +80,21 @@ class AppBottomNavigationBar extends StatelessWidget {
           horizontal: AppSpacing.sm.w,
           vertical: AppSpacing.xs.h,
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 24.w,
-              height: 24.h,
-              child: SvgPicture.asset(
-                iconPath,
-                colorFilter: ColorFilter.mode(
-                  isActive
-                      ? AppColors.primary
-                      : isDarkMode
-                          ? AppColors.navigationInactive
-                          : AppColors.gray500,
-                  BlendMode.srcIn,
-                ),
-              ),
-            ),
-            SizedBox(height: 4.h),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 10.sp,
-                fontWeight: FontWeight.w500,
-                color: isActive
-                    ? AppColors.primary
-                    : isDarkMode
-                        ? AppColors.navigationInactive
-                        : AppColors.gray500,
-              ),
-            ),
-          ],
+        child: SizedBox(
+          width: 24.w,
+          height: 24.h,
+          child: SvgPicture.asset(
+            iconPath,
+            fit: BoxFit.fill,
+            // colorFilter: ColorFilter.mode(
+            //   isActive
+            //       ? AppColors.primary
+            //       : isDarkMode
+            //       ? AppColors.navigationInactive
+            //       : AppColors.gray500,
+            //   BlendMode.srcIn,
+            // ),
+          ),
         ),
       ),
     );

@@ -5,6 +5,8 @@ class AppSpacing {
   // Micro spacing
   static const double xs = unit * 0.5; // 4px
   static const double sm = unit; // 8px
+  static const double tn = 10; // 8px
+  static const double fn = 15; // 8px
 
   // Small spacing
   static const double md = unit * 2; // 16px

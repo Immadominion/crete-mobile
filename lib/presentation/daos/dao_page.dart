@@ -34,7 +34,7 @@ class DaoPage extends StatelessWidget {
 
           // Search Bar
           SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 15.8.w),
+            padding: EdgeInsets.only(left: 15.8.w, right: 15.8.w, bottom: 22.h),
             sliver: SliverToBoxAdapter(
               child: DaoSearchBar(
                 onChanged: daoService.handleSearch,
