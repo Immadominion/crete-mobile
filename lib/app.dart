@@ -8,7 +8,6 @@ import 'core/injection/injection.dart';
 import 'core/navigation/app_router.dart';
 import 'core/services/localization_service.dart';
 import 'core/theme/app_theme.dart';
-import 'presentation/dashboard_layout.dart';
 
 class CreteApp extends StatelessWidget {
   const CreteApp({super.key});
@@ -30,28 +29,20 @@ class CreteApp extends StatelessWidget {
             darkTheme: AppTheme.darkTheme,
             debugShowCheckedModeBanner: AppConfig.isDevelopment,
             routerConfig: appRouter.router,
-
+            
             // Localization configuration
             locale: localizationState.locale,
             localizationsDelegates: LocalizationService.delegates,
-            supportedLocales: context
-                .read<LocalizationCubit>()
-                .supportedLocales,
-
+            supportedLocales: context.read<LocalizationCubit>().supportedLocales,
+            
             // Builder to provide localization context
-            builder: (context, widget) => DashboardLayout()
+            builder: (context, child) => Directionality(
+              textDirection: context.read<LocalizationCubit>().textDirection,
+              child: child ?? const SizedBox.shrink(),
+            ),
           ),
         ),
       ),
     );
   }
 }
-
-/*
-
-Directionality(
-              textDirection: context.read<LocalizationCubit>().textDirection,
-              child: widget ?? const SizedBox.shrink(),
-            ),
-
-*/

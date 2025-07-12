@@ -30,7 +30,6 @@ class RoutePaths {
   
   // Utility Routes
   static const String settings = '/settings';
-  static const String themeTest = '/theme-test';
   static const String invite = '/invite';
   static const String error = '/error';
 }
@@ -67,7 +66,6 @@ class RouteNames {
   
   // Utility Routes
   static const String settings = 'settings';
-  static const String themeTest = 'theme-test';
   static const String invite = 'invite';
   static const String error = 'error';
 }

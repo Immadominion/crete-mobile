@@ -44,10 +44,10 @@ class _DashboardLayoutState extends State<DashboardLayout> {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
+    
     return Scaffold(
-      backgroundColor: isDarkMode
-          ? AppColors.darkBackgroundPrimary
+      backgroundColor: isDarkMode 
+          ? AppColors.darkBackgroundPrimary 
           : AppColors.backgroundPrimary,
       body: SafeArea(
         child: PageView(
@@ -58,11 +58,11 @@ class _DashboardLayoutState extends State<DashboardLayout> {
             });
           },
           children: [
-            const HomePage(),
-            const ExplorePage(),
-            const CreatePage(),
-            const ActivityPage(),
-            const ProfilePage(),
+            HomePage(),
+            ExplorePage(),
+            CreatePage(),
+            ActivityPage(),
+            ProfilePage(),
           ],
         ),
       ),

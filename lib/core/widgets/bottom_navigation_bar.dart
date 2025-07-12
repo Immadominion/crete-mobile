@@ -98,8 +98,8 @@ class AppBottomNavigationBar extends StatelessWidget {
                   isActive
                       ? AppColors.primary
                       : isDarkMode
-                      ? AppColors.navigationInactive
-                      : AppColors.gray500,
+                          ? AppColors.navigationInactive
+                          : AppColors.gray500,
                   BlendMode.srcIn,
                 ),
               ),
@@ -113,8 +113,8 @@ class AppBottomNavigationBar extends StatelessWidget {
                 color: isActive
                     ? AppColors.primary
                     : isDarkMode
-                    ? AppColors.navigationInactive
-                    : AppColors.gray500,
+                        ? AppColors.navigationInactive
+                        : AppColors.gray500,
               ),
             ),
           ],

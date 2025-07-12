@@ -21,6 +21,7 @@ dependencies:
   flutter_local_notifications: ^19.3.0
   flutter_localizations:
     sdk: flutter
+  flutter_screenutil: ^5.9.3
   flutter_secure_storage: ^9.2.2
   flutter_svg: ^2.0.15
   get_it: ^8.0.3
@@ -43,7 +44,7 @@ dependencies:
   uuid: ^4.5.1
   web_socket_channel: ^3.0.1
   crypto: ^3.0.3
-  flutter_screenutil: ^5.9.3
+  phosphor_flutter: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +73,27 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/animations/
+
+  # Fonts
+  fonts:
+    - family: Geist
+      fonts:
+        - asset: assets/fonts/Geist-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Geist-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Geist-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Geist-Bold.ttf
+          weight: 700
+    - family: SF Pro
+      fonts:
+        - asset: assets/fonts/SFPro-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/SFPro-Medium.ttf
+          weight: 500
+        # - asset: assets/fonts/SFPRODISPLAYREGULAR.OTF
+          # weight: 600
 
 # App Icon Configuration
 flutter_launcher_icons:

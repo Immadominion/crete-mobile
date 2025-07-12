@@ -1,3 +1,4 @@
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'app.dart';
 import 'core/config/app_config.dart';
 import 'core/config/flavor_config.dart';
-import 'core/config/firebase_config.dart';
 import 'core/cubit/app_bloc_observer.dart';
 import 'core/injection/injection.dart';
 import 'core/services/blinks_service.dart';
@@ -19,6 +19,7 @@ import 'core/services/firebase_notification_service.dart';
 import 'core/services/offline_data_service.dart';
 import 'core/services/solana_network_service.dart';
 import 'core/services/wallet_connection_service.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,24 +30,18 @@ void main() async {
       Bloc.observer = AppBlocObserver();
     }
 
-    // Initialize Firebase with error handling for duplicate apps
-    try {
-      await Firebase.initializeApp(options: FirebaseConfig.currentPlatform);
-    } catch (e) {
-      if (e.toString().contains('duplicate-app')) {
-        debugPrint('🔥 Firebase already initialized, continuing...');
-      } else {
-        rethrow;
-      }
-    }
-
     // Initialize flavor configuration from build environment
     FlavorConfig.initializeFromBuild();
 
     // Initialize and validate app configuration
     AppConfig.initialize();
 
-    // Setup dependency injection
+    // Initialize Firebase BEFORE dependency injection
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    // Setup dependency injection (after Firebase is initialized)
     await configureDependencies();
 
     // Initialize Firebase Notification Service

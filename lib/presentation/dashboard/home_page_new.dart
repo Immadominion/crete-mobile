@@ -47,9 +47,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      // TODO: Navigate to Create DAO page
-                    },
+                    onPressed: () => daoService.navigateToCreateDao(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
                       shape: RoundedRectangleBorder(

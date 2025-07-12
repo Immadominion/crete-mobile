@@ -10,20 +10,22 @@ class CreatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
+    
     return Scaffold(
-      backgroundColor: isDarkMode
-          ? AppColors.darkBackgroundPrimary
+      backgroundColor: isDarkMode 
+          ? AppColors.darkBackgroundPrimary 
           : AppColors.backgroundPrimary,
       appBar: AppBar(
-        backgroundColor: isDarkMode
-            ? AppColors.darkBackgroundPrimary
+        backgroundColor: isDarkMode 
+            ? AppColors.darkBackgroundPrimary 
             : AppColors.backgroundPrimary,
         elevation: 0,
         title: Text(
           'Create',
           style: AppTypography.geistSemiBold15.copyWith(
-            color: isDarkMode ? AppColors.darkTextPrimary : AppColors.gray900,
+            color: isDarkMode 
+                ? AppColors.darkTextPrimary 
+                : AppColors.gray900,
           ),
         ),
         centerTitle: false,
@@ -35,14 +37,16 @@ class CreatePage extends StatelessWidget {
             Icon(
               Icons.add_circle_outline,
               size: 64.sp,
-              color: isDarkMode ? AppColors.darkTextHeading : AppColors.gray400,
+              color: isDarkMode 
+                  ? AppColors.darkTextHeading 
+                  : AppColors.gray400,
             ),
             SizedBox(height: AppSpacing.lg.h),
             Text(
               'Create Page',
               style: AppTypography.geistSemiBold15.copyWith(
-                color: isDarkMode
-                    ? AppColors.darkTextPrimary
+                color: isDarkMode 
+                    ? AppColors.darkTextPrimary 
                     : AppColors.gray900,
               ),
             ),
@@ -50,8 +54,8 @@ class CreatePage extends StatelessWidget {
             Text(
               'Create new DAOs and proposals',
               style: AppTypography.geistRegular12.copyWith(
-                color: isDarkMode
-                    ? AppColors.darkTextHeading
+                color: isDarkMode 
+                    ? AppColors.darkTextHeading 
                     : AppColors.gray600,
               ),
             ),

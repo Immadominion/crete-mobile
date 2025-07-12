@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../l10n/generated/app_localizations.dart';
+import '../../presentation/dashboard_layout.dart';
 import '../config/app_config.dart';
 import '../services/deep_link_service.dart';
 import '../services/navigation_service.dart';
@@ -32,13 +33,13 @@ class AppRouter {
   /// Initialize the Go Router with all routes and configuration
   void _initializeRouter() {
     _router = GoRouter(
-      initialLocation: RoutePaths.home,
+      initialLocation: RoutePaths.dashboard,
       debugLogDiagnostics: AppConfig.isDevelopment,
       navigatorKey: NavigationService.navigatorKey,
       onException: _handleRouteException,
       redirect: _handleRedirect,
       routes: [
-        // Home Route
+        // Home Route - redirects to dashboard
         GoRoute(
           path: RoutePaths.home,
           name: RouteNames.home,
@@ -46,6 +47,17 @@ class AppRouter {
             context,
             state,
             const HomeScreen(),
+          ),
+        ),
+
+        // Dashboard Route
+        GoRoute(
+          path: RoutePaths.dashboard,
+          name: RouteNames.dashboard,
+          pageBuilder: (context, state) => _buildPage(
+            context,
+            state,
+            const DashboardLayout(),
           ),
         ),
 
