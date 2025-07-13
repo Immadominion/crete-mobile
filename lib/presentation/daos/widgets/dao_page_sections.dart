@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../core/data/dao_ui_demo_data.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/spacing.dart';
 import '../../../core/theme/typography.dart';
@@ -17,18 +18,26 @@ class DaoPageSections {
     BuildContext context,
     DaoPageService daoService,
   ) {
+    final myDaos = DaoUiDemoData.myDaos;
+
     return DaoSection(
       sectionHeader: SectionHeader(
         title: 'My DAOs',
         iconPath: 'assets/icons/svgs/pinned.svg',
         onSeeAll: () => daoService.navigateToMyDaos(context),
       ),
-      itemCount: 5, // Show more items on dedicated page
-      isHorizontal: true,
+      itemCount: myDaos.length, // Show more items on dedicated page
       itemBuilder: (context, index) {
+        final dao = myDaos[index];
         return Padding(
-          padding: EdgeInsets.only(right: index == 4 ? 0 : AppSpacing.md.w),
-          child: const DaoCard(isMyDao: true),
+          padding: EdgeInsets.only(
+            right: index == myDaos.length - 1 ? 0 : AppSpacing.md.w,
+          ),
+          child: DaoCard(
+            dao: dao,
+            isMyDao: dao.isMyDao,
+            onTap: () => daoService.navigateToDaoDetail(context, dao),
+          ),
         );
       },
     );
@@ -39,6 +48,8 @@ class DaoPageSections {
     BuildContext context,
     DaoPageService daoService,
   ) {
+    final featuredDaos = DaoUiDemoData.featuredDaos.take(5).toList();
+
     return Column(
       children: [
         SizedBox(height: AppSpacing.xl.h),
@@ -48,12 +59,18 @@ class DaoPageSections {
             icon: Icons.star,
             onSeeAll: () => daoService.navigateToFeaturedDaos(context),
           ),
-          itemCount: 5,
-          isHorizontal: true,
+          itemCount: featuredDaos.length,
           itemBuilder: (context, index) {
+            final dao = featuredDaos[index];
             return Padding(
-              padding: EdgeInsets.only(right: index == 4 ? 0 : AppSpacing.md.w),
-              child: const DaoCard(isMyDao: false),
+              padding: EdgeInsets.only(
+                right: index == featuredDaos.length - 1 ? 0 : AppSpacing.md.w,
+              ),
+              child: DaoCard(
+                dao: dao,
+                isMyDao: dao.isMyDao,
+                onTap: () => daoService.navigateToDaoDetail(context, dao),
+              ),
             );
           },
         ),
@@ -76,7 +93,6 @@ class DaoPageSections {
             onSeeAll: () => daoService.navigateToTrendingDaos(context),
           ),
           itemCount: 5,
-          isHorizontal: true,
           itemBuilder: (context, index) {
             return Padding(
               padding: EdgeInsets.only(right: index == 4 ? 0 : AppSpacing.md.w),
@@ -151,8 +167,8 @@ class DaoPageSections {
             final category = categories[index];
             return _buildCategoryCard(
               context,
-              icon: category['icon'] as IconData,
-              title: category['title'] as String,
+              icon: category['icon']! as IconData,
+              title: category['title']! as String,
               onTap: () => daoService.navigateToAllDaos(context),
             );
           },

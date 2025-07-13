@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../theme/colors.dart';
 import '../theme/spacing.dart';
 import '../theme/typography.dart';
 
 class SectionHeader extends StatelessWidget {
-  final String title;
-  final IconData? icon;
-  final String? iconPath;
-  final VoidCallback? onSeeAll;
-
   const SectionHeader({
     super.key,
     required this.title,
@@ -19,6 +15,10 @@ class SectionHeader extends StatelessWidget {
     this.iconPath,
     this.onSeeAll,
   });
+  final String title;
+  final IconData? icon;
+  final String? iconPath;
+  final VoidCallback? onSeeAll;
 
   @override
   Widget build(BuildContext context) {
@@ -30,31 +30,42 @@ class SectionHeader extends StatelessWidget {
         Row(
           children: [
             if (iconPath != null)
-              SvgPicture.asset(
-                iconPath!,
-                width: 20.w,
-                height: 20.h,
-                colorFilter: ColorFilter.mode(
-                  isDarkMode ? AppColors.darkTextHeading : AppColors.gray600,
-                  BlendMode.srcIn,
-                ),
-              )
-            else if (icon != null)
               Container(
-                width: 32.w,
-                height: 32.h,
+                width: 22.w,
+                height: 22.h,
+                padding: EdgeInsets.all(4.23.sp),
                 decoration: BoxDecoration(
                   color: isDarkMode
                       ? AppColors.darkIconBackground
                       : AppColors.gray100,
-                  borderRadius: BorderRadius.circular(8.r),
+                  borderRadius: BorderRadius.circular(100.r),
+                ),
+                child: SvgPicture.asset(
+                  iconPath!,
+                  width: 8.99.w,
+                  height: 10.12.h,
+                  colorFilter: ColorFilter.mode(
+                    isDarkMode ? AppColors.darkIconColor : AppColors.gray600,
+                    BlendMode.srcIn,
+                  ),
+                ),
+              )
+            else if (icon != null)
+              Container(
+                width: 22.w,
+                height: 22.h,
+                decoration: BoxDecoration(
+                  color: isDarkMode
+                      ? AppColors.darkIconBackground
+                      : AppColors.gray100,
+                  borderRadius: BorderRadius.circular(100.r),
                 ),
                 child: Icon(
                   icon,
                   color: isDarkMode
                       ? AppColors.darkIconForeground
                       : AppColors.gray600,
-                  size: 18.sp,
+                  size: 14.sp,
                 ),
               ),
             if (iconPath != null || icon != null)
@@ -63,8 +74,9 @@ class SectionHeader extends StatelessWidget {
               title,
               style: AppTypography.geistSemiBold15.copyWith(
                 color: isDarkMode
-                    ? AppColors.darkTextPrimary
-                    : AppColors.gray900,
+                    ? AppColors.darkTextHeader
+                    : AppColors.gray700,
+                fontSize: 16.sp,
               ),
             ),
           ],
@@ -72,11 +84,9 @@ class SectionHeader extends StatelessWidget {
         if (onSeeAll != null)
           GestureDetector(
             onTap: onSeeAll,
-            child: Text(
-              'See all',
-              style: AppTypography.geistMedium13.copyWith(
-                color: AppColors.primary,
-              ),
+            child: Icon(
+              PhosphorIcons.squaresFour(),
+              color: AppColors.darkIconBackground,
             ),
           ),
       ],

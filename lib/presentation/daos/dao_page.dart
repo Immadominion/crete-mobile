@@ -48,7 +48,7 @@ class DaoPage extends StatelessWidget {
             padding: EdgeInsets.only(
               left: 15.8.w,
               top: AppSpacing.lg.h,
-              right: 15.8.w,
+              // right: 15.8.w,
             ),
             sliver: SliverToBoxAdapter(
               child: DaoPageSections.buildMyDaosSection(context, daoService),

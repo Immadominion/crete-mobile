@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import '../core/widgets/bottom_navigation_bar.dart';
+
 import '../core/theme/colors.dart';
-import 'dashboard/home_page.dart';
-import 'dashboard/explore_page.dart';
-import 'dashboard/create_page.dart';
+import '../core/widgets/bottom_navigation_bar.dart';
 import 'dashboard/activity_page.dart';
+import 'dashboard/create_page.dart';
+import 'dashboard/explore_page.dart';
+import 'dashboard/home_page.dart';
 import 'dashboard/profile_page.dart';
 
 class DashboardLayout extends StatefulWidget {

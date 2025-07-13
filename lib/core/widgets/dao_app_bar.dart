@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../theme/colors.dart';
-import '../theme/spacing.dart';
 import '../theme/typography.dart';
 
 /// Modular app bar widget for DAO pages
@@ -34,7 +33,6 @@ class DaoAppBar extends StatelessWidget {
       sliver: SliverToBoxAdapter(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               title,

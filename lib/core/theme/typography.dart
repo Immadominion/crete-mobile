@@ -16,12 +16,28 @@ class AppTypography {
   static const FontWeight extraBold = FontWeight.w800;
 
   // Geist Typography Styles based on provided specs
+  static const TextStyle geistMedium15 = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 15,
+    fontWeight: medium,
+    letterSpacing: -0.6,
+    height: 22 / 15, // 22px line height
+  );
+
+  static const TextStyle geistRegular15 = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 15,
+    fontWeight: regular,
+    letterSpacing: -0.6,
+    height: 22 / 15, // 22px line height
+  );
+
   static const TextStyle geistSemiBold15 = TextStyle(
     fontFamily: fontFamily,
     fontSize: 15,
     fontWeight: semiBold,
     letterSpacing: -0.6,
-    height: 22/15, // 22px line height
+    height: 22 / 15, // 22px line height
   );
 
   static const TextStyle geistMedium13 = TextStyle(
@@ -29,15 +45,22 @@ class AppTypography {
     fontSize: 13,
     fontWeight: medium,
     letterSpacing: -0.6,
-    height: 22/13, // 22px line height
+    height: 22 / 13, // 22px line height
   );
 
+  static const TextStyle geistRegular13 = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 13,
+    fontWeight: regular,
+    letterSpacing: 0,
+    height: 22 / 14, // 22px line height
+  );
   static const TextStyle geistRegular14 = TextStyle(
     fontFamily: fontFamily,
     fontSize: 14,
     fontWeight: regular,
     letterSpacing: 0,
-    height: 22/14, // 22px line height
+    height: 22 / 14, // 22px line height
   );
 
   static const TextStyle geistMedium11 = TextStyle(
@@ -45,7 +68,7 @@ class AppTypography {
     fontSize: 11,
     fontWeight: medium,
     letterSpacing: -0.6,
-    height: 22/11, // 22px line height
+    height: 22 / 11, // 22px line height
   );
 
   static const TextStyle geistSemiBold13 = TextStyle(
@@ -53,7 +76,7 @@ class AppTypography {
     fontSize: 13,
     fontWeight: semiBold,
     letterSpacing: -0.6,
-    height: 22/13, // 22px line height
+    height: 22 / 13, // 22px line height
   );
 
   static const TextStyle geistRegular11 = TextStyle(
@@ -66,10 +89,10 @@ class AppTypography {
 
   static const TextStyle geistRegular11_22 = TextStyle(
     fontFamily: fontFamily,
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: regular,
     letterSpacing: -0.6,
-    height: 22/11, // 22px line height
+    height: 22 / 11, // 22px line height
   );
 
   static const TextStyle geistRegular12 = TextStyle(
@@ -77,7 +100,7 @@ class AppTypography {
     fontSize: 12,
     fontWeight: regular,
     letterSpacing: 0,
-    height: 22/12, // 22px line height
+    height: 22 / 12, // 22px line height
   );
 
   static const TextStyle sfProSemiBold32 = TextStyle(
@@ -85,7 +108,7 @@ class AppTypography {
     fontSize: 32,
     fontWeight: semiBold, // Using semiBold instead of w590
     letterSpacing: 0,
-    height: 22/32, // 22px line height
+    height: 22 / 32, // 22px line height
   );
 
   // Display Styles (Large headings)
@@ -255,28 +278,38 @@ class AppTypography {
   );
 
   // Helper method to apply color to text styles
-  static TextStyle withColor(TextStyle style, Color color) => style.copyWith(color: color);
+  static TextStyle withColor(TextStyle style, Color color) =>
+      style.copyWith(color: color);
 
   // Common color combinations for light mode
   static TextStyle get primaryHeading => withColor(heading2, AppColors.gray900);
-  static TextStyle get secondaryHeading => withColor(heading4, AppColors.gray700);
+  static TextStyle get secondaryHeading =>
+      withColor(heading4, AppColors.gray700);
   static TextStyle get primaryBody => withColor(bodyMedium, AppColors.gray800);
   static TextStyle get secondaryBody => withColor(bodySmall, AppColors.gray600);
   static TextStyle get mutedText => withColor(caption, AppColors.gray500);
 
   // Common color combinations for dark mode
-  static TextStyle get darkPrimaryHeading => withColor(heading2, AppColors.darkTextPrimary);
-  static TextStyle get darkSecondaryHeading => withColor(heading4, AppColors.darkTextHeading);
-  static TextStyle get darkPrimaryBody => withColor(bodyMedium, AppColors.darkTextSecondary);
-  static TextStyle get darkSecondaryBody => withColor(bodySmall, AppColors.darkTextSecondary);
-  static TextStyle get darkMutedText => withColor(caption, AppColors.darkTextHeading);
+  static TextStyle get darkPrimaryHeading =>
+      withColor(heading2, AppColors.darkTextPrimary);
+  static TextStyle get darkSecondaryHeading =>
+      withColor(heading4, AppColors.darkTextHeading);
+  static TextStyle get darkPrimaryBody =>
+      withColor(bodyMedium, AppColors.darkTextSecondary);
+  static TextStyle get darkSecondaryBody =>
+      withColor(bodySmall, AppColors.darkTextSecondary);
+  static TextStyle get darkMutedText =>
+      withColor(caption, AppColors.darkTextHeading);
 
   // Geist-based common styles
-  static TextStyle get daoPageHeading => withColor(geistSemiBold15, AppColors.darkTextHeading);
+  static TextStyle get daoPageHeading =>
+      withColor(geistSemiBold15, AppColors.darkTextHeading);
   static TextStyle get tabLabel => withColor(geistMedium13, AppColors.primary);
-  static TextStyle get buttonText => withColor(geistSemiBold13, AppColors.white);
+  static TextStyle get buttonText =>
+      withColor(geistSemiBold13, AppColors.white);
   static TextStyle get bodyText => withColor(geistRegular14, AppColors.gray800);
-  static TextStyle get smallLabel => withColor(geistMedium11, AppColors.gray600);
+  static TextStyle get smallLabel =>
+      withColor(geistMedium11, AppColors.gray600);
 
   // TextTheme for Material 3
   static TextTheme get textTheme => const TextTheme(

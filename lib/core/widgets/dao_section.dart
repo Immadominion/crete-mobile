@@ -26,13 +26,14 @@ class DaoSection extends StatelessWidget {
     return Column(
       children: [
         sectionHeader,
-        SizedBox(height: AppSpacing.md.h),
+        SizedBox(height: 12.h),
         if (isHorizontal)
           SizedBox(
-            height: 206.h,
+            height: 150.h,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: itemCount,
+              padding: EdgeInsets.only(left: 16.w, right: 16.w),
               itemBuilder: itemBuilder ?? _defaultItemBuilder,
             ),
           )

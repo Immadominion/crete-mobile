@@ -1,64 +1,69 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-/// Service class for handling DAO page operations and navigation
+import '../../core/models/ui/dao_ui_model.dart';
+import 'dao_detail_page.dart';
+
+/// Service class for DAO page navigation and business logic
 class DaoPageService {
-  /// Handle search functionality
-  void handleSearch(String query) {
-    // TODO: Implement search functionality
-    debugPrint('Searching for: $query');
+  /// Navigate to DAO detail page
+  void navigateToDaoDetail(BuildContext context, DaoUiModel dao) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(builder: (context) => DaoDetailPage(dao: dao)),
+    );
+  }
+
+  /// Navigate to create DAO page
+  void navigateToCreateDao(BuildContext context) {
+    if (kDebugMode) {
+      print('Navigate to Create DAO page');
+    }
+    // TODO: Implement navigation to create DAO page
+    // Navigator.pushNamed(context, '/create-dao');
   }
 
   /// Navigate to My DAOs page
   void navigateToMyDaos(BuildContext context) {
-    // TODO: Implement navigation to My DAOs page
-    debugPrint('Navigating to My DAOs');
+    if (kDebugMode) {
+      print('Navigate to My DAOs page');
+    }
+    // TODO: Implement navigation to my DAOs page
+    // Navigator.pushNamed(context, '/my-daos');
   }
 
   /// Navigate to Featured DAOs page
   void navigateToFeaturedDaos(BuildContext context) {
-    // TODO: Implement navigation to Featured DAOs page
-    debugPrint('Navigating to Featured DAOs');
+    if (kDebugMode) {
+      print('Navigate to Featured DAOs page');
+    }
+    // TODO: Implement navigation to featured DAOs page
+    // Navigator.pushNamed(context, '/featured-daos');
   }
 
   /// Navigate to Trending DAOs page
   void navigateToTrendingDaos(BuildContext context) {
-    // TODO: Implement navigation to Trending DAOs page
-    debugPrint('Navigating to Trending DAOs');
+    if (kDebugMode) {
+      print('Navigate to Trending DAOs page');
+    }
+    // TODO: Implement navigation to trending DAOs page
+    // Navigator.pushNamed(context, '/trending-daos');
   }
 
   /// Navigate to All DAOs page
   void navigateToAllDaos(BuildContext context) {
-    // TODO: Implement navigation to All DAOs page
-    debugPrint('Navigating to All DAOs');
+    if (kDebugMode) {
+      print('Navigate to All DAOs page');
+    }
+    // TODO: Implement navigation to all DAOs page
+    // Navigator.pushNamed(context, '/all-daos');
   }
 
-  /// Navigate to Create DAO page
-  void navigateToCreateDao(BuildContext context) {
-    // TODO: Implement navigation to Create DAO page
-    debugPrint('Navigating to Create DAO');
-  }
-
-  /// Navigate to DAO detail page
-  void navigateToDaoDetail(BuildContext context, String daoId) {
-    // TODO: Implement navigation to DAO detail page
-    debugPrint('Navigating to DAO detail: $daoId');
-  }
-
-  /// Navigate to Join DAO page
-  void navigateToJoinDao(BuildContext context, String daoId) {
-    // TODO: Implement navigation to Join DAO page
-    debugPrint('Navigating to Join DAO: $daoId');
-  }
-
-  /// Navigate to Vote on Proposal page
-  void navigateToVoteOnProposal(BuildContext context, String proposalId) {
-    // TODO: Implement navigation to Vote on Proposal page
-    debugPrint('Navigating to Vote on Proposal: $proposalId');
-  }
-
-  /// Navigate to Discuss Proposal page
-  void navigateToDiscussProposal(BuildContext context, String proposalId) {
-    // TODO: Implement navigation to Discuss Proposal page
-    debugPrint('Navigating to Discuss Proposal: $proposalId');
+  /// Handle DAO search
+  void handleSearch(String query) {
+    if (kDebugMode) {
+      print('Searching DAOs for: $query');
+    }
+    // TODO: Implement DAO search functionality
   }
 }

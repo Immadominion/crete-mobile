@@ -7,7 +7,7 @@ class AppColors {
   static const Color primaryLight = Color(
     0xFF9D4EDD,
   ); // Some tab in design color
-  static const Color primaryExtraLight = Color(0xFF9D4EDD0D); // With opacity
+  static const Color primaryExtraLight = Color(0xff9d4edd0d); // With opacity
 
   // Secondary Colors - Additional brand colors
   static const Color secondary = Color(0xFF48E5C2); // Crete logo color
@@ -39,7 +39,7 @@ class AppColors {
     0xFF5865F2,
   ); // Navigation background
   static const Color navigationBackgroundSecondary = Color(
-    0xFF5865F233,
+    0xff5865f233,
   ); // Secondary container
 
   // Semantic Colors
@@ -81,16 +81,21 @@ class AppColors {
   static const Color darkBackgroundSecondary = Color(0xFF1F2937);
   static const Color darkBackgroundTertiary = Color(0xFF374151);
   static const Color darkTextPrimary = Color(0xFFFFFFFF);
+  static const Color darkTextHeader = Color(0xFFB5B5B5);
   static const Color darkTextSecondary = Color(0xFFD1D5DB);
+  static const Color darkTextLight = Color(0xFFBDBDBD);
   static const Color darkTextHeading = Color(
     0xFFB5B5B5,
   ); // DAO page headings dark mode
   static const Color darkIconBackground = Color(
     0xFF353535,
-  ); // Icon background dark mode
+  ); // Icon background dark mode #353535
+  static const Color darkIconColor = Color(0xFF0B0B0B); //#0B0B0B
+  static const Color darkEmojiColor = Color(0xFF2D2D2D); //#2D2D2D
   static const Color darkIconForeground = Color(
     0xFF0B0B0B,
   ); // Icon foreground dark mode
+  static const Color darkContainerBorder = Color(0xFF212121); // #212121
 
   // Wallet Colors
   static const Color phantom = Color(0xFF4C1D95); // Deep purple

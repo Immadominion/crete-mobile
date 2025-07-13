@@ -35,7 +35,6 @@ class HomePage extends StatelessWidget {
             sliver: SliverToBoxAdapter(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     'DAOs',
@@ -86,38 +85,13 @@ class HomePage extends StatelessWidget {
           ),
 
           // My DAOs Section
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            sliver: SliverToBoxAdapter(
-              child: HomeDaoSections.buildMyDaosSection(context, daoService),
-            ),
-          ),
-
-          // Quick Actions Section
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            sliver: SliverToBoxAdapter(
-              child: HomeDaoSections.buildQuickActionsSection(
-                context,
-                daoService,
-              ),
-            ),
-          ),
-
-          // Recent Activity Section
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            sliver: SliverToBoxAdapter(
-              child: HomeDaoSections.buildRecentActivitySection(
-                context,
-                daoService,
-              ),
-            ),
+          SliverToBoxAdapter(
+            child: HomeDaoSections.buildMyDaosSection(context, daoService),
           ),
 
           // Featured DAOs Section
           SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            padding: EdgeInsets.symmetric(horizontal: AppSpacing.md.w),
             sliver: SliverToBoxAdapter(
               child: HomeDaoSections.buildFeaturedDaosSection(
                 context,
