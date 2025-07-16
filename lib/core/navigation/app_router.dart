@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../l10n/generated/app_localizations.dart';
+import '../../presentation/auth/sign_in_screen.dart';
 import '../../presentation/dashboard_layout.dart';
 import '../config/app_config.dart';
 import '../services/deep_link_service.dart';
@@ -15,16 +16,12 @@ import 'route_paths.dart';
 /// Handles all navigation, deep linking, and route management
 @singleton
 class AppRouter {
-
-  AppRouter(
-    this._deepLinkService,
-    this._navigationGuards,
-  ) {
+  AppRouter(this._deepLinkService, this._navigationGuards) {
     _initializeRouter();
   }
   final DeepLinkService _deepLinkService;
   final NavigationGuards _navigationGuards;
-  
+
   late final GoRouter _router;
 
   /// Get the configured router instance
@@ -33,7 +30,8 @@ class AppRouter {
   /// Initialize the Go Router with all routes and configuration
   void _initializeRouter() {
     _router = GoRouter(
-      initialLocation: RoutePaths.dashboard,
+      initialLocation: RoutePaths.login,
+      // initialLocation: RoutePaths.dashboard,
       debugLogDiagnostics: AppConfig.isDevelopment,
       navigatorKey: NavigationService.navigatorKey,
       onException: _handleRouteException,
@@ -43,65 +41,47 @@ class AppRouter {
         GoRoute(
           path: RoutePaths.home,
           name: RouteNames.home,
-          pageBuilder: (context, state) => _buildPage(
-            context,
-            state,
-            const HomeScreen(),
-          ),
+          pageBuilder: (context, state) =>
+              _buildPage(context, state, const HomeScreen()),
         ),
 
         // Dashboard Route
         GoRoute(
           path: RoutePaths.dashboard,
           name: RouteNames.dashboard,
-          pageBuilder: (context, state) => _buildPage(
-            context,
-            state,
-            const DashboardLayout(),
-          ),
+          pageBuilder: (context, state) =>
+              _buildPage(context, state, const DashboardLayout()),
         ),
 
         // Onboarding Routes
         GoRoute(
           path: RoutePaths.onboarding,
           name: RouteNames.onboarding,
-          pageBuilder: (context, state) => _buildPage(
-            context,
-            state,
-            const OnboardingScreen(),
-          ),
+          pageBuilder: (context, state) =>
+              _buildPage(context, state, const OnboardingScreen()),
         ),
 
         // Authentication Routes
         GoRoute(
           path: RoutePaths.login,
           name: RouteNames.login,
-          pageBuilder: (context, state) => _buildPage(
-            context,
-            state,
-            const LoginScreen(),
-          ),
+          pageBuilder: (context, state) =>
+              _buildPage(context, state, const LoginScreen()),
         ),
-        
+
         GoRoute(
           path: RoutePaths.signup,
           name: RouteNames.signup,
-          pageBuilder: (context, state) => _buildPage(
-            context,
-            state,
-            const SignupScreen(),
-          ),
+          pageBuilder: (context, state) =>
+              _buildPage(context, state, const SignupScreen()),
         ),
 
         // DAO Routes
         GoRoute(
           path: RoutePaths.daos,
           name: RouteNames.daos,
-          pageBuilder: (context, state) => _buildPage(
-            context,
-            state,
-            const DaoListScreen(),
-          ),
+          pageBuilder: (context, state) =>
+              _buildPage(context, state, const DaoListScreen()),
           routes: [
             GoRoute(
               path: ':daoId',
@@ -186,33 +166,24 @@ class AppRouter {
         GoRoute(
           path: RoutePaths.governance,
           name: RouteNames.governance,
-          pageBuilder: (context, state) => _buildPage(
-            context,
-            state,
-            const GovernanceScreen(),
-          ),
+          pageBuilder: (context, state) =>
+              _buildPage(context, state, const GovernanceScreen()),
         ),
 
         // Chat Routes
         GoRoute(
           path: RoutePaths.chat,
           name: RouteNames.chat,
-          pageBuilder: (context, state) => _buildPage(
-            context,
-            state,
-            const ChatScreen(),
-          ),
+          pageBuilder: (context, state) =>
+              _buildPage(context, state, const ChatScreen()),
         ),
 
         // Profile Routes
         GoRoute(
           path: RoutePaths.profile,
           name: RouteNames.profile,
-          pageBuilder: (context, state) => _buildPage(
-            context,
-            state,
-            const ProfileScreen(),
-          ),
+          pageBuilder: (context, state) =>
+              _buildPage(context, state, const ProfileScreen()),
         ),
 
         GoRoute(
@@ -232,20 +203,14 @@ class AppRouter {
         GoRoute(
           path: RoutePaths.wallet,
           name: RouteNames.wallet,
-          pageBuilder: (context, state) => _buildPage(
-            context,
-            state,
-            const WalletScreen(),
-          ),
+          pageBuilder: (context, state) =>
+              _buildPage(context, state, const WalletScreen()),
           routes: [
             GoRoute(
               path: '/connect',
               name: RouteNames.walletConnect,
-              pageBuilder: (context, state) => _buildPage(
-                context,
-                state,
-                const WalletConnectScreen(),
-              ),
+              pageBuilder: (context, state) =>
+                  _buildPage(context, state, const WalletConnectScreen()),
             ),
           ],
         ),
@@ -254,11 +219,8 @@ class AppRouter {
         GoRoute(
           path: RoutePaths.settings,
           name: RouteNames.settings,
-          pageBuilder: (context, state) => _buildPage(
-            context,
-            state,
-            const SettingsScreen(),
-          ),
+          pageBuilder: (context, state) =>
+              _buildPage(context, state, const SettingsScreen()),
         ),
 
         // Invite Routes
@@ -281,11 +243,7 @@ class AppRouter {
           name: RouteNames.error,
           pageBuilder: (context, state) {
             final error = state.extra as String?;
-            return _buildPage(
-              context,
-              state,
-              ErrorScreen(error: error),
-            );
+            return _buildPage(context, state, ErrorScreen(error: error));
           },
         ),
       ],
@@ -293,7 +251,8 @@ class AppRouter {
   }
 
   /// Handle navigation redirects and route guards
-  String? _handleRedirect(BuildContext context, GoRouterState state) => _navigationGuards.checkRedirect(context, state);
+  String? _handleRedirect(BuildContext context, GoRouterState state) =>
+      _navigationGuards.checkRedirect(context, state);
 
   /// Handle route exceptions
   void _handleRouteException(
@@ -304,7 +263,7 @@ class AppRouter {
     if (AppConfig.isDevelopment) {
       debugPrint('🔥 Route exception: ${state.uri}');
     }
-    
+
     router.go(RoutePaths.error, extra: 'Route not found: ${state.uri}');
   }
 
@@ -314,13 +273,14 @@ class AppRouter {
     GoRouterState state,
     Widget child,
   ) => CustomTransitionPage<T>(
-      key: state.pageKey,
-      child: child,
-      transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(
+    key: state.pageKey,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+        FadeTransition(
           opacity: CurveTween(curve: Curves.easeInOut).animate(animation),
           child: child,
         ),
-    );
+  );
 }
 
 /// Temporary placeholder screens - will be replaced with actual screens
@@ -330,7 +290,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.appName),
@@ -393,7 +353,7 @@ class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    
+
     return Scaffold(
       appBar: AppBar(title: Text(l10n.welcome)),
       body: const Center(child: Text('Onboarding Screen')),
@@ -406,12 +366,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.signIn)),
-      body: const Center(child: Text('Login Screen')),
-    );
+    return const SignInScreen();
   }
 }
 
@@ -421,7 +376,7 @@ class SignupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    
+
     return Scaffold(
       appBar: AppBar(title: Text(l10n.signUp)),
       body: const Center(child: Text('Sign Up Screen')),
@@ -435,7 +390,7 @@ class DaoListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    
+
     return Scaffold(
       appBar: AppBar(title: const Text('DAOs')),
       body: const Center(child: Text('DAO List Screen')),
@@ -449,9 +404,9 @@ class DaoDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(title: Text('DAO: $daoId')),
-      body: Center(child: Text('DAO Detail Screen: $daoId')),
-    );
+    appBar: AppBar(title: Text('DAO: $daoId')),
+    body: Center(child: Text('DAO Detail Screen: $daoId')),
+  );
 }
 
 class DaoJoinScreen extends StatelessWidget {
@@ -460,9 +415,9 @@ class DaoJoinScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(title: Text('Join DAO: $daoId')),
-      body: Center(child: Text('Join DAO Screen: $daoId')),
-    );
+    appBar: AppBar(title: Text('Join DAO: $daoId')),
+    body: Center(child: Text('Join DAO Screen: $daoId')),
+  );
 }
 
 class DaoMembersScreen extends StatelessWidget {
@@ -471,9 +426,9 @@ class DaoMembersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(title: Text('Members: $daoId')),
-      body: Center(child: Text('DAO Members Screen: $daoId')),
-    );
+    appBar: AppBar(title: Text('Members: $daoId')),
+    body: Center(child: Text('DAO Members Screen: $daoId')),
+  );
 }
 
 class DaoSettingsScreen extends StatelessWidget {
@@ -482,21 +437,25 @@ class DaoSettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(title: Text('Settings: $daoId')),
-      body: Center(child: Text('DAO Settings Screen: $daoId')),
-    );
+    appBar: AppBar(title: Text('Settings: $daoId')),
+    body: Center(child: Text('DAO Settings Screen: $daoId')),
+  );
 }
 
 class ProposalScreen extends StatelessWidget {
-  const ProposalScreen({super.key, required this.daoId, required this.proposalId});
+  const ProposalScreen({
+    super.key,
+    required this.daoId,
+    required this.proposalId,
+  });
   final String daoId;
   final String proposalId;
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(title: Text('Proposal: $proposalId')),
-      body: Center(child: Text('Proposal Screen: $daoId/$proposalId')),
-    );
+    appBar: AppBar(title: Text('Proposal: $proposalId')),
+    body: Center(child: Text('Proposal Screen: $daoId/$proposalId')),
+  );
 }
 
 class ChatRoomScreen extends StatelessWidget {
@@ -506,9 +465,9 @@ class ChatRoomScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(title: Text('Chat: $roomId')),
-      body: Center(child: Text('Chat Room Screen: $daoId/$roomId')),
-    );
+    appBar: AppBar(title: Text('Chat: $roomId')),
+    body: Center(child: Text('Chat Room Screen: $daoId/$roomId')),
+  );
 }
 
 class GovernanceScreen extends StatelessWidget {
@@ -517,7 +476,7 @@ class GovernanceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    
+
     return Scaffold(
       appBar: AppBar(title: const Text('Governance')),
       body: const Center(child: Text('Governance Screen')),
@@ -531,7 +490,7 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    
+
     return Scaffold(
       appBar: AppBar(title: const Text('Chat')),
       body: const Center(child: Text('Chat Screen')),
@@ -545,7 +504,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    
+
     return Scaffold(
       appBar: AppBar(title: Text(l10n.profile)),
       body: const Center(child: Text('Profile Screen')),
@@ -559,9 +518,9 @@ class UserProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(title: Text('User: $userId')),
-      body: Center(child: Text('User Profile Screen: $userId')),
-    );
+    appBar: AppBar(title: Text('User: $userId')),
+    body: Center(child: Text('User Profile Screen: $userId')),
+  );
 }
 
 class WalletScreen extends StatelessWidget {
@@ -570,7 +529,7 @@ class WalletScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    
+
     return Scaffold(
       appBar: AppBar(title: Text(l10n.wallet)),
       body: const Center(child: Text('Wallet Screen')),
@@ -584,7 +543,7 @@ class WalletConnectScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    
+
     return Scaffold(
       appBar: AppBar(title: Text(l10n.connectWallet)),
       body: const Center(child: Text('Wallet Connect Screen')),
@@ -598,7 +557,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    
+
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settings)),
       body: ListView(
@@ -617,7 +576,11 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 const LanguageSwitcher(
                   showTitle: false,
-                  padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+                  padding: EdgeInsets.only(
+                    left: 16.0,
+                    right: 16.0,
+                    bottom: 16.0,
+                  ),
                 ),
               ],
             ),
@@ -680,9 +643,9 @@ class InviteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(title: const Text('Invite')),
-      body: Center(child: Text('Invite Screen: $inviteCode')),
-    );
+    appBar: AppBar(title: const Text('Invite')),
+    body: Center(child: Text('Invite Screen: $inviteCode')),
+  );
 }
 
 class ErrorScreen extends StatelessWidget {
@@ -692,7 +655,7 @@ class ErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    
+
     return Scaffold(
       appBar: AppBar(title: Text(l10n.error)),
       body: Center(

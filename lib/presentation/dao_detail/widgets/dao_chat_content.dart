@@ -76,7 +76,7 @@ class DaoChatContent extends StatelessWidget {
               child: Center(
                 child: Text(
                   message.userName,
-                  style: AppTypography.geistRegular15.copyWith(
+                  style: AppTypography.geistRegular16.copyWith(
                     color: isDarkMode
                         ? AppColors.darkTextPrimary
                         : AppColors.gray900,
@@ -92,8 +92,8 @@ class DaoChatContent extends StatelessWidget {
             if (message.isVerified)
               SvgPicture.asset(
                 'assets/icons/svgs/Badge.svg',
-                width: 12.w,
-                height: 11.43.h,
+                width: 13.w,
+                height: 13.h,
               ),
           ],
         ),
@@ -110,7 +110,7 @@ class DaoChatContent extends StatelessWidget {
           ),
           child: Text(
             message.message,
-            style: AppTypography.geistRegular11.copyWith(
+            style: AppTypography.geistRegular13.copyWith(
               color: isDarkMode ? AppColors.darkTextPrimary : AppColors.gray900,
               letterSpacing: -0.5.sp,
               height: 1.0.h,

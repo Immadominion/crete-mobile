@@ -290,7 +290,7 @@ class DaoDetailTabContent {
               ),
               child: Text(
                 message.userName,
-                style: AppTypography.geistRegular15.copyWith(
+                style: AppTypography.geistRegular16.copyWith(
                   color: AppColors.white,
                 ),
                 textAlign: TextAlign.center,
@@ -300,8 +300,8 @@ class DaoDetailTabContent {
             if (message.isVerified)
               SvgPicture.asset(
                 'assets/icons/svgs/Badge.svg',
-                width: 12.w,
-                height: 11.43.h,
+                width: 15.w,
+                height: 15.h,
               ),
           ],
         ),
@@ -318,9 +318,9 @@ class DaoDetailTabContent {
           ),
           child: Text(
             message.message,
-            style: AppTypography.geistRegular12.copyWith(
+            style: AppTypography.geistRegular14.copyWith(
               color: AppColors.white,
-              height: 1.2,
+              height: 1.3,
               letterSpacing: -0.5,
             ),
           ),

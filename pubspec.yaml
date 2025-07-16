@@ -75,6 +75,7 @@ flutter:
     - assets/images/dev/
     - assets/animations/
     - assets/icons/svgs/
+    - assets/icons/transparent/
     - assets/icons/svgs/bottom-navigation/
 
   # Fonts

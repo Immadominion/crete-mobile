@@ -42,6 +42,11 @@ class AppColors {
     0xff5865f233,
   ); // Secondary container
 
+  // Authentication Colors
+  static const Color discordButtonBackground = Color(
+    0x335865F2,
+  ); // Discord button background with 20% opacity
+
   // Semantic Colors
   static const Color success = Color(0xFF058D00); // DAO voting completed
   static const Color warning = Color(0xFFF59E0B); // Amber-500

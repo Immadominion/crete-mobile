@@ -6,6 +6,8 @@ class AppTypography {
   static const String fontFamily = 'Geist';
   static const String headingFontFamily = 'Geist';
   static const String sfProFontFamily = 'SF Pro';
+  static const String interFontFamily = 'Inter'; // Added Inter font family
+  static const String dmSansFontFamily = 'DM Sans'; // Added DM Sans font family
 
   // Font Weights
   static const FontWeight light = FontWeight.w300;
@@ -24,12 +26,20 @@ class AppTypography {
     height: 22 / 15, // 22px line height
   );
 
-  static const TextStyle geistRegular15 = TextStyle(
+  static const TextStyle geistRegular16 = TextStyle(
     fontFamily: fontFamily,
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: regular,
     letterSpacing: -0.6,
     height: 22 / 15, // 22px line height
+  );
+
+  static const TextStyle geistMedium16 = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 16,
+    fontWeight: medium,
+    letterSpacing: -0.6,
+    height: 22 / 16, // 22px line height
   );
 
   static const TextStyle geistSemiBold15 = TextStyle(
@@ -275,6 +285,31 @@ class AppTypography {
     fontWeight: regular,
     letterSpacing: 1.5,
     height: 1.6,
+  );
+
+  // Sign-in page specific styles
+  static const TextStyle signInHeading = TextStyle(
+    fontFamily: interFontFamily,
+    fontSize: 32,
+    fontWeight: semiBold,
+    height: 1.0,
+    letterSpacing: -0.96, // -3% of 32px
+  );
+
+  static const TextStyle signInSubtitle = TextStyle(
+    fontFamily: dmSansFontFamily,
+    fontSize: 14,
+    fontWeight: regular,
+    height: 1.0,
+    letterSpacing: -0.42, // -3% of 14px
+  );
+
+  static const TextStyle signInGuestText = TextStyle(
+    fontFamily: dmSansFontFamily,
+    fontSize: 16,
+    fontWeight: medium,
+    height: 1.0,
+    letterSpacing: -0.32, // -2% of 16px
   );
 
   // Helper method to apply color to text styles
