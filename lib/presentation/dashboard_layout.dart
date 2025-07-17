@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../core/theme/colors.dart';
 import '../core/widgets/bottom_navigation_bar.dart';
-import 'dashboard/activity_page.dart';
-import 'dashboard/create_page.dart';
-import 'dashboard/explore_page.dart';
+import 'dashboard/voice_page.dart';
+import 'dashboard/chat_page.dart';
 import 'dashboard/home_page.dart';
 import 'dashboard/profile_page.dart';
+import 'dashboard/communities_page.dart';
 
 class DashboardLayout extends StatefulWidget {
   const DashboardLayout({super.key});
@@ -60,9 +60,9 @@ class _DashboardLayoutState extends State<DashboardLayout> {
           },
           children: const [
             HomePage(),
-            ExplorePage(),
-            CreatePage(),
-            ActivityPage(),
+            CommunitiesPage(), // Communities page (My Communities & Discover)
+            ChatPage(), // Chat page
+            VoicePage(), // Voice page
             ProfilePage(),
           ],
         ),

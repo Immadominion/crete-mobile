@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../core/theme/colors.dart';
 import '../../../core/theme/typography.dart';
 
 class AuthTextButton extends StatelessWidget {
@@ -20,8 +19,6 @@ class AuthTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
     return SizedBox(
       width: width ?? 121.w,
       height: height ?? 21.h,
@@ -39,7 +36,7 @@ class AuthTextButton extends StatelessWidget {
           textAlign: TextAlign.center,
           style: AppTypography.signInGuestText.copyWith(
             fontSize: 16.sp,
-            color: isDarkMode ? AppColors.darkTextPrimary : AppColors.white,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
       ),

@@ -28,7 +28,7 @@ class AuthButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.white,
+          backgroundColor: Theme.of(context).colorScheme.onSurface,
           foregroundColor: AppColors.gray900,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100.r),
@@ -42,13 +42,15 @@ class AuthButton extends StatelessWidget {
                 height: 20.h,
                 child: CircularProgressIndicator(
                   strokeWidth: 2.w,
-                  valueColor: const AlwaysStoppedAnimation<Color>(AppColors.gray900),
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Theme.of(context).colorScheme.surface,
+                  ),
                 ),
               )
             : Text(
                 text,
                 style: AppTypography.geistMedium16.copyWith(
-                  color: AppColors.gray900,
+                  color: Theme.of(context).colorScheme.surface,
                 ),
               ),
       ),

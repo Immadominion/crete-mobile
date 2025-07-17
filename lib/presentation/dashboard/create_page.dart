@@ -5,28 +5,26 @@ import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../../core/theme/typography.dart';
 
-class CreatePage extends StatelessWidget {
-  const CreatePage({super.key});
+class ChatPage extends StatelessWidget {
+  const ChatPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    
+
     return Scaffold(
-      backgroundColor: isDarkMode 
-          ? AppColors.darkBackgroundPrimary 
+      backgroundColor: isDarkMode
+          ? AppColors.darkBackgroundPrimary
           : AppColors.backgroundPrimary,
       appBar: AppBar(
-        backgroundColor: isDarkMode 
-            ? AppColors.darkBackgroundPrimary 
+        backgroundColor: isDarkMode
+            ? AppColors.darkBackgroundPrimary
             : AppColors.backgroundPrimary,
         elevation: 0,
         title: Text(
-          'Create',
+          'Chat',
           style: AppTypography.geistSemiBold15.copyWith(
-            color: isDarkMode 
-                ? AppColors.darkTextPrimary 
-                : AppColors.gray900,
+            color: isDarkMode ? AppColors.darkTextPrimary : AppColors.gray900,
           ),
         ),
         centerTitle: false,
@@ -36,27 +34,25 @@ class CreatePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              Icons.add_circle_outline,
+              Icons.chat_bubble_outline,
               size: 64.sp,
-              color: isDarkMode 
-                  ? AppColors.darkTextHeading 
-                  : AppColors.gray400,
+              color: isDarkMode ? AppColors.darkTextHeading : AppColors.gray400,
             ),
             SizedBox(height: AppSpacing.lg.h),
             Text(
-              'Create Page',
+              'Chat Page',
               style: AppTypography.geistSemiBold15.copyWith(
-                color: isDarkMode 
-                    ? AppColors.darkTextPrimary 
+                color: isDarkMode
+                    ? AppColors.darkTextPrimary
                     : AppColors.gray900,
               ),
             ),
             SizedBox(height: AppSpacing.sm.h),
             Text(
-              'Create new DAOs and proposals',
+              'Community chat and discussions',
               style: AppTypography.geistRegular12.copyWith(
-                color: isDarkMode 
-                    ? AppColors.darkTextHeading 
+                color: isDarkMode
+                    ? AppColors.darkTextHeading
                     : AppColors.gray600,
               ),
             ),

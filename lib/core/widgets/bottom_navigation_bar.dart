@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../constants/dashboard_icons.dart';
+import '../theme/colors.dart';
 import '../theme/spacing.dart';
 
 class AppBottomNavigationBar extends StatelessWidget {
@@ -14,50 +17,32 @@ class AppBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+
     return Container(
       height: 84.h,
       decoration: BoxDecoration(
-        color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+        color: theme.bottomNavigationBarTheme.backgroundColor,
         border: Border(
-          top: BorderSide(color: Theme.of(context).shadowColor, width: 1.sp),
+          top: BorderSide(
+            color: isDarkMode
+                ? AppColors.darkContainerBorder
+                : Colors.transparent,
+            width: 1.sp,
+          ),
         ),
       ),
       child: SafeArea(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _buildNavItem(
+          children: List.generate(5, (index) {
+            return _buildNavItem(
               context: context,
-              index: 0,
-              iconPath: 'assets/icons/svgs/bottom-navigation/dao-home.svg',
-              label: 'Home',
-            ),
-            _buildNavItem(
-              context: context,
-              index: 1,
-              iconPath: 'assets/icons/svgs/bottom-navigation/Watch.svg',
-              label: 'Activity',
-            ),
-            _buildNavItem(
-              context: context,
-              index: 2,
-              iconPath: 'assets/icons/svgs/bottom-navigation/Eclipse.svg',
-              label: 'Create',
-            ),
-            _buildNavItem(
-              context: context,
-              index: 3,
-              iconPath: 'assets/icons/svgs/bottom-navigation/compass.svg',
-              label: 'Explore',
-            ),
-
-            _buildNavItem(
-              context: context,
-              index: 4,
-              iconPath: 'assets/icons/svgs/bottom-navigation/profile.svg',
-              label: 'Profile',
-            ),
-          ],
+              index: index,
+              isDarkMode: isDarkMode,
+            );
+          }),
         ),
       ),
     );
@@ -66,35 +51,51 @@ class AppBottomNavigationBar extends StatelessWidget {
   Widget _buildNavItem({
     required BuildContext context,
     required int index,
-    required String iconPath,
-    required String label,
+    required bool isDarkMode,
   }) {
-    // final isActive = currentIndex == index;
-    // final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final isActive = currentIndex == index;
+    final iconPath = DashboardIcons.getIconPath(
+      isDarkMode: isDarkMode,
+      index: index,
+      isActive: isActive,
+    );
+    final label = DashboardIcons.labels[index] ?? '';
+    final theme = Theme.of(context);
 
     return GestureDetector(
       onTap: () => onTap(index),
       behavior: HitTestBehavior.opaque,
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
         padding: EdgeInsets.symmetric(
           horizontal: AppSpacing.sm.w,
           vertical: AppSpacing.xs.h,
         ),
-        child: SizedBox(
-          width: 24.w,
-          height: 24.h,
-          child: SvgPicture.asset(
-            iconPath,
-            fit: BoxFit.fill,
-            // colorFilter: ColorFilter.mode(
-            //   isActive
-            //       ? AppColors.primary
-            //       : isDarkMode
-            //       ? AppColors.navigationInactive
-            //       : AppColors.gray500,
-            //   BlendMode.srcIn,
-            // ),
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeInOut,
+              width: 24.w,
+              height: 24.h,
+              child: SvgPicture.asset(iconPath, fit: BoxFit.contain),
+            ),
+            SizedBox(height: 4.h),
+            AnimatedDefaultTextStyle(
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeInOut,
+              style: TextStyle(
+                fontSize: 10.sp,
+                fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
+                color: isActive
+                    ? theme.colorScheme.primary
+                    : theme.bottomNavigationBarTheme.unselectedItemColor,
+              ),
+              child: Text(label),
+            ),
+          ],
         ),
       ),
     );

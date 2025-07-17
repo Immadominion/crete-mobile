@@ -37,7 +37,6 @@ class AppTheme {
     navigationBarTheme: _navigationBarTheme,
     dividerTheme: _darkDividerTheme,
     chipTheme: _chipTheme,
-    shadowColor: AppColors.gray700,
   );
 
   // Light Theme Components

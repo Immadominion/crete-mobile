@@ -1,0 +1,153 @@
+Crete App Flow & User Journey - Discord for DAOs
+Login/Onboarding Flow
+Initial Screen
+3 main options:
+Connect Wallet (primary button) - Full access
+Browse as Guest (secondary) - View-only mode
+Import from Discord (tertiary) - Migration flow
+Connect Wallet Flow
+Wallet Selection - Phantom, Solflare, Backpack (mobile), WalletConnect (others)
+Wallet Connect - Standard Solana wallet connection
+Profile Setup - Display name, avatar (optional, defaults to wallet-based)
+Permissions - Notifications, microphone, camera
+Welcome Screen - Quick tutorial (3 screens max)
+Browse as Guest Flow
+Public Communities - Can view channels, cannot participate
+Upgrade Prompt - Connect wallet to join (persistent banner)
+Limited Features - Read-only, no chat/voice/voting
+Discord Import Flow
+Discord OAuth - "Continue with Discord"
+Server Detection - Auto-detect servers user is in
+Role Mapping - Match Discord roles to wallet permissions
+Wallet Connection - Required for full features
+Migration Summary - Show which servers will be accessible
+Main App Navigation
+Bottom Navigation (5 tabs)
+Home - Your communities, recent activity
+Communities - Server list, discover new ones
+Chat - Direct messages
+Voice - Active voice channels, calls
+Profile - Settings, wallet, AI manager
+Home Screen Flow
+Dashboard Layout
+Wallet Status - Connected wallet, balance indicator
+Recent Activity - Last messages, mentions, voice activity
+Active Voice Channels - Currently active voice rooms
+Quick Actions - Join voice, check governance, create channel
+Notifications - Unread messages, mentions, votes
+Actions Available
+Tap notification → Navigate to relevant channel
+Tap voice channel → Join voice room
+Tap message → Go to text channel
+Pull to refresh → Update all data
+Communities Screen (Server List)
+Main Sections
+My Communities (top) - Joined servers with unread counts
+Discover (bottom) - Public servers, invite links
+Community Structure (Like Discord Server)
+Server Name - Community identity
+Text Channels - #general, #random, #announcements, etc.
+Voice Channels - General voice, meeting rooms, etc.
+Role-Based Channels - Admin-only, member-only, token-holder channels
+Governance Channels - #proposals, #voting (when applicable)
+Community Detail Screen
+Server Header - Name, member count, online status
+Channel List - Text and voice channels organized by categories
+Member List - Online members, roles, permissions
+Server Settings - Notifications, roles (if admin)
+Channel System Flow
+Text Channels
+Channel List - Organized by categories (General, Governance, etc.)
+Message History - Infinite scroll, like Discord
+Message Input - Text, emoji, file attachments
+Member List - Sidebar with online members
+Thread Support - Reply threads for organized discussions
+Voice Channels
+Voice Channel List - Available voice rooms
+Join Voice - One-tap to join voice chat
+Voice Controls - Mute, deafen, screen share
+Voice Settings - Push-to-talk, voice activation
+Voice Permissions - Role-based speaking rights
+Video Calls
+Video Toggle - Camera on/off in voice channels
+Screen Share - Share screen with channel members
+Video Settings - Camera selection, quality settings
+Picture-in-Picture - Minimize video while using app
+Role-Based Access System
+Role Management
+Server Roles - Admin, Moderator, Member, Token Holder, etc.
+Channel Permissions - Read, write, voice, video per role
+Token-Gated Roles - Automatic roles based on wallet holdings
+Custom Roles - Server-specific role creation
+Permission Examples
+Public Channels - Everyone can read/write
+Member-Only - Requires community membership
+Token-Holder - Requires specific token in wallet
+Admin-Only - Server administrators only
+Governance - Voting-eligible members only
+Governance Integration
+Governance Channels
+#proposals - Create and discuss proposals
+#voting - Active votes, results
+#announcements - Governance updates
+Voting in Channels
+Proposal Messages - Governance posts appear in channels
+Quick Vote - Vote directly from channel message
+Vote Threads - Discussion under proposal messages
+Results Display - Real-time vote counts in channel
+Direct Messages
+DM System
+DM List - Private conversations
+Group DMs - Small group chats
+Voice DMs - Private voice calls
+Video DMs - Private video calls
+File Sharing - Send files directly
+AI Manager Integration
+Channel Features
+Smart Notifications - Filter important messages
+Reminder System - Remind about messages, votes
+Channel Summaries - Catch up on missed conversations
+Moderation Help - Flag spam, inappropriate content
+Voice Features
+Voice Transcription - Convert voice to text
+Meeting Summaries - Recap of voice channel discussions
+Voice Reminders - Audio reminders for important events
+Server Discovery & Creation
+Join Servers
+Invite Links - Join via invitation
+Public Server List - Browse open communities
+Search - Find servers by name/topic
+Friend Servers - See what friends have joined
+Create Server
+Server Setup - Name, description, rules
+Channel Creation - Default text/voice channels
+Role Setup - Basic permission structure
+Token Integration - Link to governance tokens (optional)
+Migration from Discord
+Server Migration
+Server Structure - Recreate channels, categories
+Role Translation - Discord roles → wallet roles
+Member Invites - Invite Discord members
+Channel Permissions - Maintain access levels
+Content Migration
+Channel Names - Keep existing channel structure
+Pinned Messages - Important announcements
+Server Rules - Community guidelines
+Bot Integration - Rebuild custom bots
+Voice/Video Features
+Voice Channels
+Always Available - Persistent voice rooms
+Drop-in/Drop-out - Join/leave freely
+Quality Settings - Adjust for connection
+Noise Suppression - Clear audio quality
+Video Features
+Video Channels - Dedicated video rooms
+Screen Sharing - Share desktop/mobile screen
+Camera Controls - Multiple camera support
+Video Quality - Adaptive streaming
+Call Features
+Voice Calls - Private voice conversations
+Video Calls - Face-to-face conversations
+Group Calls - Multi-person calls
+Call History - Recent call log
+This is Discord but with wallet-based identity and governance features built in. No trending topics, just communities with channels, voice, and governance when needed.

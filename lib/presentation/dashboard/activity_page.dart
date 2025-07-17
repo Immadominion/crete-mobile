@@ -5,28 +5,26 @@ import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../../core/theme/typography.dart';
 
-class ActivityPage extends StatelessWidget {
-  const ActivityPage({super.key});
+class GovernancePage extends StatelessWidget {
+  const GovernancePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    
+
     return Scaffold(
-      backgroundColor: isDarkMode 
-          ? AppColors.darkBackgroundPrimary 
+      backgroundColor: isDarkMode
+          ? AppColors.darkBackgroundPrimary
           : AppColors.backgroundPrimary,
       appBar: AppBar(
-        backgroundColor: isDarkMode 
-            ? AppColors.darkBackgroundPrimary 
+        backgroundColor: isDarkMode
+            ? AppColors.darkBackgroundPrimary
             : AppColors.backgroundPrimary,
         elevation: 0,
         title: Text(
-          'Activity',
+          'Governance',
           style: AppTypography.geistSemiBold15.copyWith(
-            color: isDarkMode 
-                ? AppColors.darkTextPrimary 
-                : AppColors.gray900,
+            color: isDarkMode ? AppColors.darkTextPrimary : AppColors.gray900,
           ),
         ),
         centerTitle: false,
@@ -36,27 +34,25 @@ class ActivityPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              Icons.timeline,
+              Icons.how_to_vote_outlined,
               size: 64.sp,
-              color: isDarkMode 
-                  ? AppColors.darkTextHeading 
-                  : AppColors.gray400,
+              color: isDarkMode ? AppColors.darkTextHeading : AppColors.gray400,
             ),
             SizedBox(height: AppSpacing.lg.h),
             Text(
-              'Activity Page',
+              'Governance Page',
               style: AppTypography.geistSemiBold15.copyWith(
-                color: isDarkMode 
-                    ? AppColors.darkTextPrimary 
+                color: isDarkMode
+                    ? AppColors.darkTextPrimary
                     : AppColors.gray900,
               ),
             ),
             SizedBox(height: AppSpacing.sm.h),
             Text(
-              'Track your DAO activities and voting history',
+              'Vote on proposals and participate in governance',
               style: AppTypography.geistRegular12.copyWith(
-                color: isDarkMode 
-                    ? AppColors.darkTextHeading 
+                color: isDarkMode
+                    ? AppColors.darkTextHeading
                     : AppColors.gray600,
               ),
             ),

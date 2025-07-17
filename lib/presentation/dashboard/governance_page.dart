@@ -5,8 +5,8 @@ import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../../core/theme/typography.dart';
 
-class ExplorePage extends StatelessWidget {
-  const ExplorePage({super.key});
+class GovernancePage extends StatelessWidget {
+  const GovernancePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class ExplorePage extends StatelessWidget {
             : AppColors.backgroundPrimary,
         elevation: 0,
         title: Text(
-          'Explore',
+          'Governance',
           style: AppTypography.geistSemiBold15.copyWith(
             color: isDarkMode 
                 ? AppColors.darkTextPrimary 
@@ -36,7 +36,7 @@ class ExplorePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              Icons.explore,
+              Icons.how_to_vote_outlined,
               size: 64.sp,
               color: isDarkMode 
                   ? AppColors.darkTextHeading 
@@ -44,7 +44,7 @@ class ExplorePage extends StatelessWidget {
             ),
             SizedBox(height: AppSpacing.lg.h),
             Text(
-              'Explore Page',
+              'Governance Page',
               style: AppTypography.geistSemiBold15.copyWith(
                 color: isDarkMode 
                     ? AppColors.darkTextPrimary 
@@ -53,7 +53,7 @@ class ExplorePage extends StatelessWidget {
             ),
             SizedBox(height: AppSpacing.sm.h),
             Text(
-              'Discover new DAOs and communities',
+              'Vote on proposals and participate in governance',
               style: AppTypography.geistRegular12.copyWith(
                 color: isDarkMode 
                     ? AppColors.darkTextHeading 

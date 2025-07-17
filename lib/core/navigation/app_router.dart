@@ -30,8 +30,8 @@ class AppRouter {
   /// Initialize the Go Router with all routes and configuration
   void _initializeRouter() {
     _router = GoRouter(
-      initialLocation: RoutePaths.login,
-      // initialLocation: RoutePaths.dashboard,
+      // initialLocation: RoutePaths.login,
+      initialLocation: RoutePaths.dashboard,
       debugLogDiagnostics: AppConfig.isDevelopment,
       navigatorKey: NavigationService.navigatorKey,
       onException: _handleRouteException,

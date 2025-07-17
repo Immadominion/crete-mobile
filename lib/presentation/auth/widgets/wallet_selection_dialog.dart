@@ -21,7 +21,7 @@ class WalletSelectionDialog extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('Select Wallet', style: AppTypography.geistSemiBold15),
+          const Text('Select Wallet', style: AppTypography.geistSemiBold15),
           SizedBox(height: 20.h),
           ...walletTypes.map(
             (walletType) => ListTile(

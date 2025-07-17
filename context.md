@@ -93,6 +93,50 @@ This repository contains the Flutter frontend for the Crete decentralized DAO co
 - **validate_step9.dart**: Validates navigation and deep linking features.
   - Checks navigation structure, deep linking configuration, Go Router implementation, navigation guards, platform-specific configuration, dependency injection, route definitions, navigation service, deep link service, and app integration.
 
+## Navigation Structure
+
+### Bottom Navigation (Community-First Flow)
+
+The app follows a community-first navigation structure with the following tabs:
+
+1. **Home** (`HomePage`): Community Feed & Dashboard
+   - Wallet status indicator with connected wallet info
+   - Recent activity feed with community updates
+   - Active voice channels section showing ongoing voice chats
+   - Quick actions for common tasks (join voice, check governance, etc.)
+   - Notifications section with unread messages and mentions
+   - Fade-in animation on page load
+
+2. **Communities** (`CommunitiesPage`): Community Discovery & Management
+   - "My Communities" section with horizontal scroll of joined communities
+   - "Discover" section with vertical list of public communities
+   - Community detail pages with Discord-like channel structure (text, voice, governance channels)
+   - Join/leave community functionality
+
+3. **Chat** (`ChatPage`): Direct Messages & Group Chats
+   - Direct messages list with recent conversations
+   - Group DMs with participant avatars and names
+   - Search functionality for finding conversations
+   - Navigation to ChatDetailPage with message history and real-time input
+   - WebSocket-based messaging system (integration ready)
+
+4. **Governance** (`GovernancePage`): Voting & Proposals
+   - Proposal list with filtering (Active, Ended, My Votes)
+   - Voting interface with wallet integration
+   - Proposal creation and discussion
+
+5. **Profile** (`ProfilePage`): User Settings & Preferences
+   - User profile management
+   - Wallet connection and settings
+   - App preferences and theme selection
+
+### Navigation Implementation
+
+- **DashboardLayout**: Main container with PageView for tab switching
+- **AppBottomNavigationBar**: Custom bottom navigation with proper theming
+- **NavigationService**: Type-safe navigation between pages
+- **Route Guards**: Authentication and permission checks
+
 ## Architecture & Design Patterns
 
 ### State Management
