@@ -1,15 +1,4 @@
 class Community {
-  final String id;
-  final String name;
-  final String description;
-  final String? imageUrl;
-  final int memberCount;
-  final int onlineCount;
-  final bool isJoined;
-  final int unreadCount;
-  final bool isPublic;
-  final DateTime? lastActivity;
-  final List<String> tags;
 
   const Community({
     required this.id,
@@ -24,6 +13,17 @@ class Community {
     this.lastActivity,
     this.tags = const [],
   });
+  final String id;
+  final String name;
+  final String description;
+  final String? imageUrl;
+  final int memberCount;
+  final int onlineCount;
+  final bool isJoined;
+  final int unreadCount;
+  final bool isPublic;
+  final DateTime? lastActivity;
+  final List<String> tags;
 
   Community copyWith({
     String? id,

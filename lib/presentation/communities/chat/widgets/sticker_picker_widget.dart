@@ -7,14 +7,14 @@ import '../../../../core/theme/typography.dart';
 
 /// Sticker picker widget for chat
 class StickerPickerWidget extends StatefulWidget {
-  final void Function(String) onStickerSelected;
-  final bool isDarkMode;
 
   const StickerPickerWidget({
     super.key,
     required this.onStickerSelected,
     required this.isDarkMode,
   });
+  final void Function(String) onStickerSelected;
+  final bool isDarkMode;
 
   @override
   State<StickerPickerWidget> createState() => _StickerPickerWidgetState();
@@ -171,7 +171,7 @@ class _StickerPickerWidgetState extends State<StickerPickerWidget> {
                           as String;
                   return GestureDetector(
                     onTap: () => widget.onStickerSelected(sticker),
-                    child: Container(
+                    child: DecoratedBox(
                       decoration: BoxDecoration(
                         color: widget.isDarkMode
                             ? AppColors.darkContainerBorder.withOpacity(0.3)

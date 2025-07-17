@@ -9,12 +9,6 @@ import '../../../../core/theme/typography.dart';
 
 /// Attachment options dialog for chat
 class AttachmentOptionsDialog extends StatelessWidget {
-  final bool isDarkMode;
-  final VoidCallback onCamera;
-  final VoidCallback onGallery;
-  final VoidCallback onFile;
-  final VoidCallback onVideo;
-  final VoidCallback onAudio;
 
   const AttachmentOptionsDialog({
     super.key,
@@ -25,6 +19,12 @@ class AttachmentOptionsDialog extends StatelessWidget {
     required this.onVideo,
     required this.onAudio,
   });
+  final bool isDarkMode;
+  final VoidCallback onCamera;
+  final VoidCallback onGallery;
+  final VoidCallback onFile;
+  final VoidCallback onVideo;
+  final VoidCallback onAudio;
 
   @override
   Widget build(BuildContext context) {

@@ -7,10 +7,6 @@ import '../../../core/theme/typography.dart';
 
 /// Animated wallet status card showing connection state and balance
 class WalletStatusCard extends StatefulWidget {
-  final bool isConnected;
-  final String walletAddress;
-  final String balance;
-  final VoidCallback? onTap;
 
   const WalletStatusCard({
     super.key,
@@ -19,6 +15,10 @@ class WalletStatusCard extends StatefulWidget {
     required this.balance,
     this.onTap,
   });
+  final bool isConnected;
+  final String walletAddress;
+  final String balance;
+  final VoidCallback? onTap;
 
   @override
   State<WalletStatusCard> createState() => _WalletStatusCardState();

@@ -7,12 +7,6 @@ import '../../../core/theme/typography.dart';
 
 /// Model for recent activity items
 class RecentActivityItem {
-  final String title;
-  final String subtitle;
-  final String time;
-  final PhosphorIconData icon;
-  final Color iconColor;
-  final VoidCallback? onTap;
 
   const RecentActivityItem({
     required this.title,
@@ -22,18 +16,24 @@ class RecentActivityItem {
     required this.iconColor,
     this.onTap,
   });
+  final String title;
+  final String subtitle;
+  final String time;
+  final PhosphorIconData icon;
+  final Color iconColor;
+  final VoidCallback? onTap;
 }
 
 /// Animated recent activity section with staggered animation
 class RecentActivitySection extends StatefulWidget {
-  final List<RecentActivityItem> activities;
-  final VoidCallback? onSeeAll;
 
   const RecentActivitySection({
     super.key,
     required this.activities,
     this.onSeeAll,
   });
+  final List<RecentActivityItem> activities;
+  final VoidCallback? onSeeAll;
 
   @override
   State<RecentActivitySection> createState() => _RecentActivitySectionState();
@@ -66,7 +66,7 @@ class _RecentActivitySectionState extends State<RecentActivitySection>
     const animationRatio = 0.7; // 70% of total duration for each animation
 
     final staggerDelay = maxStaggerRatio / itemCount;
-    final animationDuration = animationRatio;
+    const animationDuration = animationRatio;
 
     // Create staggered animations for each item
     _slideAnimations = List.generate(itemCount, (index) {

@@ -7,10 +7,6 @@ import '../../../core/theme/typography.dart';
 
 /// Model for channel categories and their channels
 class ChannelCategory {
-  final String name;
-  final List<ChannelItem> channels;
-  final PhosphorIconData icon;
-  final bool isExpanded;
 
   const ChannelCategory({
     required this.name,
@@ -18,16 +14,13 @@ class ChannelCategory {
     required this.icon,
     this.isExpanded = true,
   });
+  final String name;
+  final List<ChannelItem> channels;
+  final PhosphorIconData icon;
+  final bool isExpanded;
 }
 
 class ChannelItem {
-  final String name;
-  final String description;
-  final ChannelType type;
-  final int? unreadCount;
-  final int? memberCount;
-  final bool isLocked;
-  final bool isActive;
 
   const ChannelItem({
     required this.name,
@@ -38,15 +31,18 @@ class ChannelItem {
     this.isLocked = false,
     this.isActive = false,
   });
+  final String name;
+  final String description;
+  final ChannelType type;
+  final int? unreadCount;
+  final int? memberCount;
+  final bool isLocked;
+  final bool isActive;
 }
 
 enum ChannelType { text, voice, announcement, governance, thread }
 
 class ChannelCategoryWidget extends StatefulWidget {
-  final ChannelCategory category;
-  final bool isDarkMode;
-  final void Function(ChannelItem)? onChannelTap;
-  final VoidCallback? onCategoryToggle;
 
   const ChannelCategoryWidget({
     super.key,
@@ -55,6 +51,10 @@ class ChannelCategoryWidget extends StatefulWidget {
     this.onChannelTap,
     this.onCategoryToggle,
   });
+  final ChannelCategory category;
+  final bool isDarkMode;
+  final void Function(ChannelItem)? onChannelTap;
+  final VoidCallback? onCategoryToggle;
 
   @override
   State<ChannelCategoryWidget> createState() => _ChannelCategoryWidgetState();
@@ -292,7 +292,7 @@ class _ChannelCategoryWidgetState extends State<ChannelCategoryWidget>
             ),
             if (channel.isLocked)
               PhosphorIcon(
-                PhosphorIcons.lock(PhosphorIconsStyle.regular),
+                PhosphorIcons.lock(),
                 size: 14.sp,
                 color: widget.isDarkMode
                     ? AppColors.darkTextSecondary
@@ -310,13 +310,13 @@ class _ChannelCategoryWidgetState extends State<ChannelCategoryWidget>
 
     switch (channel.type) {
       case ChannelType.text:
-        icon = PhosphorIcons.hash(PhosphorIconsStyle.regular);
+        icon = PhosphorIcons.hash();
         color = widget.isDarkMode
             ? AppColors.darkTextSecondary
             : AppColors.gray600;
         break;
       case ChannelType.voice:
-        icon = PhosphorIcons.speakerHigh(PhosphorIconsStyle.regular);
+        icon = PhosphorIcons.speakerHigh();
         color = channel.memberCount != null && channel.memberCount! > 0
             ? Colors.green
             : widget.isDarkMode
@@ -324,15 +324,15 @@ class _ChannelCategoryWidgetState extends State<ChannelCategoryWidget>
             : AppColors.gray600;
         break;
       case ChannelType.announcement:
-        icon = PhosphorIcons.megaphone(PhosphorIconsStyle.regular);
+        icon = PhosphorIcons.megaphone();
         color = AppColors.primary;
         break;
       case ChannelType.governance:
-        icon = PhosphorIcons.scales(PhosphorIconsStyle.regular);
+        icon = PhosphorIcons.scales();
         color = Colors.amber;
         break;
       case ChannelType.thread:
-        icon = PhosphorIcons.chatCircle(PhosphorIconsStyle.regular);
+        icon = PhosphorIcons.chatCircle();
         color = widget.isDarkMode
             ? AppColors.darkTextSecondary
             : AppColors.gray600;

@@ -526,9 +526,6 @@ class _VoicePageState extends State<VoicePage> with TickerProviderStateMixin {
 
 /// Voice Channel Detail Page
 class VoiceChannelDetailPage extends StatefulWidget {
-  final String channelName;
-  final String community;
-  final int memberCount;
 
   const VoiceChannelDetailPage({
     super.key,
@@ -536,6 +533,9 @@ class VoiceChannelDetailPage extends StatefulWidget {
     required this.community,
     required this.memberCount,
   });
+  final String channelName;
+  final String community;
+  final int memberCount;
 
   @override
   State<VoiceChannelDetailPage> createState() => _VoiceChannelDetailPageState();
@@ -653,9 +653,9 @@ class _VoiceChannelDetailPageState extends State<VoiceChannelDetailPage>
         SizedBox(height: 16.h),
         ...members.map(
           (member) => _buildMemberCard(
-            member['name'] as String,
-            member['isSpeaking'] as bool,
-            member['isMuted'] as bool,
+            member['name']! as String,
+            member['isSpeaking']! as bool,
+            member['isMuted']! as bool,
             isDarkMode,
           ),
         ),
@@ -837,9 +837,9 @@ class _VoiceChannelDetailPageState extends State<VoiceChannelDetailPage>
 
 /// Voice Settings Page
 class VoiceSettingsPage extends StatefulWidget {
-  final String settingType;
 
   const VoiceSettingsPage({super.key, required this.settingType});
+  final String settingType;
 
   @override
   State<VoiceSettingsPage> createState() => _VoiceSettingsPageState();

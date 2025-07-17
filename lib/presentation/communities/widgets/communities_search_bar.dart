@@ -6,11 +6,6 @@ import '../../../core/theme/colors.dart';
 import '../../../core/theme/typography.dart';
 
 class CommunitiesSearchBar extends StatefulWidget {
-  final String? hintText;
-  final ValueChanged<String>? onChanged;
-  final VoidCallback? onTap;
-  final VoidCallback? onFilterTap;
-  final bool enabled;
 
   const CommunitiesSearchBar({
     super.key,
@@ -20,6 +15,11 @@ class CommunitiesSearchBar extends StatefulWidget {
     this.onFilterTap,
     this.enabled = true,
   });
+  final String? hintText;
+  final ValueChanged<String>? onChanged;
+  final VoidCallback? onTap;
+  final VoidCallback? onFilterTap;
+  final bool enabled;
 
   @override
   State<CommunitiesSearchBar> createState() => _CommunitiesSearchBarState();
@@ -75,7 +75,7 @@ class _CommunitiesSearchBarState extends State<CommunitiesSearchBar>
       opacity: _fadeAnimation,
       child: Transform.translate(
         offset: Offset(0, _slideAnimation.value),
-        child: Container(
+        child: DecoratedBox(
           decoration: BoxDecoration(
             color: isDarkMode ? AppColors.black : AppColors.white,
             borderRadius: BorderRadius.circular(12.r),
@@ -118,7 +118,7 @@ class _CommunitiesSearchBarState extends State<CommunitiesSearchBar>
                       padding: EdgeInsets.symmetric(horizontal: 16.w),
                       child: PhosphorIcon(
                         PhosphorIcons.magnifyingGlass(
-                          PhosphorIconsStyle.regular,
+                          
                         ),
                         size: 20.sp,
                         color: isDarkMode
@@ -144,7 +144,7 @@ class _CommunitiesSearchBarState extends State<CommunitiesSearchBar>
                       borderRadius: BorderRadius.circular(8.r),
                     ),
                     child: PhosphorIcon(
-                      PhosphorIcons.funnelSimple(PhosphorIconsStyle.regular),
+                      PhosphorIcons.funnelSimple(),
                       size: 16.sp,
                       color: AppColors.primary,
                     ),

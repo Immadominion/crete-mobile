@@ -7,11 +7,6 @@ import '../../../core/theme/typography.dart';
 
 /// Model for quick action items
 class QuickActionItem {
-  final String title;
-  final String subtitle;
-  final PhosphorIconData icon;
-  final Color iconColor;
-  final VoidCallback? onTap;
 
   const QuickActionItem({
     required this.title,
@@ -20,13 +15,18 @@ class QuickActionItem {
     required this.iconColor,
     this.onTap,
   });
+  final String title;
+  final String subtitle;
+  final PhosphorIconData icon;
+  final Color iconColor;
+  final VoidCallback? onTap;
 }
 
 /// Animated quick actions grid with hover effects
 class QuickActionsGrid extends StatefulWidget {
-  final List<QuickActionItem> actions;
 
   const QuickActionsGrid({super.key, required this.actions});
+  final List<QuickActionItem> actions;
 
   @override
   State<QuickActionsGrid> createState() => _QuickActionsGridState();
@@ -59,7 +59,7 @@ class _QuickActionsGridState extends State<QuickActionsGrid>
     const animationRatio = 0.7; // 70% of total duration for each animation
 
     final staggerDelay = maxStaggerRatio / itemCount;
-    final animationDuration = animationRatio;
+    const animationDuration = animationRatio;
 
     // Create staggered animations for each action
     _scaleAnimations = List.generate(itemCount, (index) {

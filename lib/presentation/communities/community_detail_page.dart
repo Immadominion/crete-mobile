@@ -9,11 +9,6 @@ import 'chat/channel_chat_page.dart';
 
 /// Model for channel categories
 class ChannelCategory {
-  final String id;
-  final String name;
-  final List<Channel> channels;
-  final bool isCollapsed;
-  final PhosphorIconData icon;
 
   const ChannelCategory({
     required this.id,
@@ -22,20 +17,15 @@ class ChannelCategory {
     this.isCollapsed = false,
     required this.icon,
   });
+  final String id;
+  final String name;
+  final List<Channel> channels;
+  final bool isCollapsed;
+  final PhosphorIconData icon;
 }
 
 /// Model for individual channels
 class Channel {
-  final String id;
-  final String name;
-  final String description;
-  final ChannelType type;
-  final int unreadCount;
-  final int membersCount;
-  final bool isPrivate;
-  final List<String> recentEmojis;
-  final String? lastMessage;
-  final DateTime? lastActivity;
 
   const Channel({
     required this.id,
@@ -49,15 +39,25 @@ class Channel {
     this.lastMessage,
     this.lastActivity,
   });
+  final String id;
+  final String name;
+  final String description;
+  final ChannelType type;
+  final int unreadCount;
+  final int membersCount;
+  final bool isPrivate;
+  final List<String> recentEmojis;
+  final String? lastMessage;
+  final DateTime? lastActivity;
 }
 
 enum ChannelType { text, voice, announcement, stage, forum }
 
 /// Discord-like Community Detail Page with channels organized by categories
 class CommunityDetailPage extends StatefulWidget {
-  final Community community;
 
   const CommunityDetailPage({super.key, required this.community});
+  final Community community;
 
   @override
   State<CommunityDetailPage> createState() => _CommunityDetailPageState();
@@ -111,7 +111,7 @@ class _CommunityDetailPageState extends State<CommunityDetailPage>
               expandedHeight: 200.h,
               leading: IconButton(
                 icon: PhosphorIcon(
-                  PhosphorIcons.arrowLeft(PhosphorIconsStyle.regular),
+                  PhosphorIcons.arrowLeft(),
                   color: isDarkMode
                       ? AppColors.darkTextPrimary
                       : AppColors.gray900,
@@ -121,7 +121,7 @@ class _CommunityDetailPageState extends State<CommunityDetailPage>
               actions: [
                 IconButton(
                   icon: PhosphorIcon(
-                    PhosphorIcons.magnifyingGlass(PhosphorIconsStyle.regular),
+                    PhosphorIcons.magnifyingGlass(),
                     color: isDarkMode
                         ? AppColors.darkTextPrimary
                         : AppColors.gray900,
@@ -130,7 +130,7 @@ class _CommunityDetailPageState extends State<CommunityDetailPage>
                 ),
                 IconButton(
                   icon: PhosphorIcon(
-                    PhosphorIcons.dotsThreeVertical(PhosphorIconsStyle.regular),
+                    PhosphorIcons.dotsThreeVertical(),
                     color: isDarkMode
                         ? AppColors.darkTextPrimary
                         : AppColors.gray900,
@@ -256,7 +256,7 @@ class _CommunityDetailPageState extends State<CommunityDetailPage>
                         ),
                         SizedBox(width: 16.w),
                         PhosphorIcon(
-                          PhosphorIcons.users(PhosphorIconsStyle.regular),
+                          PhosphorIcons.users(),
                           size: 14.sp,
                           color: isDarkMode
                               ? AppColors.darkTextSecondary
@@ -302,28 +302,28 @@ class _CommunityDetailPageState extends State<CommunityDetailPage>
         children: [
           _buildQuickActionChip(
             'Rules',
-            PhosphorIcons.shieldCheck(PhosphorIconsStyle.regular),
+            PhosphorIcons.shieldCheck(),
             AppColors.primary,
             isDarkMode,
           ),
           SizedBox(width: 8.w),
           _buildQuickActionChip(
             'Events',
-            PhosphorIcons.calendarCheck(PhosphorIconsStyle.regular),
+            PhosphorIcons.calendarCheck(),
             Colors.orange,
             isDarkMode,
           ),
           SizedBox(width: 8.w),
           _buildQuickActionChip(
             'Emojis',
-            PhosphorIcons.smiley(PhosphorIconsStyle.regular),
+            PhosphorIcons.smiley(),
             Colors.yellow.shade700,
             isDarkMode,
           ),
           SizedBox(width: 8.w),
           _buildQuickActionChip(
             'Members',
-            PhosphorIcons.users(PhosphorIconsStyle.regular),
+            PhosphorIcons.users(),
             Colors.blue,
             isDarkMode,
           ),
@@ -343,7 +343,7 @@ class _CommunityDetailPageState extends State<CommunityDetailPage>
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: color.withOpacity(0.3), width: 1),
+        border: Border.all(color: color.withOpacity(0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -466,7 +466,7 @@ class _CommunityDetailPageState extends State<CommunityDetailPage>
           children: [
             if (channel.isPrivate) ...[
               PhosphorIcon(
-                PhosphorIcons.lock(PhosphorIconsStyle.regular),
+                PhosphorIcons.lock(),
                 size: 12.sp,
                 color: isDarkMode
                     ? AppColors.darkTextSecondary
@@ -623,15 +623,15 @@ class _CommunityDetailPageState extends State<CommunityDetailPage>
   PhosphorIconData _getChannelIcon(ChannelType type) {
     switch (type) {
       case ChannelType.text:
-        return PhosphorIcons.hash(PhosphorIconsStyle.regular);
+        return PhosphorIcons.hash();
       case ChannelType.voice:
-        return PhosphorIcons.speakerHigh(PhosphorIconsStyle.regular);
+        return PhosphorIcons.speakerHigh();
       case ChannelType.announcement:
-        return PhosphorIcons.megaphone(PhosphorIconsStyle.regular);
+        return PhosphorIcons.megaphone();
       case ChannelType.stage:
-        return PhosphorIcons.microphone(PhosphorIconsStyle.regular);
+        return PhosphorIcons.microphone();
       case ChannelType.forum:
-        return PhosphorIcons.chatCircle(PhosphorIconsStyle.regular);
+        return PhosphorIcons.chatCircle();
     }
   }
 
@@ -640,9 +640,9 @@ class _CommunityDetailPageState extends State<CommunityDetailPage>
       ChannelCategory(
         id: 'general',
         name: 'General',
-        icon: PhosphorIcons.chatCircle(PhosphorIconsStyle.regular),
+        icon: PhosphorIcons.chatCircle(),
         channels: [
-          Channel(
+          const Channel(
             id: 'general',
             name: 'general',
             description: 'General community discussions',
@@ -651,7 +651,7 @@ class _CommunityDetailPageState extends State<CommunityDetailPage>
             lastMessage: 'Welcome to the community! 🎉',
             recentEmojis: ['🎉', '👋', '🔥'],
           ),
-          Channel(
+          const Channel(
             id: 'introductions',
             name: 'introductions',
             description: 'Introduce yourself to the community',
@@ -660,7 +660,7 @@ class _CommunityDetailPageState extends State<CommunityDetailPage>
             lastMessage: 'Hey everyone, new member here!',
             recentEmojis: ['👋', '🎯'],
           ),
-          Channel(
+          const Channel(
             id: 'announcements',
             name: 'announcements',
             description: 'Important updates and news',
@@ -674,16 +674,16 @@ class _CommunityDetailPageState extends State<CommunityDetailPage>
       ChannelCategory(
         id: 'voice',
         name: 'Voice Channels',
-        icon: PhosphorIcons.speakerHigh(PhosphorIconsStyle.regular),
+        icon: PhosphorIcons.speakerHigh(),
         channels: [
-          Channel(
+          const Channel(
             id: 'general-voice',
             name: 'General Voice',
             description: 'Join for casual conversations',
             type: ChannelType.voice,
             membersCount: 3,
           ),
-          Channel(
+          const Channel(
             id: 'community-stage',
             name: 'Community Stage',
             description: 'Weekly community talks',
@@ -695,9 +695,9 @@ class _CommunityDetailPageState extends State<CommunityDetailPage>
       ChannelCategory(
         id: 'governance',
         name: 'Governance',
-        icon: PhosphorIcons.scales(PhosphorIconsStyle.regular),
+        icon: PhosphorIcons.scales(),
         channels: [
-          Channel(
+          const Channel(
             id: 'proposals',
             name: 'proposals',
             description: 'Submit and discuss governance proposals',
@@ -706,7 +706,7 @@ class _CommunityDetailPageState extends State<CommunityDetailPage>
             lastMessage: 'Proposal #42: Treasury allocation',
             recentEmojis: ['🗳️', '💰', '👍'],
           ),
-          Channel(
+          const Channel(
             id: 'voting',
             name: 'voting',
             description: 'Active votes and results',
@@ -720,9 +720,9 @@ class _CommunityDetailPageState extends State<CommunityDetailPage>
       ChannelCategory(
         id: 'development',
         name: 'Development',
-        icon: PhosphorIcons.code(PhosphorIconsStyle.regular),
+        icon: PhosphorIcons.code(),
         channels: [
-          Channel(
+          const Channel(
             id: 'dev-general',
             name: 'dev-general',
             description: 'Development discussions',
@@ -730,7 +730,7 @@ class _CommunityDetailPageState extends State<CommunityDetailPage>
             lastMessage: 'Anyone working on the new features?',
             recentEmojis: ['💻', '🚀'],
           ),
-          Channel(
+          const Channel(
             id: 'dev-private',
             name: 'core-dev',
             description: 'Core development team',

@@ -8,17 +8,6 @@ import '../models/chat_models.dart';
 
 /// Production-level animated message bubble widget
 class MessageBubble extends StatefulWidget {
-  final ChatMessage message;
-  final bool isCurrentUser;
-  final bool isGrouped;
-  final bool showAvatar;
-  final bool showTimestamp;
-  final void Function(ChatMessage) onReply;
-  final void Function(ChatMessage, String) onReact;
-  final void Function(ChatMessage) onEdit;
-  final void Function(ChatMessage) onDelete;
-  final void Function(String) onUserTap;
-  final bool isDarkMode;
 
   const MessageBubble({
     super.key,
@@ -34,6 +23,17 @@ class MessageBubble extends StatefulWidget {
     required this.onUserTap,
     required this.isDarkMode,
   });
+  final ChatMessage message;
+  final bool isCurrentUser;
+  final bool isGrouped;
+  final bool showAvatar;
+  final bool showTimestamp;
+  final void Function(ChatMessage) onReply;
+  final void Function(ChatMessage, String) onReact;
+  final void Function(ChatMessage) onEdit;
+  final void Function(ChatMessage) onDelete;
+  final void Function(String) onUserTap;
+  final bool isDarkMode;
 
   @override
   State<MessageBubble> createState() => _MessageBubbleState();
@@ -44,7 +44,7 @@ class _MessageBubbleState extends State<MessageBubble>
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
-  bool _showReactions = false;
+  final bool _showReactions = false;
 
   @override
   void initState() {
@@ -257,7 +257,7 @@ class _MessageBubbleState extends State<MessageBubble>
                 fit: BoxFit.cover,
                 width: double.infinity,
                 errorBuilder: (context, error, stackTrace) {
-                  return Container(
+                  return ColoredBox(
                     color: widget.isDarkMode
                         ? AppColors.darkBackgroundPrimary
                         : AppColors.gray100,

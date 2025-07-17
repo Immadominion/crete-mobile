@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../core/data/community_demo_data.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/spacing.dart';
 import '../../core/theme/typography.dart';
-import '../../core/data/community_demo_data.dart';
 import '../../domain/entities/community.dart';
-
+import 'community_detail_page.dart';
 import 'widgets/communities_header.dart';
 import 'widgets/communities_search_bar.dart';
 import 'widgets/community_card.dart';
-import 'community_detail_page.dart';
 
 /// Communities page - Server list, discover new ones
 /// Shows My Communities (joined servers) and Discover (public servers)
@@ -163,7 +162,6 @@ class _CommunitiesPageState extends State<CommunitiesPage>
               return CommunityCard(
                 community: community,
                 isDarkMode: isDarkMode,
-                variant: CommunityCardVariant.horizontal,
                 onTap: () => _navigateToCommunity(community),
               );
             },

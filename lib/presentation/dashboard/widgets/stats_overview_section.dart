@@ -7,11 +7,6 @@ import '../../../core/theme/typography.dart';
 
 /// Model for stats items
 class StatsItem {
-  final String title;
-  final String value;
-  final String subtitle;
-  final PhosphorIconData icon;
-  final Color iconColor;
 
   const StatsItem({
     required this.title,
@@ -20,13 +15,18 @@ class StatsItem {
     required this.icon,
     required this.iconColor,
   });
+  final String title;
+  final String value;
+  final String subtitle;
+  final PhosphorIconData icon;
+  final Color iconColor;
 }
 
 /// Animated stats overview cards with counter animation
 class StatsOverviewSection extends StatefulWidget {
-  final List<StatsItem> stats;
 
   const StatsOverviewSection({super.key, required this.stats});
+  final List<StatsItem> stats;
 
   @override
   State<StatsOverviewSection> createState() => _StatsOverviewSectionState();

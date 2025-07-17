@@ -7,14 +7,14 @@ import '../models/chat_models.dart';
 
 /// Production-level typing indicator with animations
 class TypingIndicatorWidget extends StatefulWidget {
-  final List<TypingIndicator> typingUsers;
-  final bool isDarkMode;
 
   const TypingIndicatorWidget({
     super.key,
     required this.typingUsers,
     required this.isDarkMode,
   });
+  final List<TypingIndicator> typingUsers;
+  final bool isDarkMode;
 
   @override
   State<TypingIndicatorWidget> createState() => _TypingIndicatorWidgetState();

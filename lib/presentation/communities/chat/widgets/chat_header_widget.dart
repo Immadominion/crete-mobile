@@ -8,16 +8,6 @@ import '../models/chat_models.dart';
 
 /// Production-level chat header widget with online status, member avatars, and actions
 class ChatHeaderWidget extends StatefulWidget {
-  final String channelName;
-  final String? channelDescription;
-  final int onlineCount;
-  final List<ChatParticipant> onlineMembers;
-  final VoidCallback? onVoiceCall;
-  final VoidCallback? onVideoCall;
-  final VoidCallback? onShowMembers;
-  final VoidCallback? onSearch;
-  final VoidCallback? onMoreOptions;
-  final bool? isDarkMode;
 
   const ChatHeaderWidget({
     super.key,
@@ -32,6 +22,16 @@ class ChatHeaderWidget extends StatefulWidget {
     this.onMoreOptions,
     this.isDarkMode,
   });
+  final String channelName;
+  final String? channelDescription;
+  final int onlineCount;
+  final List<ChatParticipant> onlineMembers;
+  final VoidCallback? onVoiceCall;
+  final VoidCallback? onVideoCall;
+  final VoidCallback? onShowMembers;
+  final VoidCallback? onSearch;
+  final VoidCallback? onMoreOptions;
+  final bool? isDarkMode;
 
   @override
   State<ChatHeaderWidget> createState() => _ChatHeaderWidgetState();
@@ -83,7 +83,6 @@ class _ChatHeaderWidgetState extends State<ChatHeaderWidget>
             color: isDarkMode
                 ? AppColors.darkContainerBorder
                 : AppColors.gray200,
-            width: 1,
           ),
         ),
         boxShadow: [
@@ -314,7 +313,6 @@ class _ChatHeaderWidgetState extends State<ChatHeaderWidget>
                                   color: isDarkMode
                                       ? AppColors.darkBackgroundSecondary
                                       : AppColors.white,
-                                  width: 1,
                                 ),
                               ),
                             ),

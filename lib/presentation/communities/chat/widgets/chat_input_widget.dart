@@ -8,19 +8,6 @@ import '../models/chat_models.dart';
 
 /// Advanced chat input widget with multiple features
 class ChatInputWidget extends StatefulWidget {
-  final TextEditingController controller;
-  final FocusNode focusNode;
-  final ChatMessage? replyingTo;
-  final void Function(String) onSendMessage;
-  final void Function(String) onSendVoiceMessage;
-  final VoidCallback onAttachmentTap;
-  final VoidCallback onEmojiTap;
-  final VoidCallback onStickerTap;
-  final VoidCallback onGifTap;
-  final VoidCallback onGameTap;
-  final VoidCallback onThreadTap;
-  final VoidCallback onCancelReply;
-  final bool isDarkMode;
 
   const ChatInputWidget({
     super.key,
@@ -38,6 +25,19 @@ class ChatInputWidget extends StatefulWidget {
     required this.onCancelReply,
     required this.isDarkMode,
   });
+  final TextEditingController controller;
+  final FocusNode focusNode;
+  final ChatMessage? replyingTo;
+  final void Function(String) onSendMessage;
+  final void Function(String) onSendVoiceMessage;
+  final VoidCallback onAttachmentTap;
+  final VoidCallback onEmojiTap;
+  final VoidCallback onStickerTap;
+  final VoidCallback onGifTap;
+  final VoidCallback onGameTap;
+  final VoidCallback onThreadTap;
+  final VoidCallback onCancelReply;
+  final bool isDarkMode;
 
   @override
   State<ChatInputWidget> createState() => _ChatInputWidgetState();
@@ -49,7 +49,7 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: widget.isDarkMode
             ? AppColors.darkBackgroundPrimary

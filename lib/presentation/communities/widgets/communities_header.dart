@@ -6,9 +6,9 @@ import '../../../core/theme/colors.dart';
 import '../../../core/theme/typography.dart';
 
 class CommunitiesHeader extends StatefulWidget {
-  final VoidCallback? onCreateCommunity;
 
   const CommunitiesHeader({super.key, this.onCreateCommunity});
+  final VoidCallback? onCreateCommunity;
 
   @override
   State<CommunitiesHeader> createState() => _CommunitiesHeaderState();

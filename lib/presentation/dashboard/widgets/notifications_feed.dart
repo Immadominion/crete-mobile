@@ -7,12 +7,6 @@ import '../../../core/theme/typography.dart';
 
 /// Model for notification items
 class NotificationItem {
-  final String title;
-  final String description;
-  final String time;
-  final NotificationType type;
-  final bool isRead;
-  final VoidCallback? onTap;
 
   const NotificationItem({
     required this.title,
@@ -22,6 +16,12 @@ class NotificationItem {
     required this.isRead,
     this.onTap,
   });
+  final String title;
+  final String description;
+  final String time;
+  final NotificationType type;
+  final bool isRead;
+  final VoidCallback? onTap;
 }
 
 /// Notification types with their respective icons and colors
@@ -29,14 +29,14 @@ enum NotificationType { message, mention, vote, proposal, voice, system }
 
 /// Animated notifications feed with slide-in animation
 class NotificationsFeed extends StatefulWidget {
-  final List<NotificationItem> notifications;
-  final VoidCallback? onSeeAll;
 
   const NotificationsFeed({
     super.key,
     required this.notifications,
     this.onSeeAll,
   });
+  final List<NotificationItem> notifications;
+  final VoidCallback? onSeeAll;
 
   @override
   State<NotificationsFeed> createState() => _NotificationsFeedState();
@@ -69,7 +69,7 @@ class _NotificationsFeedState extends State<NotificationsFeed>
     const animationRatio = 0.7; // 70% of total duration for each animation
 
     final staggerDelay = maxStaggerRatio / itemCount;
-    final animationDuration = animationRatio;
+    const animationDuration = animationRatio;
 
     // Create staggered animations for each notification
     _slideAnimations = List.generate(itemCount, (index) {
@@ -239,7 +239,7 @@ class _NotificationsFeedState extends State<NotificationsFeed>
                     child: Container(
                       width: 8.w,
                       height: 8.h,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: AppColors.primary,
                         shape: BoxShape.circle,
                       ),

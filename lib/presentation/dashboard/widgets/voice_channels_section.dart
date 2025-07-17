@@ -7,11 +7,6 @@ import '../../../core/theme/typography.dart';
 
 /// Model for voice channel items
 class VoiceChannelItem {
-  final String name;
-  final String community;
-  final int memberCount;
-  final bool isActive;
-  final VoidCallback? onJoin;
 
   const VoiceChannelItem({
     required this.name,
@@ -20,18 +15,23 @@ class VoiceChannelItem {
     required this.isActive,
     this.onJoin,
   });
+  final String name;
+  final String community;
+  final int memberCount;
+  final bool isActive;
+  final VoidCallback? onJoin;
 }
 
 /// Animated voice channels section with pulse animation for active channels
 class VoiceChannelsSection extends StatefulWidget {
-  final List<VoiceChannelItem> channels;
-  final VoidCallback? onSeeAll;
 
   const VoiceChannelsSection({
     super.key,
     required this.channels,
     this.onSeeAll,
   });
+  final List<VoiceChannelItem> channels;
+  final VoidCallback? onSeeAll;
 
   @override
   State<VoiceChannelsSection> createState() => _VoiceChannelsSectionState();
@@ -74,7 +74,7 @@ class _VoiceChannelsSectionState extends State<VoiceChannelsSection>
     const animationRatio = 0.7; // 70% of total duration for each animation
 
     final staggerDelay = maxStaggerRatio / itemCount;
-    final animationDuration = animationRatio;
+    const animationDuration = animationRatio;
 
     _slideAnimations = List.generate(itemCount, (index) {
       final startTime = (index * staggerDelay).clamp(0.0, 0.3);
@@ -269,7 +269,7 @@ class _VoiceChannelsSectionState extends State<VoiceChannelsSection>
                         child: Container(
                           width: 8.w,
                           height: 8.h,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             color: AppColors.success,
                             shape: BoxShape.circle,
                           ),
@@ -310,7 +310,7 @@ class _VoiceChannelsSectionState extends State<VoiceChannelsSection>
                             ),
                           ),
                           Icon(
-                            PhosphorIcons.users(PhosphorIconsStyle.regular),
+                            PhosphorIcons.users(),
                             size: 12.sp,
                             color: isDarkMode
                                 ? AppColors.darkTextSecondary

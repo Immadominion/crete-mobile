@@ -8,12 +8,12 @@ import '../communities/communities_page.dart';
 import 'chat_page.dart';
 import 'profile_page.dart';
 import 'voice_page.dart';
-import 'widgets/stats_overview_section.dart';
-import 'widgets/wallet_status_card.dart';
-import 'widgets/recent_activity_section.dart';
-import 'widgets/voice_channels_section.dart';
-import 'widgets/quick_actions_grid.dart';
 import 'widgets/notifications_feed.dart';
+import 'widgets/quick_actions_grid.dart';
+import 'widgets/recent_activity_section.dart';
+import 'widgets/stats_overview_section.dart';
+import 'widgets/voice_channels_section.dart';
+import 'widgets/wallet_status_card.dart';
 
 /// Modern home page with animated sections and proper navigation
 /// Shows wallet status, recent activity, active voice channels, quick actions, and notifications
@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late Animation<double> _headerAnimation;
 
   // Demo data - in a real app, this would come from state management
-  bool _isWalletConnected = true;
+  final bool _isWalletConnected = true;
   final String _walletAddress = '4nTj...mX92';
   final String _balance = '12.45';
 
@@ -387,21 +387,21 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         title: 'Total Proposals',
         value: '24',
         subtitle: 'Active votes',
-        icon: PhosphorIcons.scales(PhosphorIconsStyle.regular),
+        icon: PhosphorIcons.scales(),
         iconColor: AppColors.primary,
       ),
       StatsItem(
         title: 'Active Members',
         value: '128',
         subtitle: 'Community size',
-        icon: PhosphorIcons.users(PhosphorIconsStyle.regular),
+        icon: PhosphorIcons.users(),
         iconColor: Colors.blue,
       ),
       StatsItem(
         title: 'Online Now',
         value: '12',
         subtitle: 'In voice channels',
-        icon: PhosphorIcons.speakerHigh(PhosphorIconsStyle.regular),
+        icon: PhosphorIcons.speakerHigh(),
         iconColor: Colors.green,
       ),
     ];

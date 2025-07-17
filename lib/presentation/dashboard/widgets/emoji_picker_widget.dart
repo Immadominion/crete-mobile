@@ -7,14 +7,14 @@ import '../../../core/theme/typography.dart';
 
 /// Emoji picker widget for chat
 class EmojiPickerWidget extends StatefulWidget {
-  final void Function(String) onEmojiSelected;
-  final bool isDarkMode;
 
   const EmojiPickerWidget({
     super.key,
     required this.onEmojiSelected,
     required this.isDarkMode,
   });
+  final void Function(String) onEmojiSelected;
+  final bool isDarkMode;
 
   @override
   State<EmojiPickerWidget> createState() => _EmojiPickerWidgetState();
@@ -315,7 +315,7 @@ class _EmojiPickerWidgetState extends State<EmojiPickerWidget> {
                           as String;
                   return GestureDetector(
                     onTap: () => widget.onEmojiSelected(emoji),
-                    child: Container(
+                    child: DecoratedBox(
                       decoration: BoxDecoration(
                         color: widget.isDarkMode
                             ? AppColors.darkContainerBorder.withOpacity(0.3)

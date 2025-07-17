@@ -7,14 +7,14 @@ import '../../../core/theme/typography.dart';
 
 /// Game activities widget for DeFi/gaming integration
 class GameActivitiesWidget extends StatelessWidget {
-  final bool isDarkMode;
-  final VoidCallback onClose;
 
   const GameActivitiesWidget({
     super.key,
     required this.isDarkMode,
     required this.onClose,
   });
+  final bool isDarkMode;
+  final VoidCallback onClose;
 
   @override
   Widget build(BuildContext context) {

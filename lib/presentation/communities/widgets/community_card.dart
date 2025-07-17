@@ -13,12 +13,6 @@ enum CommunityCardVariant {
 }
 
 class CommunityCard extends StatefulWidget {
-  final Community community;
-  final bool isDarkMode;
-  final VoidCallback? onTap;
-  final bool showJoinButton;
-  final CommunityCardVariant variant;
-  final Animation<double>? animation;
 
   const CommunityCard({
     super.key,
@@ -29,6 +23,12 @@ class CommunityCard extends StatefulWidget {
     this.variant = CommunityCardVariant.horizontal,
     this.animation,
   });
+  final Community community;
+  final bool isDarkMode;
+  final VoidCallback? onTap;
+  final bool showJoinButton;
+  final CommunityCardVariant variant;
+  final Animation<double>? animation;
 
   @override
   State<CommunityCard> createState() => _CommunityCardState();
@@ -265,7 +265,6 @@ class _CommunityCardState extends State<CommunityCard>
         ],
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           _buildCommunityAvatar(),
           SizedBox(width: 12.w),
@@ -299,13 +298,13 @@ class _CommunityCardState extends State<CommunityCard>
                   children: [
                     _buildSmallTag(
                       '${widget.community.onlineCount} online',
-                      PhosphorIcons.circleNotch(PhosphorIconsStyle.regular),
+                      PhosphorIcons.circleNotch(),
                       Colors.green,
                     ),
                     SizedBox(width: 8.w),
                     _buildSmallTag(
                       '${widget.community.memberCount} members',
-                      PhosphorIcons.users(PhosphorIconsStyle.regular),
+                      PhosphorIcons.users(),
                       AppColors.primary,
                     ),
                   ],
@@ -348,7 +347,7 @@ class _CommunityCardState extends State<CommunityCard>
             ),
             child: Center(
               child: PhosphorIcon(
-                PhosphorIcons.users(PhosphorIconsStyle.regular),
+                PhosphorIcons.users(),
                 size: 16.sp,
                 color: AppColors.primary,
               ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../core/theme/colors.dart';
-import '../../core/theme/spacing.dart';
 import '../../core/theme/typography.dart';
 
 /// Chat page - Direct messages
@@ -244,7 +243,6 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
           'alice.sol: Meeting at 3 PM EST',
           '30 min ago',
           unreadCount: 5,
-          isOnline: null,
           isDarkMode: isDarkMode,
           isGroup: true,
           onTap: () => _navigateToGroupChat('Core Team'),
@@ -255,7 +253,6 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
           'bob_crypto: New PR ready for review',
           '2 hours ago',
           unreadCount: 0,
-          isOnline: null,
           isDarkMode: isDarkMode,
           isGroup: true,
           onTap: () => _navigateToGroupChat('Dev Squad'),
@@ -319,7 +316,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
                       width: 12.w,
                       height: 12.h,
                       decoration: BoxDecoration(
-                        color: isOnline!
+                        color: isOnline
                             ? AppColors.secondary
                             : AppColors.gray400,
                         shape: BoxShape.circle,
@@ -427,14 +424,14 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
 
 // Chat Detail Page
 class ChatDetailPage extends StatefulWidget {
-  final String chatName;
-  final bool isGroup;
 
   const ChatDetailPage({
     super.key,
     required this.chatName,
     required this.isGroup,
   });
+  final String chatName;
+  final bool isGroup;
 
   @override
   State<ChatDetailPage> createState() => _ChatDetailPageState();
@@ -451,7 +448,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
     ),
     ChatMessage(
       sender: 'You',
-      message: 'Yes, I\'ll be there in 5 minutes',
+      message: "Yes, I'll be there in 5 minutes",
       timestamp: DateTime.now().subtract(const Duration(minutes: 1)),
       isMe: true,
     ),
@@ -723,10 +720,6 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
 }
 
 class ChatMessage {
-  final String sender;
-  final String message;
-  final DateTime timestamp;
-  final bool isMe;
 
   ChatMessage({
     required this.sender,
@@ -734,4 +727,8 @@ class ChatMessage {
     required this.timestamp,
     required this.isMe,
   });
+  final String sender;
+  final String message;
+  final DateTime timestamp;
+  final bool isMe;
 }

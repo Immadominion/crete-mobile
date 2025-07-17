@@ -1,22 +1,5 @@
 /// Enhanced message model for production-level chat
 class ChatMessage {
-  final String id;
-  final String userId;
-  final String username;
-  final String displayName;
-  final String avatar;
-  final String content;
-  final DateTime timestamp;
-  final List<MessageAttachment> attachments;
-  final List<MessageReaction> reactions;
-  final bool isBot;
-  final bool isEdited;
-  final bool isDeleted;
-  final bool isPinned;
-  final String? replyTo;
-  final MessageType type;
-  final MessageStatus status;
-  final Map<String, dynamic>? metadata;
 
   const ChatMessage({
     required this.id,
@@ -37,6 +20,23 @@ class ChatMessage {
     this.status = MessageStatus.sent,
     this.metadata,
   });
+  final String id;
+  final String userId;
+  final String username;
+  final String displayName;
+  final String avatar;
+  final String content;
+  final DateTime timestamp;
+  final List<MessageAttachment> attachments;
+  final List<MessageReaction> reactions;
+  final bool isBot;
+  final bool isEdited;
+  final bool isDeleted;
+  final bool isPinned;
+  final String? replyTo;
+  final MessageType type;
+  final MessageStatus status;
+  final Map<String, dynamic>? metadata;
 
   ChatMessage copyWith({
     String? id,
@@ -101,15 +101,6 @@ enum MessageStatus { sending, sent, delivered, read, failed }
 
 /// Message attachment model
 class MessageAttachment {
-  final String id;
-  final String url;
-  final String fileName;
-  final String mimeType;
-  final int size;
-  final int? width;
-  final int? height;
-  final String? thumbnail;
-  final AttachmentType type;
 
   const MessageAttachment({
     required this.id,
@@ -122,34 +113,34 @@ class MessageAttachment {
     this.thumbnail,
     required this.type,
   });
+  final String id;
+  final String url;
+  final String fileName;
+  final String mimeType;
+  final int size;
+  final int? width;
+  final int? height;
+  final String? thumbnail;
+  final AttachmentType type;
 }
 
 enum AttachmentType { image, video, audio, document, archive, location }
 
 /// Message reaction model
 class MessageReaction {
-  final String emoji;
-  final List<String> userIds;
-  final int count;
 
   const MessageReaction({
     required this.emoji,
     required this.userIds,
     required this.count,
   });
+  final String emoji;
+  final List<String> userIds;
+  final int count;
 }
 
 /// Chat participant model
 class ChatParticipant {
-  final String id;
-  final String username;
-  final String displayName;
-  final String avatar;
-  final UserRole role;
-  final UserStatus status;
-  final DateTime lastSeen;
-  final bool isTyping;
-  final String? customStatus;
 
   const ChatParticipant({
     required this.id,
@@ -162,6 +153,15 @@ class ChatParticipant {
     this.isTyping = false,
     this.customStatus,
   });
+  final String id;
+  final String username;
+  final String displayName;
+  final String avatar;
+  final UserRole role;
+  final UserStatus status;
+  final DateTime lastSeen;
+  final bool isTyping;
+  final String? customStatus;
 }
 
 enum UserRole { owner, admin, moderator, member, guest }
@@ -170,29 +170,19 @@ enum UserStatus { online, idle, busy, offline }
 
 /// Typing indicator model
 class TypingIndicator {
-  final String userId;
-  final String username;
-  final DateTime timestamp;
 
   const TypingIndicator({
     required this.userId,
     required this.username,
     required this.timestamp,
   });
+  final String userId;
+  final String username;
+  final DateTime timestamp;
 }
 
 /// Channel model for chat
 class Channel {
-  final String id;
-  final String name;
-  final String? description;
-  final ChannelType type;
-  final bool isPrivate;
-  final List<String> memberIds;
-  final DateTime createdAt;
-  final DateTime? lastActivity;
-  final int unreadCount;
-  final String? lastMessage;
 
   const Channel({
     required this.id,
@@ -206,17 +196,22 @@ class Channel {
     this.unreadCount = 0,
     this.lastMessage,
   });
+  final String id;
+  final String name;
+  final String? description;
+  final ChannelType type;
+  final bool isPrivate;
+  final List<String> memberIds;
+  final DateTime createdAt;
+  final DateTime? lastActivity;
+  final int unreadCount;
+  final String? lastMessage;
 }
 
 enum ChannelType { text, voice, video, announcement, thread, dm, group_dm }
 
 /// Voice channel state
 class VoiceChannelState {
-  final String channelId;
-  final List<String> participantIds;
-  final bool isActive;
-  final DateTime? startTime;
-  final Duration? duration;
 
   const VoiceChannelState({
     required this.channelId,
@@ -225,20 +220,15 @@ class VoiceChannelState {
     this.startTime,
     this.duration,
   });
+  final String channelId;
+  final List<String> participantIds;
+  final bool isActive;
+  final DateTime? startTime;
+  final Duration? duration;
 }
 
 /// Media message model
 class MediaMessage {
-  final String id;
-  final String url;
-  final String fileName;
-  final String mimeType;
-  final int size;
-  final int? width;
-  final int? height;
-  final String? thumbnail;
-  final Duration? duration;
-  final MediaType type;
 
   const MediaMessage({
     required this.id,
@@ -252,21 +242,22 @@ class MediaMessage {
     this.duration,
     required this.type,
   });
+  final String id;
+  final String url;
+  final String fileName;
+  final String mimeType;
+  final int size;
+  final int? width;
+  final int? height;
+  final String? thumbnail;
+  final Duration? duration;
+  final MediaType type;
 }
 
 enum MediaType { image, video, audio, gif, sticker }
 
 /// Chat permissions model
 class ChatPermissions {
-  final bool canSendMessages;
-  final bool canSendMedia;
-  final bool canReact;
-  final bool canMention;
-  final bool canPin;
-  final bool canDelete;
-  final bool canEdit;
-  final bool canModerate;
-  final bool canManageChannel;
 
   const ChatPermissions({
     this.canSendMessages = true,
@@ -279,19 +270,19 @@ class ChatPermissions {
     this.canModerate = false,
     this.canManageChannel = false,
   });
+  final bool canSendMessages;
+  final bool canSendMedia;
+  final bool canReact;
+  final bool canMention;
+  final bool canPin;
+  final bool canDelete;
+  final bool canEdit;
+  final bool canModerate;
+  final bool canManageChannel;
 }
 
 /// Thread model for message threads
 class MessageThread {
-  final String id;
-  final String parentMessageId;
-  final String channelId;
-  final String title;
-  final List<ChatMessage> messages;
-  final int participantCount;
-  final DateTime createdAt;
-  final DateTime lastActivity;
-  final bool isArchived;
 
   const MessageThread({
     required this.id,
@@ -304,4 +295,13 @@ class MessageThread {
     required this.lastActivity,
     this.isArchived = false,
   });
+  final String id;
+  final String parentMessageId;
+  final String channelId;
+  final String title;
+  final List<ChatMessage> messages;
+  final int participantCount;
+  final DateTime createdAt;
+  final DateTime lastActivity;
+  final bool isArchived;
 }

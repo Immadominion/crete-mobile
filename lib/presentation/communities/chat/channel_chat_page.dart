@@ -6,24 +6,13 @@ import '../../../core/theme/colors.dart';
 import '../../../core/theme/typography.dart';
 import '../../../domain/entities/community.dart';
 import '../community_detail_page.dart';
-import 'widgets/emoji_picker_widget.dart';
-import 'widgets/sticker_picker_widget.dart';
 import 'widgets/attachment_options_dialog.dart';
+import 'widgets/emoji_picker_widget.dart';
 import 'widgets/game_activities_widget.dart';
+import 'widgets/sticker_picker_widget.dart';
 
 /// Model for chat messages
 class ChatMessage {
-  final String id;
-  final String userId;
-  final String username;
-  final String avatar;
-  final String content;
-  final DateTime timestamp;
-  final List<String> attachments;
-  final List<String> reactions;
-  final bool isBot;
-  final String? replyTo;
-  final MessageType type;
 
   const ChatMessage({
     required this.id,
@@ -38,20 +27,31 @@ class ChatMessage {
     this.replyTo,
     this.type = MessageType.text,
   });
+  final String id;
+  final String userId;
+  final String username;
+  final String avatar;
+  final String content;
+  final DateTime timestamp;
+  final List<String> attachments;
+  final List<String> reactions;
+  final bool isBot;
+  final String? replyTo;
+  final MessageType type;
 }
 
 enum MessageType { text, image, video, audio, file, sticker, system }
 
 /// Channel chat interface similar to Discord
 class ChannelChatPage extends StatefulWidget {
-  final Community community;
-  final Channel channel;
 
   const ChannelChatPage({
     super.key,
     required this.community,
     required this.channel,
   });
+  final Community community;
+  final Channel channel;
 
   @override
   State<ChannelChatPage> createState() => _ChannelChatPageState();
@@ -227,7 +227,6 @@ class _ChannelChatPageState extends State<ChannelChatPage>
             color: isDarkMode
                 ? AppColors.darkContainerBorder
                 : AppColors.gray200,
-            width: 1,
           ),
         ),
       ),
@@ -512,7 +511,6 @@ class _ChannelChatPageState extends State<ChannelChatPage>
             color: isDarkMode
                 ? AppColors.darkContainerBorder
                 : AppColors.gray200,
-            width: 1,
           ),
         ),
       ),
@@ -566,7 +564,6 @@ class _ChannelChatPageState extends State<ChannelChatPage>
                 color: isDarkMode
                     ? AppColors.darkContainerBorder
                     : AppColors.gray200,
-                width: 1,
               ),
             ),
           ),
@@ -781,7 +778,7 @@ class _ChannelChatPageState extends State<ChannelChatPage>
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (context) => Container(
+      builder: (context) => DecoratedBox(
         decoration: BoxDecoration(
           color: Theme.of(context).brightness == Brightness.dark
               ? AppColors.black
