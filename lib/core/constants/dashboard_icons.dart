@@ -6,13 +6,13 @@ class DashboardIcons {
 
   /// Dashboard navigation items with their corresponding icon names
   /// Order matches the PageView children in DashboardLayout:
-  /// 0: HomePage (Feed), 1: CommunitiesPage (DAOs), 2: ChatPage, 3: VoicePage, 4: ProfilePage
+  /// 0: HomePage (Your communities, recent activity), 1: Communities (Server list, discover), 2: Chat (Direct messages), 3: Voice (Active voice channels), 4: Profile (Settings, wallet, AI manager)
   static const Map<int, String> _iconNames = {
-    0: 'home', // HomePage (Community Feed)
-    1: 'dao', // Communities (DAO exploration)
-    2: 'chat', // Chat (conversations)
-    3: 'governance', // Voice (active voice channels, calls)
-    4: 'profile', // ProfilePage
+    0: 'home', // HomePage (Your communities, recent activity)
+    1: 'dao', // Communities (Server list, discover new ones)
+    2: 'chat', // Chat (Direct messages)
+    3: 'governance', // Voice (Active voice channels, calls)
+    4: 'profile', // Profile (Settings, wallet, AI manager)
   };
 
   /// Get the appropriate icon path based on theme, index, and active state
@@ -46,9 +46,9 @@ class DashboardIcons {
   /// Navigation item labels
   static const Map<int, String> labels = {
     0: 'Home',
-    1: 'Communities', // Communities (DAO exploration)
-    2: 'Chat', // Chat
-    3: 'Voice', // Voice (active voice channels, calls)
-    4: 'Profile',
+    1: 'Communities', // Server list, discover new ones
+    2: 'Chat', // Direct messages
+    3: 'Voice', // Active voice channels, calls
+    4: 'Profile', // Settings, wallet, AI manager
   };
 }

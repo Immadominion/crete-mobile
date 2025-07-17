@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../core/theme/colors.dart';
 import '../core/widgets/bottom_navigation_bar.dart';
-import 'dashboard/voice_page.dart';
+import 'communities/communities_page.dart';
 import 'dashboard/chat_page.dart';
 import 'dashboard/home_page.dart';
 import 'dashboard/profile_page.dart';
-import 'dashboard/communities_page.dart';
+import 'dashboard/voice_page.dart';
 
 class DashboardLayout extends StatefulWidget {
   const DashboardLayout({super.key});
@@ -59,11 +59,11 @@ class _DashboardLayoutState extends State<DashboardLayout> {
             });
           },
           children: const [
-            HomePage(),
-            CommunitiesPage(), // Communities page (My Communities & Discover)
-            ChatPage(), // Chat page
-            VoicePage(), // Voice page
-            ProfilePage(),
+            HomePage(), // Your communities, recent activity
+            CommunitiesPage(), // Server list, discover new ones
+            ChatPage(), // Direct messages
+            VoicePage(), // Active voice channels, calls
+            ProfilePage(), // Settings, wallet, AI manager
           ],
         ),
       ),

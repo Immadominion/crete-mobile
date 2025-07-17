@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../core/theme/colors.dart';
+import '../../core/theme/spacing.dart';
 import '../../core/theme/typography.dart';
 
 /// Chat page - Direct messages
@@ -297,8 +298,8 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: isGroup
-                          ? [AppColors.secondary, AppColors.secondaryDark]
-                          : [AppColors.primary, AppColors.primaryDark],
+                          ? [AppColors.secondary, AppColors.primaryLight]
+                          : [AppColors.primary, AppColors.primaryLight],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -318,7 +319,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
                       width: 12.w,
                       height: 12.h,
                       decoration: BoxDecoration(
-                        color: isOnline
+                        color: isOnline!
                             ? AppColors.secondary
                             : AppColors.gray400,
                         shape: BoxShape.circle,
@@ -406,7 +407,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
   void _navigateToChat(String username) {
     Navigator.push(
       context,
-      MaterialPageRoute<void>(
+      MaterialPageRoute(
         builder: (context) =>
             ChatDetailPage(chatName: username, isGroup: false),
       ),
@@ -416,7 +417,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
   void _navigateToGroupChat(String groupName) {
     Navigator.push(
       context,
-      MaterialPageRoute<void>(
+      MaterialPageRoute(
         builder: (context) =>
             ChatDetailPage(chatName: groupName, isGroup: true),
       ),
@@ -484,7 +485,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: widget.isGroup
-                      ? [AppColors.secondary, AppColors.secondaryDark]
+                      ? [AppColors.secondary, AppColors.primaryLight]
                       : [AppColors.primary, AppColors.primaryLight],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,

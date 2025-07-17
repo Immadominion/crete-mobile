@@ -99,26 +99,20 @@ This repository contains the Flutter frontend for the Crete decentralized DAO co
 
 The app follows a community-first navigation structure with the following tabs:
 
-1. **Home** (`HomePage`): Community Feed & Dashboard
-   - Wallet status indicator with connected wallet info
-   - Recent activity feed with community updates
-   - Active voice channels section showing ongoing voice chats
-   - Quick actions for common tasks (join voice, check governance, etc.)
-   - Notifications section with unread messages and mentions
-   - Fade-in animation on page load
+1. **Home** (`HomePage`): Community Feed
+   - Displays a feed of community activities and updates
+   - Features wallet status, quick actions, and trending topics
+   - Shows recent posts and community engagement
 
-2. **Communities** (`CommunitiesPage`): Community Discovery & Management
-   - "My Communities" section with horizontal scroll of joined communities
-   - "Discover" section with vertical list of public communities
-   - Community detail pages with Discord-like channel structure (text, voice, governance channels)
-   - Join/leave community functionality
+2. **Communities** (`DaoPage`): DAO Discovery & Management
+   - List of all available DAOs with search functionality
+   - DAO detail pages with member counts and descriptions
+   - Join/leave DAO functionality
 
-3. **Chat** (`ChatPage`): Direct Messages & Group Chats
-   - Direct messages list with recent conversations
-   - Group DMs with participant avatars and names
-   - Search functionality for finding conversations
-   - Navigation to ChatDetailPage with message history and real-time input
-   - WebSocket-based messaging system (integration ready)
+3. **Chat** (`ChatPage`): Real-time Messaging
+   - Real-time chat rooms grouped by DAO
+   - Message history, reactions, and user mentions
+   - WebSocket-based messaging system
 
 4. **Governance** (`GovernancePage`): Voting & Proposals
    - Proposal list with filtering (Active, Ended, My Votes)

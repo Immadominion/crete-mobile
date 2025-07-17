@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../core/theme/colors.dart';
 import '../../core/theme/typography.dart';
+import '../communities/communities_page.dart';
+import 'chat_page.dart';
+import 'profile_page.dart';
+import 'voice_page.dart';
+import 'widgets/stats_overview_section.dart';
+import 'widgets/wallet_status_card.dart';
+import 'widgets/recent_activity_section.dart';
+import 'widgets/voice_channels_section.dart';
+import 'widgets/quick_actions_grid.dart';
+import 'widgets/notifications_feed.dart';
 
-/// Home page - Your communities, recent activity
+/// Modern home page with animated sections and proper navigation
 /// Shows wallet status, recent activity, active voice channels, quick actions, and notifications
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,25 +25,36 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  late AnimationController _fadeController;
-  late Animation<double> _fadeAnimation;
+  late AnimationController _mainController;
+  late Animation<double> _headerAnimation;
+
+  // Demo data - in a real app, this would come from state management
+  bool _isWalletConnected = true;
+  final String _walletAddress = '4nTj...mX92';
+  final String _balance = '12.45';
 
   @override
   void initState() {
     super.initState();
-    _fadeController = AnimationController(
-      duration: const Duration(milliseconds: 600),
+    _mainController = AnimationController(
+      duration: const Duration(milliseconds: 1000),
       vsync: this,
     );
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut),
+
+    _headerAnimation = Tween<double>(begin: -50.0, end: 0.0).animate(
+      CurvedAnimation(
+        parent: _mainController,
+        curve: const Interval(0.0, 0.5, curve: Curves.easeOutQuart),
+      ),
     );
-    _fadeController.forward();
+
+    // Start the main animation
+    _mainController.forward();
   }
 
   @override
   void dispose() {
-    _fadeController.dispose();
+    _mainController.dispose();
     super.dispose();
   }
 
@@ -44,521 +66,344 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       backgroundColor: isDarkMode
           ? AppColors.darkBackgroundPrimary
           : AppColors.backgroundPrimary,
-      body: FadeTransition(
-        opacity: _fadeAnimation,
-        child: CustomScrollView(
-          slivers: [
-            // Header with wallet status
-            SliverPadding(
-              padding: EdgeInsets.only(
-                left: 15.8.w,
-                right: 15.8.w,
-                top: 33.h,
-                bottom: 24.h,
+      body: AnimatedBuilder(
+        animation: _mainController,
+        builder: (context, child) {
+          return CustomScrollView(
+            slivers: [
+              // Header with greeting and wallet status
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(16.w, 60.h, 16.w, 24.h),
+                sliver: SliverToBoxAdapter(
+                  child: Transform.translate(
+                    offset: Offset(0, _headerAnimation.value),
+                    child: _buildHeader(isDarkMode),
+                  ),
+                ),
               ),
-              sliver: SliverToBoxAdapter(child: _buildHeader(isDarkMode)),
-            ),
 
-            // Recent Activity Section
-            SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: 15.8.w),
-              sliver: SliverToBoxAdapter(
-                child: _buildRecentActivity(isDarkMode),
+              // Wallet Status Card
+              SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                sliver: SliverToBoxAdapter(
+                  child: WalletStatusCard(
+                    isConnected: _isWalletConnected,
+                    walletAddress: _walletAddress,
+                    balance: _balance,
+                    onTap: _handleWalletTap,
+                  ),
+                ),
               ),
-            ),
 
-            // Active Voice Channels
-            SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: 15.8.w),
-              sliver: SliverToBoxAdapter(
-                child: _buildActiveVoiceChannels(isDarkMode),
+              // Stats Overview Section
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(16.w, 32.h, 16.w, 0),
+                sliver: SliverToBoxAdapter(
+                  child: StatsOverviewSection(
+                    stats: _getStatsData(),
+                  ),
+                ),
               ),
-            ),
 
-            // Quick Actions
-            SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: 15.8.w),
-              sliver: SliverToBoxAdapter(child: _buildQuickActions(isDarkMode)),
-            ),
-
-            // Notifications
-            SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: 15.8.w),
-              sliver: SliverToBoxAdapter(
-                child: _buildNotifications(isDarkMode),
+              // Recent Activity Section
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(16.w, 32.h, 16.w, 0),
+                sliver: SliverToBoxAdapter(
+                  child: RecentActivitySection(
+                    activities: _getRecentActivities(),
+                    onSeeAll: _navigateToActivity,
+                  ),
+                ),
               ),
-            ),
 
-            // Bottom padding
-            SliverPadding(
-              padding: EdgeInsets.only(bottom: 100.h),
-              sliver: const SliverToBoxAdapter(child: SizedBox()),
-            ),
-          ],
-        ),
+              // Voice Channels Section
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(16.w, 32.h, 16.w, 0),
+                sliver: SliverToBoxAdapter(
+                  child: VoiceChannelsSection(
+                    channels: _getVoiceChannels(),
+                    onSeeAll: _navigateToVoice,
+                  ),
+                ),
+              ),
+
+              // Quick Actions Grid
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(16.w, 32.h, 16.w, 0),
+                sliver: SliverToBoxAdapter(
+                  child: QuickActionsGrid(actions: _getQuickActions()),
+                ),
+              ),
+
+              // Notifications Feed
+              SliverPadding(
+                padding: EdgeInsets.fromLTRB(16.w, 32.h, 16.w, 0),
+                sliver: SliverToBoxAdapter(
+                  child: NotificationsFeed(
+                    notifications: _getNotifications(),
+                    onSeeAll: _navigateToNotifications,
+                  ),
+                ),
+              ),
+
+              // Bottom padding
+              SliverPadding(
+                padding: EdgeInsets.only(bottom: 100.h),
+                sliver: const SliverToBoxAdapter(child: SizedBox()),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 
   Widget _buildHeader(bool isDarkMode) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        Row(
           children: [
+            Icon(
+              PhosphorIcons.house(PhosphorIconsStyle.bold),
+              color: isDarkMode ? AppColors.darkTextPrimary : AppColors.gray900,
+              size: 24.sp,
+            ),
+            SizedBox(width: 8.w),
             Text(
-              'Home',
-              style: AppTypography.sfProSemiBold32.copyWith(
+              'Good morning!',
+              style: AppTypography.geistSemiBold15.copyWith(
                 color: isDarkMode
                     ? AppColors.darkTextPrimary
                     : AppColors.gray900,
-                fontSize: 32.sp,
-              ),
-            ),
-            SizedBox(height: 8.h),
-            Text(
-              'Your communities, recent activity',
-              style: AppTypography.geistRegular14.copyWith(
-                color: isDarkMode
-                    ? AppColors.darkTextSecondary
-                    : AppColors.gray600,
+                fontSize: 28.sp,
               ),
             ),
           ],
         ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-          decoration: BoxDecoration(
-            color: AppColors.primary.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(20.r),
-            border: Border.all(color: AppColors.primary.withOpacity(0.2)),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 8.w,
-                height: 8.h,
-                decoration: const BoxDecoration(
-                  color: AppColors.primary,
-                  shape: BoxShape.circle,
-                ),
-              ),
-              SizedBox(width: 6.w),
-              Text(
-                'Connected',
-                style: AppTypography.geistMedium11.copyWith(
-                  color: AppColors.primary,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildRecentActivity(bool isDarkMode) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+        SizedBox(height: 8.h),
         Text(
-          'Recent Activity',
-          style: AppTypography.geistSemiBold15.copyWith(
-            color: isDarkMode ? AppColors.darkTextPrimary : AppColors.gray900,
-            fontSize: 18.sp,
+          'Welcome back to your DAO communities',
+          style: AppTypography.geistRegular14.copyWith(
+            color: isDarkMode ? AppColors.darkTextSecondary : AppColors.gray600,
           ),
         ),
-        SizedBox(height: 16.h),
-        _buildActivityCard(
-          'New message in #general',
-          'CryptoDAO',
-          '2 min ago',
-          isDarkMode,
-        ),
-        SizedBox(height: 12.h),
-        _buildActivityCard(
-          'Vote on Treasury Proposal',
-          'DeFi Collective',
-          '1 hour ago',
-          isDarkMode,
-        ),
-        SizedBox(height: 12.h),
-        _buildActivityCard(
-          'Mentioned in #governance',
-          'MetaDAO',
-          '3 hours ago',
-          isDarkMode,
-        ),
-        SizedBox(height: 24.h),
       ],
     );
   }
 
-  Widget _buildActivityCard(
-    String title,
-    String community,
-    String time,
-    bool isDarkMode,
-  ) {
-    return Container(
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: isDarkMode ? AppColors.black : AppColors.white,
-        borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(
-          color: isDarkMode ? AppColors.darkContainerBorder : AppColors.gray200,
-        ),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 37.65.w,
-            height: 37.65.h,
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [AppColors.primary, AppColors.primaryLight],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(100.r),
-            ),
-            child: Icon(
-              Icons.notifications_outlined,
-              color: AppColors.white,
-              size: 18.sp,
-            ),
+  // Navigation methods
+  void _handleWalletTap() {
+    if (_isWalletConnected) {
+      // Navigate to wallet details or show wallet menu
+      Navigator.push(
+        context,
+        MaterialPageRoute<void>(builder: (context) => const ProfilePage()),
+      );
+    } else {
+      // Show wallet connection dialog
+      _showWalletConnectionDialog();
+    }
+  }
+
+  void _navigateToActivity() {
+    // Navigate to activity page
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Navigate to Activity')));
+  }
+
+  void _navigateToVoice() {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(builder: (context) => const VoicePage()),
+    );
+  }
+
+  void _navigateToNotifications() {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Navigate to Notifications')));
+  }
+
+  void _navigateToChat() {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(builder: (context) => const ChatPage()),
+    );
+  }
+
+  void _navigateToCommunitiesDiscover() {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(builder: (context) => const CommunitiesPage()),
+    );
+  }
+
+  void _navigateToGovernance() {
+    // Navigate to governance page
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Navigate to Governance')));
+  }
+
+  void _showWalletConnectionDialog() {
+    showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Connect Wallet'),
+        content: const Text('Please connect your wallet to continue'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
           ),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: AppTypography.geistSemiBold15.copyWith(
-                    color: isDarkMode
-                        ? AppColors.darkTextPrimary
-                        : AppColors.gray900,
-                  ),
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  '$community • $time',
-                  style: AppTypography.geistRegular11.copyWith(
-                    color: isDarkMode
-                        ? AppColors.darkTextHeading
-                        : AppColors.gray500,
-                  ),
-                ),
-              ],
-            ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              // Implement wallet connection logic
+            },
+            child: const Text('Connect'),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildActiveVoiceChannels(bool isDarkMode) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Active Voice Channels',
-          style: AppTypography.geistSemiBold15.copyWith(
-            color: isDarkMode ? AppColors.darkTextPrimary : AppColors.gray900,
-            fontSize: 18.sp,
-          ),
-        ),
-        SizedBox(height: 16.h),
-        _buildVoiceChannelCard('General Voice', 'CryptoDAO', 3, isDarkMode),
-        SizedBox(height: 12.h),
-        _buildVoiceChannelCard(
-          'Governance Meeting',
-          'DeFi Collective',
-          7,
-          isDarkMode,
-        ),
-        SizedBox(height: 24.h),
-      ],
-    );
+  // Demo data methods
+  List<RecentActivityItem> _getRecentActivities() {
+    return [
+      RecentActivityItem(
+        title: 'New message in #general',
+        subtitle: 'CryptoDAO • Someone shared a new proposal',
+        time: '2 min ago',
+        icon: PhosphorIcons.chatCircle(PhosphorIconsStyle.bold),
+        iconColor: AppColors.primary,
+        onTap: _navigateToChat,
+      ),
+      RecentActivityItem(
+        title: 'Vote on Treasury Proposal',
+        subtitle: 'DeFi Collective • Voting ends in 2 hours',
+        time: '1 hour ago',
+        icon: PhosphorIcons.checkCircle(PhosphorIconsStyle.bold),
+        iconColor: AppColors.success,
+        onTap: _navigateToGovernance,
+      ),
+      RecentActivityItem(
+        title: 'Mentioned in #governance',
+        subtitle: 'MetaDAO • @alice mentioned you in a discussion',
+        time: '3 hours ago',
+        icon: PhosphorIcons.at(PhosphorIconsStyle.bold),
+        iconColor: AppColors.warning,
+        onTap: _navigateToChat,
+      ),
+    ];
   }
 
-  Widget _buildVoiceChannelCard(
-    String channelName,
-    String community,
-    int memberCount,
-    bool isDarkMode,
-  ) {
-    return Container(
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: isDarkMode ? AppColors.black : AppColors.white,
-        borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(
-          color: isDarkMode ? AppColors.darkContainerBorder : AppColors.gray200,
-        ),
+  List<VoiceChannelItem> _getVoiceChannels() {
+    return [
+      VoiceChannelItem(
+        name: 'General Voice',
+        community: 'CryptoDAO',
+        memberCount: 3,
+        isActive: true,
+        onJoin: _navigateToVoice,
       ),
-      child: Row(
-        children: [
-          Container(
-            width: 37.65.w,
-            height: 37.65.h,
-            decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(100.r),
-            ),
-            child: Icon(
-              Icons.volume_up_outlined,
-              color: AppColors.primary,
-              size: 18.sp,
-            ),
-          ),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  channelName,
-                  style: AppTypography.geistSemiBold15.copyWith(
-                    color: isDarkMode
-                        ? AppColors.darkTextPrimary
-                        : AppColors.gray900,
-                  ),
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  '$community • $memberCount members',
-                  style: AppTypography.geistRegular11.copyWith(
-                    color: isDarkMode
-                        ? AppColors.darkTextHeading
-                        : AppColors.gray500,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(20.r),
-            ),
-            child: Text(
-              'Join',
-              style: AppTypography.geistMedium11.copyWith(
-                color: AppColors.white,
-              ),
-            ),
-          ),
-        ],
+      VoiceChannelItem(
+        name: 'Governance Meeting',
+        community: 'DeFi Collective',
+        memberCount: 7,
+        isActive: true,
+        onJoin: _navigateToVoice,
       ),
-    );
+    ];
   }
 
-  Widget _buildQuickActions(bool isDarkMode) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Quick Actions',
-          style: AppTypography.geistSemiBold15.copyWith(
-            color: isDarkMode ? AppColors.darkTextPrimary : AppColors.gray900,
-            fontSize: 18.sp,
-          ),
-        ),
-        SizedBox(height: 16.h),
-        Row(
-          children: [
-            Expanded(
-              child: _buildActionCard(
-                icon: Icons.volume_up_outlined,
-                title: 'Join Voice',
-                subtitle: 'Join active voice channels',
-                isDarkMode: isDarkMode,
-              ),
-            ),
-            SizedBox(width: 12.w),
-            Expanded(
-              child: _buildActionCard(
-                icon: Icons.poll_outlined,
-                title: 'Check Governance',
-                subtitle: 'View active proposals',
-                isDarkMode: isDarkMode,
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 12.h),
-        Row(
-          children: [
-            Expanded(
-              child: _buildActionCard(
-                icon: Icons.add_outlined,
-                title: 'Create Channel',
-                subtitle: 'Start a new channel',
-                isDarkMode: isDarkMode,
-              ),
-            ),
-            SizedBox(width: 12.w),
-            Expanded(
-              child: _buildActionCard(
-                icon: Icons.explore_outlined,
-                title: 'Discover',
-                subtitle: 'Find new communities',
-                isDarkMode: isDarkMode,
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 24.h),
-      ],
-    );
+  List<QuickActionItem> _getQuickActions() {
+    return [
+      QuickActionItem(
+        title: 'Join Voice',
+        subtitle: 'Join active voice channels',
+        icon: PhosphorIcons.speakerHigh(PhosphorIconsStyle.bold),
+        iconColor: AppColors.primary,
+        onTap: _navigateToVoice,
+      ),
+      QuickActionItem(
+        title: 'Check Governance',
+        subtitle: 'View active proposals',
+        icon: PhosphorIcons.checkCircle(PhosphorIconsStyle.bold),
+        iconColor: AppColors.success,
+        onTap: _navigateToGovernance,
+      ),
+      QuickActionItem(
+        title: 'Start Chat',
+        subtitle: 'Send a message',
+        icon: PhosphorIcons.chatCircle(PhosphorIconsStyle.bold),
+        iconColor: AppColors.info,
+        onTap: _navigateToChat,
+      ),
+      QuickActionItem(
+        title: 'Discover',
+        subtitle: 'Find new communities',
+        icon: PhosphorIcons.compass(PhosphorIconsStyle.bold),
+        iconColor: AppColors.warning,
+        onTap: _navigateToCommunitiesDiscover,
+      ),
+    ];
   }
 
-  Widget _buildActionCard({
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required bool isDarkMode,
-  }) {
-    return Container(
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: isDarkMode ? AppColors.black : AppColors.white,
-        borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(
-          color: isDarkMode ? AppColors.darkContainerBorder : AppColors.gray200,
-        ),
+  List<NotificationItem> _getNotifications() {
+    return [
+      NotificationItem(
+        title: 'New proposal in MetaDAO',
+        description: 'Treasury allocation proposal needs your vote',
+        time: '5 min ago',
+        type: NotificationType.proposal,
+        isRead: false,
+        onTap: _navigateToGovernance,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, size: 24.sp, color: AppColors.primary),
-          SizedBox(height: 8.h),
-          Text(
-            title,
-            style: AppTypography.geistSemiBold15.copyWith(
-              color: isDarkMode ? AppColors.darkTextPrimary : AppColors.gray900,
-            ),
-          ),
-          SizedBox(height: 4.h),
-          Text(
-            subtitle,
-            style: AppTypography.geistRegular11.copyWith(
-              color: isDarkMode ? AppColors.darkTextHeading : AppColors.gray500,
-            ),
-          ),
-        ],
+      NotificationItem(
+        title: 'CryptoDAO mentioned you',
+        description: 'Discussion about upcoming upgrades',
+        time: '1 hour ago',
+        type: NotificationType.mention,
+        isRead: false,
+        onTap: _navigateToChat,
       ),
-    );
+      NotificationItem(
+        title: 'DeFi Collective vote results',
+        description: 'Governance proposal has passed',
+        time: '2 hours ago',
+        type: NotificationType.vote,
+        isRead: true,
+        onTap: _navigateToGovernance,
+      ),
+    ];
   }
 
-  Widget _buildNotifications(bool isDarkMode) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Notifications',
-          style: AppTypography.geistSemiBold15.copyWith(
-            color: isDarkMode ? AppColors.darkTextPrimary : AppColors.gray900,
-            fontSize: 18.sp,
-          ),
-        ),
-        SizedBox(height: 16.h),
-        _buildNotificationCard(
-          'New proposal in MetaDAO',
-          'Treasury allocation proposal needs your vote',
-          '5 min ago',
-          isDarkMode,
-        ),
-        SizedBox(height: 12.h),
-        _buildNotificationCard(
-          'CryptoDAO mentioned you',
-          'Discussion about upcoming upgrades',
-          '1 hour ago',
-          isDarkMode,
-        ),
-        SizedBox(height: 12.h),
-        _buildNotificationCard(
-          'DeFi Collective vote results',
-          'Governance proposal has passed',
-          '2 hours ago',
-          isDarkMode,
-        ),
-        SizedBox(height: 24.h),
-      ],
-    );
-  }
-
-  Widget _buildNotificationCard(
-    String title,
-    String description,
-    String time,
-    bool isDarkMode,
-  ) {
-    return Container(
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: isDarkMode ? AppColors.black : AppColors.white,
-        borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(
-          color: isDarkMode ? AppColors.darkContainerBorder : AppColors.gray200,
-        ),
+  List<StatsItem> _getStatsData() {
+    return [
+      StatsItem(
+        title: 'Total Proposals',
+        value: '24',
+        subtitle: 'Active votes',
+        icon: PhosphorIcons.scales(PhosphorIconsStyle.regular),
+        iconColor: AppColors.primary,
       ),
-      child: Row(
-        children: [
-          Container(
-            width: 37.65.w,
-            height: 37.65.h,
-            decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(100.r),
-            ),
-            child: Icon(
-              Icons.notifications_outlined,
-              color: AppColors.primary,
-              size: 18.sp,
-            ),
-          ),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: AppTypography.geistSemiBold15.copyWith(
-                    color: isDarkMode
-                        ? AppColors.darkTextPrimary
-                        : AppColors.gray900,
-                  ),
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  description,
-                  style: AppTypography.geistRegular12.copyWith(
-                    color: isDarkMode
-                        ? AppColors.darkTextSecondary
-                        : AppColors.gray600,
-                  ),
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  time,
-                  style: AppTypography.geistRegular11.copyWith(
-                    color: isDarkMode
-                        ? AppColors.darkTextHeading
-                        : AppColors.gray500,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+      StatsItem(
+        title: 'Active Members',
+        value: '128',
+        subtitle: 'Community size',
+        icon: PhosphorIcons.users(PhosphorIconsStyle.regular),
+        iconColor: Colors.blue,
       ),
-    );
+      StatsItem(
+        title: 'Online Now',
+        value: '12',
+        subtitle: 'In voice channels',
+        icon: PhosphorIcons.speakerHigh(PhosphorIconsStyle.regular),
+        iconColor: Colors.green,
+      ),
+    ];
   }
 }

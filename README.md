@@ -127,16 +127,12 @@ This Flutter app handles:
 
 ### 6. **Navigation & UX**
 
-- [x] Bottom navigation (Home, Communities, Chat, Governance, Profile)
-- [x] Home dashboard with wallet status, recent activity, voice channels, quick actions, notifications
-- [x] Communities page with "My Communities" and "Discover" sections
-- [x] Chat page with DM/Group DM lists and search functionality
-- [x] Navigation to community detail pages with Discord-like channel structure
-- [x] Navigation to chat detail pages with message history and input
-- [ ] Search functionality across communities and proposals
+- [ ] Bottom navigation (Home, DAOs, Chat, Governance, Profile)
+- [ ] Home dashboard with recent activity
+- [ ] Search functionality across DAOs and proposals
 - [ ] Pull-to-refresh for data updates
 - [ ] Infinite scrolling for lists
-- [x] Smooth animations and transitions (fade-in animations implemented)
+- [ ] Smooth animations and transitions
 
 ### 7. **Notifications**
 

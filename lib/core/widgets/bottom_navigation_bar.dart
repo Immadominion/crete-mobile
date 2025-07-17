@@ -80,7 +80,7 @@ class AppBottomNavigationBar extends StatelessWidget {
               curve: Curves.easeInOut,
               width: 24.w,
               height: 24.h,
-              child: SvgPicture.asset(iconPath, fit: BoxFit.contain),
+              child: SvgPicture.asset(iconPath),
             ),
             SizedBox(height: 4.h),
             AnimatedDefaultTextStyle(
