@@ -2,46 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+import '../../../core/data/chat_demo_data.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/typography.dart';
 import '../../../domain/entities/community.dart';
+import '../../../domain/models/chat/chat_message.dart';
 import '../community_detail_page.dart';
+import 'widgets/asset_selector_dialog.dart';
 import 'widgets/attachment_options_dialog.dart';
 import 'widgets/emoji_picker_widget.dart';
 import 'widgets/enhanced_chat_input.dart';
 import 'widgets/enhanced_message_bubble.dart';
-import 'widgets/game_activities_widget.dart';
 import 'widgets/sticker_picker_widget.dart';
-
-/// Model for chat messages
-class ChatMessage {
-  const ChatMessage({
-    required this.id,
-    required this.userId,
-    required this.username,
-    required this.avatar,
-    required this.content,
-    required this.timestamp,
-    this.attachments = const [],
-    this.reactions = const [],
-    this.isBot = false,
-    this.replyTo,
-    this.type = MessageType.text,
-  });
-  final String id;
-  final String userId;
-  final String username;
-  final String avatar;
-  final String content;
-  final DateTime timestamp;
-  final List<String> attachments;
-  final List<String> reactions;
-  final bool isBot;
-  final String? replyTo;
-  final MessageType type;
-}
-
-enum MessageType { text, image, video, audio, file, sticker, system }
 
 /// Channel chat interface similar to Discord
 class ChannelChatPage extends StatefulWidget {
@@ -71,57 +43,8 @@ class _ChannelChatPageState extends State<ChannelChatPage>
   bool _showStickers = false;
   ChatMessage? _replyingTo;
 
-  // Demo messages
-  final List<ChatMessage> _messages = [
-    ChatMessage(
-      id: '1',
-      userId: 'user1',
-      username: 'Sarah Chen',
-      avatar: 'https://i.pravatar.cc/150?img=1',
-      content: 'Hey everyone! Just joined this amazing community 🎉',
-      timestamp: DateTime.now().subtract(const Duration(hours: 2)),
-      reactions: ['🔥', '👋', '🎉'],
-    ),
-    ChatMessage(
-      id: '2',
-      userId: 'user2',
-      username: 'Alex Rodriguez',
-      avatar: 'https://i.pravatar.cc/150?img=2',
-      content:
-          'Welcome Sarah! Great to have you here. Make sure to check out the governance channel for the latest proposals.',
-      timestamp: DateTime.now().subtract(const Duration(hours: 1, minutes: 45)),
-      reactions: ['👍', '❤️'],
-    ),
-    ChatMessage(
-      id: '3',
-      userId: 'user3',
-      username: 'Maria Santos',
-      avatar: 'https://i.pravatar.cc/150?img=3',
-      content: 'Anyone else excited about the upcoming token launch? 🚀',
-      timestamp: DateTime.now().subtract(const Duration(hours: 1, minutes: 30)),
-      reactions: ['🚀', '💎', '🔥'],
-    ),
-    ChatMessage(
-      id: '4',
-      userId: 'user4',
-      username: 'Jordan Kim',
-      avatar: 'https://i.pravatar.cc/150?img=4',
-      content:
-          'Just dropped some new artwork in the showcase channel. Would love your feedback!',
-      timestamp: DateTime.now().subtract(const Duration(minutes: 45)),
-      attachments: ['artwork.jpg'],
-      reactions: ['🎨', '😍', '👏'],
-    ),
-    ChatMessage(
-      id: '5',
-      userId: 'user5',
-      username: 'Chris Wilson',
-      avatar: 'https://i.pravatar.cc/150?img=5',
-      content: 'GM everyone! Ready for another productive day in the DAO 💪',
-      timestamp: DateTime.now().subtract(const Duration(minutes: 15)),
-      reactions: ['☀️', '💪', '🚀'],
-    ),
-  ];
+  // Get demo messages from ChatDemoData
+  final List<ChatMessage> _messages = ChatDemoData.getMessages();
 
   @override
   void initState() {
@@ -169,29 +92,58 @@ class _ChannelChatPageState extends State<ChannelChatPage>
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
-      backgroundColor: isDarkMode
-          ? AppColors.darkBackgroundPrimary
-          : AppColors.backgroundPrimary,
-      body: FadeTransition(
-        opacity: _fadeAnimation,
-        child: Column(
-          children: [
-            _buildHeader(isDarkMode),
-            Expanded(child: _buildMessagesList(isDarkMode)),
-            _buildReplyBar(isDarkMode),
-            _buildInputSection(isDarkMode),
-            if (_showEmojiPicker)
-              EmojiPickerWidget(
-                onEmojiSelected: _onEmojiSelected,
-                isDarkMode: isDarkMode,
-              ),
-            if (_showStickers)
-              StickerPickerWidget(
-                onStickerSelected: _onStickerSelected,
-                isDarkMode: isDarkMode,
-              ),
-          ],
+    return GestureDetector(
+      // Add tap handling to unfocus when tapping outside input
+      onTap: () {
+        if (_messageFocusNode.hasFocus) {
+          _messageFocusNode.unfocus();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: isDarkMode
+            ? AppColors.darkBackgroundPrimary
+            : AppColors.backgroundPrimary,
+        body: FadeTransition(
+          opacity: _fadeAnimation,
+          child: SafeArea(
+            child: Column(
+              children: [
+                _buildHeader(isDarkMode),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: isDarkMode
+                          ? AppColors.darkBackgroundSecondary
+                          : AppColors.backgroundSecondary,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(16.r),
+                        topRight: Radius.circular(16.r),
+                      ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(16.r),
+                        topRight: Radius.circular(16.r),
+                      ),
+                      child: _buildMessagesList(isDarkMode),
+                    ),
+                  ),
+                ),
+                _buildReplyBar(isDarkMode),
+                _buildInputSection(isDarkMode),
+                if (_showEmojiPicker)
+                  EmojiPickerWidget(
+                    onEmojiSelected: _onEmojiSelected,
+                    isDarkMode: isDarkMode,
+                  ),
+                if (_showStickers)
+                  StickerPickerWidget(
+                    onStickerSelected: _onStickerSelected,
+                    isDarkMode: isDarkMode,
+                  ),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -199,56 +151,60 @@ class _ChannelChatPageState extends State<ChannelChatPage>
 
   Widget _buildHeader(bool isDarkMode) {
     return Container(
-      padding: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top + 8.h,
-        left: 16.w,
-        right: 16.w,
-        bottom: 12.h,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(
-        color: isDarkMode ? AppColors.black : AppColors.white,
-        border: Border(
-          bottom: BorderSide(
-            color: isDarkMode
-                ? AppColors.darkContainerBorder
-                : AppColors.gray200,
-          ),
-        ),
+        color: isDarkMode
+            ? AppColors.darkBackgroundPrimary
+            : AppColors.backgroundPrimary,
+        boxShadow: [
+          if (!isDarkMode)
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              offset: Offset(0, 2),
+              blurRadius: 5,
+            ),
+        ],
       ),
       child: Row(
         children: [
-          GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: Icon(
-              PhosphorIcons.arrowLeft(PhosphorIconsStyle.bold),
-              color: isDarkMode ? AppColors.darkTextPrimary : AppColors.gray900,
-              size: 20.sp,
-            ),
-          ),
+          // Back button with animation
+          _buildBackButton(isDarkMode),
           SizedBox(width: 12.w),
-          Icon(_getChannelIcon(), color: AppColors.primary, size: 18.sp),
+
+          // Channel icon and name
+          Icon(_getChannelIcon(), color: AppColors.primary, size: 20.sp),
           SizedBox(width: 8.w),
+
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  widget.channel.name,
-                  style: AppTypography.geistSemiBold15.copyWith(
-                    color: isDarkMode
-                        ? AppColors.darkTextPrimary
-                        : AppColors.gray900,
-                    fontSize: 16.sp,
-                  ),
+                Row(
+                  children: [
+                    // Channel name
+                    Text(
+                      widget.channel.name,
+                      style: AppTypography.geistSemiBold15.copyWith(
+                        color: isDarkMode
+                            ? AppColors.darkTextPrimary
+                            : AppColors.gray900,
+                        fontSize: 17.sp,
+                      ),
+                    ),
+                    SizedBox(width: 6.w),
+
+                    // Embedded online indicator
+                    _buildEmbeddedOnlineCount(isDarkMode),
+                  ],
                 ),
                 if (widget.channel.description.isNotEmpty)
                   Text(
                     widget.channel.description,
-                    style: AppTypography.geistRegular11.copyWith(
+                    style: AppTypography.geistRegular13.copyWith(
                       color: isDarkMode
                           ? AppColors.darkTextSecondary
                           : AppColors.gray600,
-                      fontSize: 12.sp,
+                      fontSize: 13.sp,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -256,55 +212,202 @@ class _ChannelChatPageState extends State<ChannelChatPage>
               ],
             ),
           ),
-          Row(
-            children: [
-              _buildHeaderAction(
+
+          // Consolidated action button
+          _buildPopupMenuButton(isDarkMode),
+        ],
+      ),
+    );
+  }
+
+  // New method for consolidated actions menu
+  Widget _buildPopupMenuButton(bool isDarkMode) {
+    return _buildIconButton(
+      PhosphorIcons.dotsThreeVertical(PhosphorIconsStyle.bold),
+      isDarkMode,
+      () {
+        final RenderBox button = context.findRenderObject() as RenderBox;
+        final RenderBox overlay =
+            Navigator.of(context).overlay!.context.findRenderObject()
+                as RenderBox;
+        final RelativeRect position = RelativeRect.fromRect(
+          Rect.fromPoints(
+            button.localToGlobal(Offset.zero, ancestor: overlay),
+            button.localToGlobal(
+              button.size.bottomRight(Offset.zero),
+              ancestor: overlay,
+            ),
+          ),
+          Offset.zero & overlay.size,
+        );
+
+        showMenu(
+          context: context,
+          position: position,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+          color: isDarkMode
+              ? AppColors.darkContainerBorder
+              : AppColors.backgroundPrimary,
+          items: [
+            PopupMenuItem<String>(
+              value: 'members',
+              child: _buildMenuOption(
                 PhosphorIcons.usersFour(PhosphorIconsStyle.bold),
+                'Members',
                 isDarkMode,
-                () => _showMembersList(),
               ),
-              SizedBox(width: 8.w),
-              _buildHeaderAction(
+              onTap: _showMembersList,
+            ),
+            PopupMenuItem<String>(
+              value: 'search',
+              child: _buildMenuOption(
                 PhosphorIcons.magnifyingGlass(PhosphorIconsStyle.bold),
+                'Search',
                 isDarkMode,
-                () => _showSearch(),
               ),
-              SizedBox(width: 8.w),
-              _buildHeaderAction(
-                PhosphorIcons.dotsThreeVertical(PhosphorIconsStyle.bold),
+              onTap: _showSearch,
+            ),
+            PopupMenuItem<String>(
+              value: 'settings',
+              child: _buildMenuOption(
+                PhosphorIcons.gear(PhosphorIconsStyle.bold),
+                'Channel Settings',
                 isDarkMode,
-                () => _showChannelMenu(),
               ),
-            ],
+              onTap: _showChannelMenu,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildMenuOption(
+    PhosphorIconData icon,
+    String label,
+    bool isDarkMode,
+  ) {
+    return Row(
+      children: [
+        Icon(
+          icon,
+          size: 18.sp,
+          color: isDarkMode ? AppColors.darkTextSecondary : AppColors.gray600,
+        ),
+        SizedBox(width: 12.w),
+        Text(
+          label,
+          style: AppTypography.geistMedium13.copyWith(
+            color: isDarkMode ? AppColors.darkTextPrimary : AppColors.gray900,
+          ),
+        ),
+      ],
+    );
+  }
+
+  // New method for embedded online count
+  Widget _buildEmbeddedOnlineCount(bool isDarkMode) {
+    final onlineCount =
+        14; // This would come from a real-time service in production
+
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+      decoration: BoxDecoration(
+        color: isDarkMode
+            ? AppColors.darkContainerBorder.withOpacity(0.2)
+            : AppColors.gray100,
+        borderRadius: BorderRadius.circular(10.r),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 6.w,
+            height: 6.w,
+            decoration: BoxDecoration(
+              color: Colors.green,
+              shape: BoxShape.circle,
+            ),
+          ),
+          SizedBox(width: 4.w),
+          Text(
+            '$onlineCount',
+            style: AppTypography.geistRegular13.copyWith(
+              color: isDarkMode
+                  ? AppColors.darkTextSecondary
+                  : AppColors.gray600,
+              fontSize: 10.sp,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildHeaderAction(
-    PhosphorIconData icon,
-    bool isDarkMode,
-    VoidCallback onTap,
-  ) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.all(8.w),
-        decoration: BoxDecoration(
-          color: isDarkMode
-              ? AppColors.darkContainerBorder.withOpacity(0.3)
-              : AppColors.gray100,
+  Widget _buildBackButton(bool isDarkMode) {
+    return Container(
+      decoration: BoxDecoration(
+        color: isDarkMode
+            ? AppColors.darkContainerBorder.withOpacity(0.3)
+            : AppColors.gray100,
+        borderRadius: BorderRadius.circular(8.r),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
           borderRadius: BorderRadius.circular(8.r),
-        ),
-        child: Icon(
-          icon,
-          color: isDarkMode ? AppColors.darkTextSecondary : AppColors.gray600,
-          size: 16.sp,
+          onTap: () => Navigator.pop(context),
+          child: Padding(
+            padding: EdgeInsets.all(8.w),
+            child: Icon(
+              PhosphorIcons.arrowLeft(PhosphorIconsStyle.bold),
+              color: isDarkMode ? AppColors.darkTextPrimary : AppColors.gray900,
+              size: 20.sp,
+            ),
+          ),
         ),
       ),
     );
   }
+
+  // This method was renamed to avoid duplication with the previous definition
+  Widget _buildIconButton(
+    PhosphorIconData icon,
+    bool isDarkMode,
+    VoidCallback onTap,
+  ) {
+    return Container(
+      decoration: BoxDecoration(
+        color: isDarkMode
+            ? AppColors.darkContainerBorder.withOpacity(0.3)
+            : AppColors.gray100,
+        borderRadius: BorderRadius.circular(8.r),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(8.r),
+          onTap: onTap,
+          child: Padding(
+            padding: EdgeInsets.all(8.w),
+            child: Icon(
+              icon,
+              color: isDarkMode
+                  ? AppColors.darkTextSecondary
+                  : AppColors.gray600,
+              size: 18.sp,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Original _buildOnlineIndicator method removed as it's no longer used
+
+  // Removed unused _buildHeaderAction method
 
   Widget _buildMessagesList(bool isDarkMode) {
     return ListView.builder(
@@ -338,161 +441,9 @@ class _ChannelChatPageState extends State<ChannelChatPage>
     );
   }
 
-  Widget _buildMessageItem(
-    ChatMessage message,
-    bool isDarkMode,
-    bool isConsecutive,
-  ) {
-    return Container(
-      margin: EdgeInsets.only(bottom: isConsecutive ? 2.h : 16.h),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Avatar or timestamp
-          SizedBox(
-            width: 40.w,
-            child: isConsecutive
-                ? Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      _formatTime(message.timestamp),
-                      style: AppTypography.geistRegular11.copyWith(
-                        color: isDarkMode
-                            ? AppColors.darkTextSecondary
-                            : AppColors.gray600,
-                        fontSize: 10.sp,
-                      ),
-                    ),
-                  )
-                : CircleAvatar(
-                    radius: 20.r,
-                    backgroundImage: NetworkImage(message.avatar),
-                  ),
-          ),
-          SizedBox(width: 12.w),
-          // Message content
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (!isConsecutive)
-                  Row(
-                    children: [
-                      Text(
-                        message.username,
-                        style: AppTypography.geistSemiBold15.copyWith(
-                          color: isDarkMode
-                              ? AppColors.darkTextPrimary
-                              : AppColors.gray900,
-                          fontSize: 14.sp,
-                        ),
-                      ),
-                      SizedBox(width: 8.w),
-                      Text(
-                        _formatTime(message.timestamp),
-                        style: AppTypography.geistRegular11.copyWith(
-                          color: isDarkMode
-                              ? AppColors.darkTextSecondary
-                              : AppColors.gray600,
-                          fontSize: 11.sp,
-                        ),
-                      ),
-                    ],
-                  ),
-                if (!isConsecutive) SizedBox(height: 4.h),
-                // Message content
-                GestureDetector(
-                  onLongPress: () => _showMessageOptions(message),
-                  child: message.type == MessageType.sticker
-                      ? Container(
-                          padding: EdgeInsets.all(8.w),
-                          decoration: BoxDecoration(
-                            color: isDarkMode
-                                ? AppColors.darkContainerBorder.withOpacity(0.3)
-                                : AppColors.gray100,
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
-                          child: Text(
-                            message.content,
-                            style: TextStyle(fontSize: 64.sp),
-                          ),
-                        )
-                      : Text(
-                          message.content,
-                          style: AppTypography.geistRegular13.copyWith(
-                            color: isDarkMode
-                                ? AppColors.darkTextSecondary
-                                : AppColors.gray700,
-                            fontSize: 14.sp,
-                          ),
-                        ),
-                ),
-                // Attachments
-                if (message.attachments.isNotEmpty)
-                  Container(
-                    margin: EdgeInsets.only(top: 8.h),
-                    child: _buildAttachments(message.attachments, isDarkMode),
-                  ),
-                // Reactions
-                if (message.reactions.isNotEmpty)
-                  Container(
-                    margin: EdgeInsets.only(top: 8.h),
-                    child: _buildReactions(message.reactions, isDarkMode),
-                  ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // This method has been removed as it's now handled by EnhancedMessageBubble
 
-  Widget _buildAttachments(List<String> attachments, bool isDarkMode) {
-    return Container(
-      padding: EdgeInsets.all(12.w),
-      decoration: BoxDecoration(
-        color: isDarkMode
-            ? AppColors.darkContainerBorder.withOpacity(0.3)
-            : AppColors.gray100,
-        borderRadius: BorderRadius.circular(8.r),
-      ),
-      child: Row(
-        children: [
-          Icon(
-            PhosphorIcons.image(PhosphorIconsStyle.bold),
-            color: AppColors.primary,
-            size: 16.sp,
-          ),
-          SizedBox(width: 8.w),
-          Text(
-            attachments.first,
-            style: AppTypography.geistMedium13.copyWith(
-              color: AppColors.primary,
-              fontSize: 13.sp,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildReactions(List<String> reactions, bool isDarkMode) {
-    return Wrap(
-      spacing: 6.w,
-      children: reactions.map((reaction) {
-        return Container(
-          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-          decoration: BoxDecoration(
-            color: isDarkMode
-                ? AppColors.darkContainerBorder.withOpacity(0.3)
-                : AppColors.gray100,
-            borderRadius: BorderRadius.circular(12.r),
-          ),
-          child: Text(reaction, style: TextStyle(fontSize: 14.sp)),
-        );
-      }).toList(),
-    );
-  }
+  // These methods have been removed as they're now handled by EnhancedMessageBubble
 
   Widget _buildReplyBar(bool isDarkMode) {
     if (_replyingTo == null) return const SizedBox();
@@ -556,34 +507,16 @@ class _ChannelChatPageState extends State<ChannelChatPage>
       replyingTo: _replyingTo?.content,
       onCancelReply: _cancelReply,
       onMentionTap: _showMentionPicker,
+      onTagTap: () => _showAssetSelector(AssetType.tag),
+      onRoleTap: () => _showAssetSelector(AssetType.role),
+      onNftTap: () => _showAssetSelector(AssetType.nft),
+      onTokenTap: () => _showAssetSelector(AssetType.token),
       isTyping: _isTyping,
-      typingUsers: const [], // TODO: Implement typing users from WebSocket
+      typingUsers: ChatDemoData.getTypingUsers(),
     );
   }
 
-  Widget _buildInputAction(
-    PhosphorIconData icon,
-    bool isDarkMode,
-    VoidCallback onTap,
-  ) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.all(8.w),
-        decoration: BoxDecoration(
-          color: isDarkMode
-              ? AppColors.darkContainerBorder.withOpacity(0.3)
-              : AppColors.gray100,
-          borderRadius: BorderRadius.circular(8.r),
-        ),
-        child: Icon(
-          icon,
-          color: isDarkMode ? AppColors.darkTextSecondary : AppColors.gray600,
-          size: 20.sp,
-        ),
-      ),
-    );
-  }
+  // This method has been removed as it's no longer used
 
   PhosphorIconData _getChannelIcon() {
     switch (widget.channel.type) {
@@ -600,23 +533,13 @@ class _ChannelChatPageState extends State<ChannelChatPage>
     }
   }
 
-  String _formatTime(DateTime time) {
-    final now = DateTime.now();
-    final diff = now.difference(time);
-
-    if (diff.inMinutes < 1) {
-      return 'now';
-    } else if (diff.inMinutes < 60) {
-      return '${diff.inMinutes}m';
-    } else if (diff.inHours < 24) {
-      return '${diff.inHours}h';
-    } else {
-      return '${diff.inDays}d';
-    }
-  }
+  // This method has been removed as it's now handled by EnhancedMessageBubble
 
   void _sendMessage() {
     if (_messageController.text.trim().isEmpty) return;
+
+    // Check if widget is still mounted
+    if (!mounted) return;
 
     // Add message to list (in real app, this would be sent to backend)
     final newMessage = ChatMessage(
@@ -635,13 +558,15 @@ class _ChannelChatPageState extends State<ChannelChatPage>
       _replyingTo = null;
     });
 
-    // Scroll to bottom
-    Future.delayed(const Duration(milliseconds: 100), () {
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+    // Scroll to bottom using post-frame callback to ensure scroll controller is still attached
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && _scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
     });
   }
 
@@ -660,123 +585,7 @@ class _ChannelChatPageState extends State<ChannelChatPage>
     debugPrint('Show channel menu');
   }
 
-  void _showMessageOptions(ChatMessage message) {
-    showModalBottomSheet<void>(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => DecoratedBox(
-        decoration: BoxDecoration(
-          color: Theme.of(context).brightness == Brightness.dark
-              ? AppColors.black
-              : AppColors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(height: 12.h),
-            Container(
-              width: 32.w,
-              height: 4.h,
-              decoration: BoxDecoration(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? AppColors.darkTextSecondary
-                    : AppColors.gray400,
-                borderRadius: BorderRadius.circular(2.r),
-              ),
-            ),
-            SizedBox(height: 20.h),
-            _buildMessageAction(
-              icon: PhosphorIcons.arrowBendUpLeft(PhosphorIconsStyle.bold),
-              label: 'Reply',
-              onTap: () {
-                Navigator.pop(context);
-                setState(() => _replyingTo = message);
-                _messageFocusNode.requestFocus();
-              },
-            ),
-            _buildMessageAction(
-              icon: PhosphorIcons.copy(PhosphorIconsStyle.bold),
-              label: 'Copy Text',
-              onTap: () {
-                Navigator.pop(context);
-                // Copy to clipboard
-                debugPrint('Copy text: ${message.content}');
-              },
-            ),
-            _buildMessageAction(
-              icon: PhosphorIcons.smiley(PhosphorIconsStyle.bold),
-              label: 'Add Reaction',
-              onTap: () {
-                Navigator.pop(context);
-                // Show quick reactions
-                _showQuickReactions(message);
-              },
-            ),
-            if (message.userId == 'current_user') ...[
-              _buildMessageAction(
-                icon: PhosphorIcons.pencil(PhosphorIconsStyle.bold),
-                label: 'Edit',
-                onTap: () {
-                  Navigator.pop(context);
-                  // Edit message
-                  debugPrint('Edit message: ${message.id}');
-                },
-              ),
-              _buildMessageAction(
-                icon: PhosphorIcons.trash(PhosphorIconsStyle.bold),
-                label: 'Delete',
-                color: Colors.red,
-                onTap: () {
-                  Navigator.pop(context);
-                  // Delete message
-                  _deleteMessage(message);
-                },
-              ),
-            ],
-            SizedBox(height: 20.h),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildMessageAction({
-    required PhosphorIconData icon,
-    required String label,
-    required VoidCallback onTap,
-    Color? color,
-  }) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final actionColor =
-        color ?? (isDarkMode ? AppColors.darkTextPrimary : AppColors.gray900);
-
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-        child: Row(
-          children: [
-            Icon(icon, color: actionColor, size: 20.sp),
-            SizedBox(width: 16.w),
-            Text(
-              label,
-              style: AppTypography.geistMedium13.copyWith(
-                color: actionColor,
-                fontSize: 16.sp,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _showQuickReactions(ChatMessage message) {
-    // Show quick reactions
-    debugPrint('Show quick reactions for message: ${message.id}');
-  }
+  // These methods have been removed as they're now handled by EnhancedMessageBubble
 
   void _showAttachmentOptions() {
     showModalBottomSheet<void>(
@@ -834,157 +643,12 @@ class _ChannelChatPageState extends State<ChannelChatPage>
     debugPrint('Audio pick');
   }
 
-  void _showGameActivities() {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => GameActivitiesWidget(
-        isDarkMode: Theme.of(context).brightness == Brightness.dark,
-        onClose: () => Navigator.pop(context),
-      ),
-    );
-  }
-
-  void _startThread() {
-    showDialog<void>(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Theme.of(context).brightness == Brightness.dark
-            ? AppColors.black
-            : AppColors.white,
-        title: Text(
-          'Start Thread',
-          style: AppTypography.geistSemiBold15.copyWith(
-            color: Theme.of(context).brightness == Brightness.dark
-                ? AppColors.darkTextPrimary
-                : AppColors.gray900,
-          ),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Choose who to start a private conversation with:',
-              style: AppTypography.geistRegular13.copyWith(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? AppColors.darkTextSecondary
-                    : AppColors.gray600,
-              ),
-            ),
-            SizedBox(height: 16.h),
-            _buildThreadOption(
-              icon: PhosphorIcons.user(PhosphorIconsStyle.bold),
-              title: 'Direct Message',
-              description: 'Start a private conversation with someone',
-              onTap: () {
-                Navigator.pop(context);
-                _startDirectMessage();
-              },
-            ),
-            SizedBox(height: 12.h),
-            _buildThreadOption(
-              icon: PhosphorIcons.users(PhosphorIconsStyle.bold),
-              title: 'Group Chat',
-              description: 'Create a small group conversation',
-              onTap: () {
-                Navigator.pop(context);
-                _startGroupChat();
-              },
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(
-              'Cancel',
-              style: AppTypography.geistMedium13.copyWith(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? AppColors.darkTextSecondary
-                    : AppColors.gray600,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildThreadOption({
-    required PhosphorIconData icon,
-    required String title,
-    required String description,
-    required VoidCallback onTap,
-  }) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.all(12.w),
-        decoration: BoxDecoration(
-          color: isDarkMode
-              ? AppColors.darkContainerBorder.withOpacity(0.3)
-              : AppColors.gray100,
-          borderRadius: BorderRadius.circular(8.r),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 40.w,
-              height: 40.w,
-              decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              child: Icon(icon, color: AppColors.primary, size: 20.sp),
-            ),
-            SizedBox(width: 12.w),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: AppTypography.geistSemiBold15.copyWith(
-                      color: isDarkMode
-                          ? AppColors.darkTextPrimary
-                          : AppColors.gray900,
-                      fontSize: 14.sp,
-                    ),
-                  ),
-                  SizedBox(height: 2.h),
-                  Text(
-                    description,
-                    style: AppTypography.geistRegular12.copyWith(
-                      color: isDarkMode
-                          ? AppColors.darkTextSecondary
-                          : AppColors.gray600,
-                      fontSize: 12.sp,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _startDirectMessage() {
-    // Start direct message
-    debugPrint('Start direct message');
-  }
-
-  void _startGroupChat() {
-    // Start group chat
-    debugPrint('Start group chat');
-  }
+  // These methods have been removed as they're no longer used
 
   void _toggleEmojiPicker() {
+    // Check if widget is still mounted before calling setState
+    if (!mounted) return;
+
     setState(() {
       _showEmojiPicker = !_showEmojiPicker;
       if (_showEmojiPicker) _showStickers = false;
@@ -992,6 +656,9 @@ class _ChannelChatPageState extends State<ChannelChatPage>
   }
 
   void _toggleStickers() {
+    // Check if widget is still mounted before calling setState
+    if (!mounted) return;
+
     setState(() {
       _showStickers = !_showStickers;
       if (_showStickers) _showEmojiPicker = false;
@@ -999,13 +666,43 @@ class _ChannelChatPageState extends State<ChannelChatPage>
   }
 
   void _onEmojiSelected(String emoji) {
-    _messageController.text += emoji;
-    _messageController.selection = TextSelection.fromPosition(
-      TextPosition(offset: _messageController.text.length),
-    );
+    // Check if widget is still mounted to avoid setState after dispose errors
+    if (!mounted) return;
+
+    final currentText = _messageController.text;
+    final selection = _messageController.selection;
+
+    if (selection.isValid) {
+      // If there's a valid selection, replace it with the emoji
+      final newText = currentText.replaceRange(
+        selection.start,
+        selection.end,
+        emoji,
+      );
+      _messageController.value = TextEditingValue(
+        text: newText,
+        selection: TextSelection.collapsed(
+          offset: selection.start + emoji.length,
+        ),
+      );
+    } else {
+      // If no selection, just append to end
+      _messageController.text = currentText + emoji;
+      _messageController.selection = TextSelection.collapsed(
+        offset: _messageController.text.length,
+      );
+    }
+
+    // Close emoji picker after selecting
+    setState(() {
+      _showEmojiPicker = false;
+    });
   }
 
   void _onStickerSelected(String sticker) {
+    // Check if widget is still mounted to avoid setState after dispose errors
+    if (!mounted) return;
+
     // Send sticker as message
     final newMessage = ChatMessage(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -1024,13 +721,15 @@ class _ChannelChatPageState extends State<ChannelChatPage>
       _showStickers = false;
     });
 
-    // Scroll to bottom
-    Future.delayed(const Duration(milliseconds: 100), () {
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+    // Scroll to bottom - using post-frame callback to ensure widget is still mounted
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && _scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
     });
   }
 
@@ -1092,5 +791,73 @@ class _ChannelChatPageState extends State<ChannelChatPage>
   void _showMentionPicker() {
     // TODO: Show user mention picker
     debugPrint('Show mention picker');
+  }
+
+  void _showAssetSelector(AssetType assetType) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => AssetSelectorDialog(
+        assetType: assetType,
+        isDarkMode: Theme.of(context).brightness == Brightness.dark,
+        onAssetSelected: (asset) {
+          _sendAssetMessage(asset);
+        },
+      ),
+    );
+  }
+
+  void _sendAssetMessage(SentAsset asset) {
+    // Check if widget is still mounted
+    if (!mounted) return;
+
+    // Determine message type based on asset type
+    final messageType = switch (asset.type) {
+      AssetType.token => MessageType.token,
+      AssetType.nft => MessageType.nft,
+      AssetType.role => MessageType.role,
+      AssetType.tag => MessageType.tag,
+    };
+
+    // Content message based on asset type
+    final content = switch (asset.type) {
+      AssetType.token => 'Sent ${asset.value} ${asset.name} tokens',
+      AssetType.nft => 'Shared NFT: ${asset.name}',
+      AssetType.role => 'Assigned role: ${asset.name}',
+      AssetType.tag => 'Tagged as: ${asset.name}',
+    };
+
+    // Create the message
+    final newMessage = ChatMessage(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      userId: 'current_user',
+      username: 'You',
+      avatar: 'https://i.pravatar.cc/150?img=6',
+      content: content,
+      timestamp: DateTime.now(),
+      type: messageType,
+      sentAsset: asset,
+      isClaimable: asset.type == AssetType.token || asset.type == AssetType.nft,
+      claimableUntil:
+          asset.type == AssetType.token || asset.type == AssetType.nft
+          ? DateTime.now().add(const Duration(days: 7))
+          : null,
+    );
+
+    setState(() {
+      _messages.add(newMessage);
+    });
+
+    // Scroll to bottom using post-frame callback
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && _scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
   }
 }

@@ -4,6 +4,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/typography.dart';
+import '../../../../domain/models/chat/chat_message.dart';
 
 /// Enhanced chat input widget with rich features and beautiful animations
 class EnhancedChatInput extends StatefulWidget {
@@ -20,6 +21,10 @@ class EnhancedChatInput extends StatefulWidget {
     this.replyingTo,
     this.onCancelReply,
     this.onMentionTap,
+    this.onTagTap,
+    this.onRoleTap,
+    this.onNftTap,
+    this.onTokenTap,
     this.isTyping = false,
     this.typingUsers = const [],
   });
@@ -35,6 +40,10 @@ class EnhancedChatInput extends StatefulWidget {
   final String? replyingTo;
   final VoidCallback? onCancelReply;
   final VoidCallback? onMentionTap;
+  final VoidCallback? onTagTap;
+  final VoidCallback? onRoleTap;
+  final VoidCallback? onNftTap;
+  final VoidCallback? onTokenTap;
   final bool isTyping;
   final List<String> typingUsers;
 
@@ -270,12 +279,13 @@ class _EnhancedChatInputState extends State<EnhancedChatInput>
       animation: _focusAnimation,
       builder: (context, child) {
         return Container(
-          padding: EdgeInsets.all(16.w),
+          // Reduced padding for more chat space
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
           child: Column(
             children: [
               // Quick actions (shown when focused)
               if (_isFocused) _buildQuickActions(),
-              if (_isFocused) SizedBox(height: 12.h),
+              if (_isFocused) SizedBox(height: 10.h),
 
               // Input row
               _buildInputRow(),
@@ -294,34 +304,70 @@ class _EnhancedChatInputState extends State<EnhancedChatInput>
           begin: const Offset(0.0, -0.5),
           end: Offset.zero,
         ).animate(_focusAnimation),
-        child: Row(
-          children: [
-            _buildQuickActionButton(
-              PhosphorIcons.paperclip(PhosphorIconsStyle.bold),
-              'Attach File',
-              widget.onAttachmentTap,
-            ),
-            SizedBox(width: 12.w),
-            _buildQuickActionButton(
-              PhosphorIcons.smiley(PhosphorIconsStyle.bold),
-              'Emoji',
-              widget.onEmojiTap,
-            ),
-            SizedBox(width: 12.w),
-            _buildQuickActionButton(
-              PhosphorIcons.sticker(PhosphorIconsStyle.bold),
-              'Sticker',
-              widget.onStickerTap,
-            ),
-            if (widget.onMentionTap != null) ...[
-              SizedBox(width: 12.w),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
               _buildQuickActionButton(
-                PhosphorIcons.at(PhosphorIconsStyle.bold),
-                'Mention',
-                widget.onMentionTap!,
+                PhosphorIcons.paperclip(PhosphorIconsStyle.bold),
+                'Attach File',
+                widget.onAttachmentTap,
               ),
+              SizedBox(width: 10.w),
+              _buildQuickActionButton(
+                PhosphorIcons.smiley(PhosphorIconsStyle.bold),
+                'Emoji',
+                widget.onEmojiTap,
+              ),
+              SizedBox(width: 10.w),
+              _buildQuickActionButton(
+                PhosphorIcons.sticker(PhosphorIconsStyle.bold),
+                'Sticker',
+                widget.onStickerTap,
+              ),
+              if (widget.onMentionTap != null) ...[
+                SizedBox(width: 10.w),
+                _buildQuickActionButton(
+                  PhosphorIcons.at(PhosphorIconsStyle.bold),
+                  'Mention',
+                  widget.onMentionTap!,
+                ),
+              ],
+              if (widget.onTagTap != null) ...[
+                SizedBox(width: 10.w),
+                _buildQuickActionButton(
+                  PhosphorIcons.tag(PhosphorIconsStyle.bold),
+                  'Tag',
+                  widget.onTagTap!,
+                ),
+              ],
+              if (widget.onRoleTap != null) ...[
+                SizedBox(width: 10.w),
+                _buildQuickActionButton(
+                  PhosphorIcons.user(PhosphorIconsStyle.bold),
+                  'Role',
+                  widget.onRoleTap!,
+                ),
+              ],
+              if (widget.onNftTap != null) ...[
+                SizedBox(width: 10.w),
+                _buildQuickActionButton(
+                  PhosphorIcons.image(PhosphorIconsStyle.bold),
+                  'NFT',
+                  widget.onNftTap!,
+                ),
+              ],
+              if (widget.onTokenTap != null) ...[
+                SizedBox(width: 10.w),
+                _buildQuickActionButton(
+                  PhosphorIcons.coins(PhosphorIconsStyle.bold),
+                  'Token',
+                  widget.onTokenTap!,
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
@@ -406,9 +452,11 @@ class _EnhancedChatInputState extends State<EnhancedChatInput>
               ),
               border: InputBorder.none,
               contentPadding: EdgeInsets.symmetric(
-                horizontal: 16.w,
+                // Reduced horizontal padding
+                horizontal: 12.w,
                 vertical: 12.h,
               ),
+              isDense: true, // Make the input more compact
             ),
             maxLines: _isFocused ? 6 : 1,
             minLines: 1,
