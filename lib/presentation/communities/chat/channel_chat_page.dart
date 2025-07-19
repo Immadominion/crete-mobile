@@ -8,12 +8,13 @@ import '../../../domain/entities/community.dart';
 import '../community_detail_page.dart';
 import 'widgets/attachment_options_dialog.dart';
 import 'widgets/emoji_picker_widget.dart';
+import 'widgets/enhanced_chat_input.dart';
+import 'widgets/enhanced_message_bubble.dart';
 import 'widgets/game_activities_widget.dart';
 import 'widgets/sticker_picker_widget.dart';
 
 /// Model for chat messages
 class ChatMessage {
-
   const ChatMessage({
     required this.id,
     required this.userId,
@@ -44,7 +45,6 @@ enum MessageType { text, image, video, audio, file, sticker, system }
 
 /// Channel chat interface similar to Discord
 class ChannelChatPage extends StatefulWidget {
-
   const ChannelChatPage({
     super.key,
     required this.community,
@@ -61,8 +61,6 @@ class _ChannelChatPageState extends State<ChannelChatPage>
     with TickerProviderStateMixin {
   late AnimationController _fadeController;
   late Animation<double> _fadeAnimation;
-  late AnimationController _inputController;
-  late Animation<double> _inputAnimation;
 
   final TextEditingController _messageController = TextEditingController();
   final FocusNode _messageFocusNode = FocusNode();
@@ -142,23 +140,11 @@ class _ChannelChatPageState extends State<ChannelChatPage>
       CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut),
     );
 
-    _inputController = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
-    _inputAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _inputController, curve: Curves.easeInOut),
-    );
-
     _fadeController.forward();
   }
 
   void _onFocusChange() {
-    if (_messageFocusNode.hasFocus) {
-      _inputController.forward();
-    } else {
-      _inputController.reverse();
-    }
+    // Focus handling is now managed by EnhancedChatInput
   }
 
   void _onTextChange() {
@@ -173,7 +159,6 @@ class _ChannelChatPageState extends State<ChannelChatPage>
   @override
   void dispose() {
     _fadeController.dispose();
-    _inputController.dispose();
     _messageController.dispose();
     _messageFocusNode.dispose();
     _scrollController.dispose();
@@ -336,7 +321,19 @@ class _ChannelChatPageState extends State<ChannelChatPage>
                     .inMinutes <
                 5;
 
-        return _buildMessageItem(message, isDarkMode, isConsecutive);
+        return EnhancedMessageBubble(
+          message: message,
+          isCurrentUser: message.userId == 'current_user',
+          isGrouped: isConsecutive,
+          showAvatar: !isConsecutive,
+          showTimestamp: !isConsecutive,
+          onReply: _replyToMessage,
+          onReact: _addReaction,
+          onEdit: _editMessage,
+          onDelete: _deleteMessage,
+          onUserTap: _showUserProfile,
+          isDarkMode: isDarkMode,
+        );
       },
     );
   }
@@ -547,131 +544,20 @@ class _ChannelChatPageState extends State<ChannelChatPage>
   }
 
   Widget _buildInputSection(bool isDarkMode) {
-    return AnimatedBuilder(
-      animation: _inputAnimation,
-      builder: (context, child) {
-        return Container(
-          padding: EdgeInsets.only(
-            left: 16.w,
-            right: 16.w,
-            top: 12.h,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 12.h,
-          ),
-          decoration: BoxDecoration(
-            color: isDarkMode ? AppColors.black : AppColors.white,
-            border: Border(
-              top: BorderSide(
-                color: isDarkMode
-                    ? AppColors.darkContainerBorder
-                    : AppColors.gray200,
-              ),
-            ),
-          ),
-          child: Column(
-            children: [
-              // Action buttons row
-              Row(
-                children: [
-                  _buildInputAction(
-                    PhosphorIcons.plus(PhosphorIconsStyle.bold),
-                    isDarkMode,
-                    () => _showAttachmentOptions(),
-                  ),
-                  SizedBox(width: 8.w),
-                  _buildInputAction(
-                    PhosphorIcons.gameController(PhosphorIconsStyle.bold),
-                    isDarkMode,
-                    () => _showGameActivities(),
-                  ),
-                  SizedBox(width: 8.w),
-                  _buildInputAction(
-                    PhosphorIcons.chatCircle(PhosphorIconsStyle.bold),
-                    isDarkMode,
-                    () => _startThread(),
-                  ),
-                  const Spacer(),
-                  _buildInputAction(
-                    PhosphorIcons.smiley(PhosphorIconsStyle.bold),
-                    isDarkMode,
-                    () => _toggleEmojiPicker(),
-                  ),
-                  SizedBox(width: 8.w),
-                  _buildInputAction(
-                    PhosphorIcons.sticker(PhosphorIconsStyle.bold),
-                    isDarkMode,
-                    () => _toggleStickers(),
-                  ),
-                ],
-              ),
-              SizedBox(height: 12.h),
-              // Message input
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16.w,
-                        vertical: 12.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: isDarkMode
-                            ? AppColors.darkContainerBorder.withOpacity(0.3)
-                            : AppColors.gray100,
-                        borderRadius: BorderRadius.circular(20.r),
-                      ),
-                      child: TextField(
-                        controller: _messageController,
-                        focusNode: _messageFocusNode,
-                        style: AppTypography.geistRegular13.copyWith(
-                          color: isDarkMode
-                              ? AppColors.darkTextPrimary
-                              : AppColors.gray900,
-                          fontSize: 14.sp,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: 'Message #${widget.channel.name}',
-                          hintStyle: AppTypography.geistRegular13.copyWith(
-                            color: isDarkMode
-                                ? AppColors.darkTextSecondary
-                                : AppColors.gray600,
-                            fontSize: 14.sp,
-                          ),
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.zero,
-                        ),
-                        maxLines: null,
-                        textInputAction: TextInputAction.send,
-                        onSubmitted: (_) => _sendMessage(),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 8.w),
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    child: GestureDetector(
-                      onTap: _isTyping ? _sendMessage : null,
-                      child: Container(
-                        padding: EdgeInsets.all(12.w),
-                        decoration: BoxDecoration(
-                          color: _isTyping
-                              ? AppColors.primary
-                              : AppColors.gray300,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          PhosphorIcons.paperPlaneTilt(PhosphorIconsStyle.bold),
-                          color: Colors.white,
-                          size: 18.sp,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        );
-      },
+    return EnhancedChatInput(
+      controller: _messageController,
+      focusNode: _messageFocusNode,
+      onSendMessage: _sendMessage,
+      onAttachmentTap: _showAttachmentOptions,
+      onEmojiTap: _toggleEmojiPicker,
+      onStickerTap: _toggleStickers,
+      isDarkMode: isDarkMode,
+      hintText: 'Message #${widget.channel.name}',
+      replyingTo: _replyingTo?.content,
+      onCancelReply: _cancelReply,
+      onMentionTap: _showMentionPicker,
+      isTyping: _isTyping,
+      typingUsers: const [], // TODO: Implement typing users from WebSocket
     );
   }
 
@@ -890,12 +776,6 @@ class _ChannelChatPageState extends State<ChannelChatPage>
   void _showQuickReactions(ChatMessage message) {
     // Show quick reactions
     debugPrint('Show quick reactions for message: ${message.id}');
-  }
-
-  void _deleteMessage(ChatMessage message) {
-    setState(() {
-      _messages.removeWhere((m) => m.id == message.id);
-    });
   }
 
   void _showAttachmentOptions() {
@@ -1152,5 +1032,65 @@ class _ChannelChatPageState extends State<ChannelChatPage>
         curve: Curves.easeInOut,
       );
     });
+  }
+
+  // Message interaction methods
+  void _replyToMessage(ChatMessage message) {
+    setState(() {
+      _replyingTo = message;
+    });
+    _messageFocusNode.requestFocus();
+  }
+
+  void _addReaction(ChatMessage message, String reaction) {
+    // Find the message and add the reaction
+    final messageIndex = _messages.indexWhere((m) => m.id == message.id);
+    if (messageIndex != -1) {
+      final updatedMessage = ChatMessage(
+        id: message.id,
+        userId: message.userId,
+        username: message.username,
+        avatar: message.avatar,
+        content: message.content,
+        timestamp: message.timestamp,
+        attachments: message.attachments,
+        reactions: [...message.reactions, reaction],
+        isBot: message.isBot,
+        replyTo: message.replyTo,
+        type: message.type,
+      );
+      setState(() {
+        _messages[messageIndex] = updatedMessage;
+      });
+    }
+    debugPrint('Added reaction $reaction to message: ${message.content}');
+  }
+
+  void _editMessage(ChatMessage message) {
+    // TODO: Implement message editing
+    debugPrint('Edit message: ${message.content}');
+  }
+
+  void _deleteMessage(ChatMessage message) {
+    setState(() {
+      _messages.removeWhere((m) => m.id == message.id);
+    });
+    debugPrint('Deleted message: ${message.content}');
+  }
+
+  void _showUserProfile(String userId) {
+    // TODO: Show user profile modal
+    debugPrint('Show profile for user: $userId');
+  }
+
+  void _cancelReply() {
+    setState(() {
+      _replyingTo = null;
+    });
+  }
+
+  void _showMentionPicker() {
+    // TODO: Show user mention picker
+    debugPrint('Show mention picker');
   }
 }

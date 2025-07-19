@@ -9,7 +9,6 @@ import 'chat/channel_chat_page.dart';
 
 /// Model for channel categories
 class ChannelCategory {
-
   const ChannelCategory({
     required this.id,
     required this.name,
@@ -26,7 +25,6 @@ class ChannelCategory {
 
 /// Model for individual channels
 class Channel {
-
   const Channel({
     required this.id,
     required this.name,
@@ -55,7 +53,6 @@ enum ChannelType { text, voice, announcement, stage, forum }
 
 /// Discord-like Community Detail Page with channels organized by categories
 class CommunityDetailPage extends StatefulWidget {
-
   const CommunityDetailPage({super.key, required this.community});
   final Community community;
 

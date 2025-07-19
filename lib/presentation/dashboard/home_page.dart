@@ -99,9 +99,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               SliverPadding(
                 padding: EdgeInsets.fromLTRB(16.w, 32.h, 16.w, 0),
                 sliver: SliverToBoxAdapter(
-                  child: StatsOverviewSection(
-                    stats: _getStatsData(),
-                  ),
+                  child: StatsOverviewSection(stats: _getStatsData()),
                 ),
               ),
 
