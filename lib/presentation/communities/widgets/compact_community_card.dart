@@ -367,7 +367,7 @@ class _CompactCommunityCardState extends State<CompactCommunityCard>
 
     if (widget.hasUnreadMessages) {
       statusWidget = _buildStatusIndicator(
-        PhosphorIcons.chatCircleDots(PhosphorIconsStyle.fill),
+        PhosphorIcons.chatsCircle(PhosphorIconsStyle.fill),
         '${widget.community.unreadCount}',
         AppColors.info,
       );
@@ -420,13 +420,13 @@ class _CompactCommunityCardState extends State<CompactCommunityCard>
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        PhosphorIcon(icon, size: 12.sp, color: color),
+        PhosphorIcon(icon, size: 18.sp, color: color),
         SizedBox(width: 3.w),
         Text(
           label,
           style: AppTypography.geistMedium13.copyWith(
             color: color,
-            fontSize: 10.sp,
+            fontSize: 13.sp,
           ),
         ),
       ],
