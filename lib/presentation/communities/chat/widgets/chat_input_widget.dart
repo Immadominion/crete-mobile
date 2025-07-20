@@ -8,7 +8,6 @@ import '../models/chat_models.dart';
 
 /// Advanced chat input widget with multiple features
 class ChatInputWidget extends StatefulWidget {
-
   const ChatInputWidget({
     super.key,
     required this.controller,
@@ -65,11 +64,9 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
       child: Column(
         children: [
           // Reply indicator
-          if (widget.replyingTo != null)
-            _buildReplyIndicator(),
+          if (widget.replyingTo != null) _buildReplyIndicator(),
           // Quick actions
-          if (_showQuickActions)
-            _buildQuickActions(),
+          if (_showQuickActions) _buildQuickActions(),
           // Main input area
           _buildInputArea(),
         ],
@@ -245,18 +242,20 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
                 color: _showQuickActions
                     ? AppColors.primary.withOpacity(0.1)
                     : (widget.isDarkMode
-                        ? AppColors.darkBackgroundSecondary
-                        : AppColors.gray100),
+                          ? AppColors.darkBackgroundSecondary
+                          : AppColors.gray100),
                 borderRadius: BorderRadius.circular(8.r),
               ),
               child: Icon(
-                _showQuickActions ? PhosphorIcons.minus() : PhosphorIcons.plus(),
+                _showQuickActions
+                    ? PhosphorIcons.minus()
+                    : PhosphorIcons.plus(),
                 size: 20.sp,
                 color: _showQuickActions
                     ? AppColors.primary
                     : (widget.isDarkMode
-                        ? AppColors.darkTextPrimary
-                        : AppColors.gray700),
+                          ? AppColors.darkTextPrimary
+                          : AppColors.gray700),
               ),
             ),
           ),
@@ -292,6 +291,10 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
                         : AppColors.gray500,
                   ),
                   border: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
                   contentPadding: EdgeInsets.zero,
                 ),
                 maxLines: 3,
@@ -322,24 +325,24 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
                 color: _isRecording
                     ? AppColors.error
                     : (widget.controller.text.trim().isNotEmpty
-                        ? AppColors.primary
-                        : (widget.isDarkMode
-                            ? AppColors.darkBackgroundSecondary
-                            : AppColors.gray100)),
+                          ? AppColors.primary
+                          : (widget.isDarkMode
+                                ? AppColors.darkBackgroundSecondary
+                                : AppColors.gray100)),
                 borderRadius: BorderRadius.circular(24.r),
               ),
               child: Icon(
                 _isRecording
                     ? PhosphorIcons.stop()
                     : (widget.controller.text.trim().isNotEmpty
-                        ? PhosphorIcons.paperPlaneTilt()
-                        : PhosphorIcons.microphone()),
+                          ? PhosphorIcons.paperPlaneTilt()
+                          : PhosphorIcons.microphone()),
                 size: 20.sp,
                 color: _isRecording || widget.controller.text.trim().isNotEmpty
                     ? AppColors.white
                     : (widget.isDarkMode
-                        ? AppColors.darkTextPrimary
-                        : AppColors.gray700),
+                          ? AppColors.darkTextPrimary
+                          : AppColors.gray700),
               ),
             ),
           ),

@@ -449,6 +449,10 @@ class _EnhancedChatInputState extends State<EnhancedChatInput>
                 fontSize: 14.sp,
               ),
               border: InputBorder.none,
+              errorBorder: InputBorder.none,
+              focusedBorder: InputBorder.none,
+              disabledBorder: InputBorder.none,
+              enabledBorder: InputBorder.none,
               contentPadding: EdgeInsets.symmetric(
                 // Reduced horizontal padding
                 horizontal: 12.w,

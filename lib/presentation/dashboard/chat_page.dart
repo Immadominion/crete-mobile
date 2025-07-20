@@ -424,7 +424,6 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
 
 // Chat Detail Page
 class ChatDetailPage extends StatefulWidget {
-
   const ChatDetailPage({
     super.key,
     required this.chatName,
@@ -663,6 +662,10 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                         : AppColors.gray500,
                   ),
                   border: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
                   contentPadding: EdgeInsets.zero,
                 ),
                 maxLines: null,
@@ -720,7 +723,6 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
 }
 
 class ChatMessage {
-
   ChatMessage({
     required this.sender,
     required this.message,

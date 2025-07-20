@@ -884,6 +884,10 @@ class _ProfileEditPageState extends State<ProfileEditPage>
             ),
             decoration: const InputDecoration(
               border: InputBorder.none,
+              errorBorder: InputBorder.none,
+              focusedBorder: InputBorder.none,
+              disabledBorder: InputBorder.none,
+              enabledBorder: InputBorder.none,
               contentPadding: EdgeInsets.zero,
             ),
           ),

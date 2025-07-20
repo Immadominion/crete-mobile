@@ -6,7 +6,6 @@ import '../../../core/theme/colors.dart';
 import '../../../core/theme/typography.dart';
 
 class CommunitiesSearchBar extends StatefulWidget {
-
   const CommunitiesSearchBar({
     super.key,
     this.hintText,
@@ -114,12 +113,14 @@ class _CommunitiesSearchBarState extends State<CommunitiesSearchBar>
                           : AppColors.gray500,
                     ),
                     border: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
                     prefixIcon: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.w),
                       child: PhosphorIcon(
-                        PhosphorIcons.magnifyingGlass(
-                          
-                        ),
+                        PhosphorIcons.magnifyingGlass(),
                         size: 20.sp,
                         color: isDarkMode
                             ? AppColors.darkTextSecondary
