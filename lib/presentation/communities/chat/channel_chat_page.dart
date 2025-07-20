@@ -13,6 +13,8 @@ import 'widgets/attachment_options_dialog.dart';
 import 'widgets/channel_header_widget.dart';
 import 'widgets/emoji_picker_widget.dart';
 import 'widgets/enhanced_chat_input.dart';
+import 'widgets/enhanced_online_members_sidebar.dart';
+import 'widgets/enhanced_typing_indicator_overlay.dart';
 import 'widgets/messages_list_widget.dart';
 import 'widgets/reply_bar_widget.dart';
 import 'widgets/sticker_picker_widget.dart';
@@ -43,10 +45,61 @@ class _ChannelChatPageState extends State<ChannelChatPage>
   bool _isTyping = false;
   bool _showEmojiPicker = false;
   bool _showStickers = false;
+  bool _showMembersSidebar = false;
   ChatMessage? _replyingTo;
+  bool _isAtBottom = true; // Track if user is at bottom of chat
 
   // Get demo messages from ChatDemoData
   final List<ChatMessage> _messages = ChatDemoData.getMessages();
+
+  // Demo online members for sidebar
+  final List<OnlineMember> _onlineMembers = [
+    OnlineMember(
+      id: 'user1',
+      displayName: 'Sarah Chen',
+      avatar: 'https://i.pravatar.cc/150?img=1',
+      status: MemberStatus.online,
+      isOnline: true,
+      role: 'Admin',
+      activity: 'Working on proposal #42',
+    ),
+    OnlineMember(
+      id: 'user2',
+      displayName: 'Alex Rodriguez',
+      avatar: 'https://i.pravatar.cc/150?img=2',
+      status: MemberStatus.online,
+      isOnline: true,
+      role: 'Moderator',
+      activity: 'Reviewing governance docs',
+    ),
+    OnlineMember(
+      id: 'user3',
+      displayName: 'Maria Santos',
+      avatar: 'https://i.pravatar.cc/150?img=3',
+      status: MemberStatus.idle,
+      isOnline: true,
+      role: 'Member',
+      customStatus: 'Building the future 🚀',
+    ),
+    OnlineMember(
+      id: 'user4',
+      displayName: 'Jordan Kim',
+      avatar: 'https://i.pravatar.cc/150?img=4',
+      status: MemberStatus.doNotDisturb,
+      isOnline: true,
+      role: 'Core Team',
+      activity: 'In meeting',
+    ),
+    OnlineMember(
+      id: 'user5',
+      displayName: 'Chris Wilson',
+      avatar: 'https://i.pravatar.cc/150?img=5',
+      status: MemberStatus.online,
+      isOnline: true,
+      role: 'Member',
+      activity: 'Exploring new DeFi protocols',
+    ),
+  ];
 
   @override
   void initState() {
@@ -54,6 +107,7 @@ class _ChannelChatPageState extends State<ChannelChatPage>
     _initializeAnimations();
     _messageFocusNode.addListener(_onFocusChange);
     _messageController.addListener(_onTextChange);
+    _scrollController.addListener(_onScrollChanged);
   }
 
   void _initializeAnimations() {
@@ -113,25 +167,48 @@ class _ChannelChatPageState extends State<ChannelChatPage>
                 // Channel header (now modularized)
                 _buildHeader(isDarkMode),
 
-                // Messages list (now modularized)
+                // Messages area with optional sidebar
                 Expanded(
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: isDarkMode
-                          ? AppColors.darkBackgroundSecondary
-                          : AppColors.backgroundSecondary,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(16.r),
-                        topRight: Radius.circular(16.r),
+                  child: Row(
+                    children: [
+                      // Main chat area with floating scroll-to-bottom button
+                      Expanded(
+                        child: Stack(
+                          children: [
+                            DecoratedBox(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(16.r),
+                                  topRight: _showMembersSidebar
+                                      ? Radius.zero
+                                      : Radius.circular(16.r),
+                                ),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(16.r),
+                                  topRight: _showMembersSidebar
+                                      ? Radius.zero
+                                      : Radius.circular(16.r),
+                                ),
+                                child: _buildMessagesWithBackground(isDarkMode),
+                              ),
+                            ),
+
+                            // Floating scroll-to-bottom button
+                            _buildScrollToBottomFAB(isDarkMode),
+                          ],
+                        ),
                       ),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(16.r),
-                        topRight: Radius.circular(16.r),
-                      ),
-                      child: _buildMessagesList(isDarkMode),
-                    ),
+
+                      // Members sidebar
+                      if (_showMembersSidebar)
+                        EnhancedOnlineMembersSidebar(
+                          onlineMembers: _onlineMembers,
+                          isDarkMode: isDarkMode,
+                          onMemberTap: _showUserProfileFromMember,
+                        ),
+                    ],
                   ),
                 ),
 
@@ -258,16 +335,118 @@ class _ChannelChatPageState extends State<ChannelChatPage>
 
   // Removed unused _buildHeaderAction method
 
+  Widget _buildMessagesWithBackground(bool isDarkMode) {
+    return Stack(
+      children: [
+        // Enhanced Background with customizable community chat backgrounds
+        Positioned.fill(
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 800),
+            decoration: BoxDecoration(
+              // TODO: Replace with community-specific background from community settings
+              // Community hosts should be able to upload custom chat backgrounds
+              image: const DecorationImage(
+                image: AssetImage('assets/images/chat-bg-01.png'),
+                fit: BoxFit.cover,
+                opacity: 0.08, // Slightly more visible for better ambiance
+              ),
+              // Gradient overlay for better text readability
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  (isDarkMode
+                          ? AppColors.darkBackgroundSecondary
+                          : AppColors.backgroundSecondary)
+                      .withValues(alpha: 0.85),
+                  (isDarkMode
+                          ? AppColors.darkBackgroundSecondary
+                          : AppColors.backgroundSecondary)
+                      .withValues(alpha: 0.95),
+                ],
+              ),
+            ),
+          ),
+        ),
+        // Subtle pattern overlay for texture
+        Positioned.fill(
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: const AssetImage('assets/images/chat-bg-01.png'),
+                fit: BoxFit.cover,
+                opacity: isDarkMode ? 0.02 : 0.03,
+                colorFilter: ColorFilter.mode(
+                  isDarkMode
+                      ? AppColors.primary.withValues(alpha: 0.1)
+                      : AppColors.primary.withValues(alpha: 0.05),
+                  BlendMode.overlay,
+                ),
+              ),
+            ),
+          ),
+        ),
+        // Messages list with enhanced animations and overlays
+        Positioned.fill(
+          child: Stack(
+            children: [
+              _buildMessagesList(isDarkMode),
+
+              // Scroll to bottom FAB
+              if (_shouldShowScrollToBottom())
+                Positioned(
+                  bottom: 80.h,
+                  right: 16.w,
+                  child: _buildScrollToBottomFAB(isDarkMode),
+                ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  // Track typing indicator overlay height for proper spacing
+  double _typingIndicatorHeight = 0;
+
   Widget _buildMessagesList(bool isDarkMode) {
-    return MessagesListWidget(
-      messages: _messages,
-      scrollController: _scrollController,
-      isDarkMode: isDarkMode,
-      onReply: _replyToMessage,
-      onReact: _addReaction,
-      onEdit: _editMessage,
-      onDelete: _deleteMessage,
-      onUserTap: _showUserProfile,
+    final typingUsers = ChatDemoData.getTypingUsers();
+
+    return Stack(
+      children: [
+        // Main message list
+        MessagesListWidget(
+          messages: _messages,
+          scrollController: _scrollController,
+          isDarkMode: isDarkMode,
+          onReply: _replyToMessage,
+          onReact: _addReaction,
+          onEdit: _editMessage,
+          onDelete: _deleteMessage,
+          onUserTap: _showUserProfile,
+          bottomPadding:
+              _typingIndicatorHeight, // Add padding for the typing indicator
+        ),
+
+        // Typing indicator overlay positioned at the bottom
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: EnhancedTypingIndicatorOverlay(
+            typingUsers: typingUsers,
+            isDarkMode: isDarkMode,
+            onHeightChanged: (height) {
+              // Only update state if height changed to avoid unnecessary rebuilds
+              if (height != _typingIndicatorHeight) {
+                setState(() {
+                  _typingIndicatorHeight = height;
+                });
+              }
+            },
+          ),
+        ),
+      ],
     );
   }
 
@@ -368,8 +547,13 @@ class _ChannelChatPageState extends State<ChannelChatPage>
   }
 
   void _showMembersList() {
-    // Show members list
-    debugPrint('Show members list');
+    setState(() {
+      _showMembersSidebar = !_showMembersSidebar;
+    });
+  }
+
+  void _showUserProfileFromMember(OnlineMember member) {
+    _showUserProfile(member.id);
   }
 
   void _showSearch() {
@@ -689,5 +873,78 @@ class _ChannelChatPageState extends State<ChannelChatPage>
         );
       }
     });
+  }
+
+  void _onScrollChanged() {
+    if (_scrollController.hasClients) {
+      final maxScroll = _scrollController.position.maxScrollExtent;
+      final currentScroll = _scrollController.position.pixels;
+      setState(() {
+        _isAtBottom = currentScroll >= (maxScroll - 100); // 100px threshold
+      });
+    }
+  }
+
+  bool _shouldShowScrollToBottom() {
+    return !_isAtBottom && _messages.isNotEmpty;
+  }
+
+  Widget _buildScrollToBottomFAB(bool isDarkMode) {
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+      bottom: _shouldShowScrollToBottom() ? 20.h : -60.h,
+      right: 20.w,
+      child: FloatingActionButton.small(
+        onPressed: _scrollToBottom,
+        backgroundColor: AppColors.primary,
+        foregroundColor: Colors.white,
+        elevation: 4,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Icon(PhosphorIcons.arrowDown(PhosphorIconsStyle.bold), size: 20.sp),
+            // Show new message count if there are unread messages
+            if (_getUnreadMessageCount() > 0)
+              Positioned(
+                top: -2,
+                right: -2,
+                child: Container(
+                  padding: EdgeInsets.all(4.w),
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                  constraints: BoxConstraints(minWidth: 16.w, minHeight: 16.h),
+                  child: Text(
+                    _getUnreadMessageCount().toString(),
+                    style: AppTypography.geistSemiBold15.copyWith(
+                      color: Colors.white,
+                      fontSize: 10.sp,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  int _getUnreadMessageCount() {
+    // In a real app, this would track unread messages below current scroll position
+    // For demo purposes, return 3 if not at bottom
+    return _shouldShowScrollToBottom() ? 3 : 0;
+  }
+
+  void _scrollToBottom() {
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
   }
 }

@@ -5,7 +5,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/typography.dart';
 
-/// Enhanced chat input widget with rich features and beautiful animations
+/// Production-level chat input with fluid animations and advanced features
 class EnhancedChatInput extends StatefulWidget {
   const EnhancedChatInput({
     super.key,
@@ -138,9 +138,6 @@ class _EnhancedChatInputState extends State<EnhancedChatInput>
       ),
       child: Column(
         children: [
-          // Typing indicator
-          _buildTypingIndicator(),
-
           // Reply bar
           _buildReplyBar(),
 
@@ -149,56 +146,6 @@ class _EnhancedChatInputState extends State<EnhancedChatInput>
         ],
       ),
     );
-  }
-
-  Widget _buildTypingIndicator() {
-    if (widget.typingUsers.isEmpty) return const SizedBox.shrink();
-
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-      child: Row(
-        children: [
-          _buildTypingDots(),
-          SizedBox(width: 8.w),
-          Text(
-            _getTypingText(),
-            style: AppTypography.geistRegular12.copyWith(
-              color: widget.isDarkMode
-                  ? AppColors.darkTextSecondary
-                  : AppColors.gray600,
-              fontSize: 12.sp,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTypingDots() {
-    return Row(
-      children: List.generate(3, (index) {
-        return Container(
-          width: 6.w,
-          height: 6.w,
-          margin: EdgeInsets.only(right: index < 2 ? 2.w : 0),
-          decoration: const BoxDecoration(
-            color: AppColors.primary,
-            shape: BoxShape.circle,
-          ),
-        );
-      }),
-    );
-  }
-
-  String _getTypingText() {
-    if (widget.typingUsers.length == 1) {
-      return '${widget.typingUsers.first} is typing...';
-    } else if (widget.typingUsers.length == 2) {
-      return '${widget.typingUsers.first} and ${widget.typingUsers.last} are typing...';
-    } else {
-      return 'Several people are typing...';
-    }
   }
 
   Widget _buildReplyBar() {

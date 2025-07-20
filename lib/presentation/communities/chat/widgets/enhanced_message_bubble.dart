@@ -6,7 +6,8 @@ import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../domain/models/chat/chat_message.dart';
 import 'asset_message_card.dart';
-import 'reactions_widget.dart';
+import 'enhanced_reactions_widget.dart';
+import 'enhanced_reaction_picker_improved.dart';
 
 /// Enhanced production-level message bubble with beautiful animations and interactions
 class EnhancedMessageBubble extends StatefulWidget {
@@ -25,6 +26,7 @@ class EnhancedMessageBubble extends StatefulWidget {
     required this.isDarkMode,
     this.onMessageHover,
     this.isHighlighted = false,
+    this.isLastInGroup = false,
   });
 
   final ChatMessage message;
@@ -40,6 +42,7 @@ class EnhancedMessageBubble extends StatefulWidget {
   final bool isDarkMode;
   final VoidCallback? onMessageHover;
   final bool isHighlighted;
+  final bool isLastInGroup;
 
   @override
   State<EnhancedMessageBubble> createState() => _EnhancedMessageBubbleState();
@@ -51,7 +54,6 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
   late Animation<double> _scaleAnimation;
 
   bool _showQuickActions = false;
-  bool _isHovered = false;
 
   @override
   void initState() {
@@ -72,7 +74,6 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
 
   void _onHover(bool isHovered) {
     setState(() {
-      _isHovered = isHovered;
       _showQuickActions = isHovered;
     });
 
@@ -122,7 +123,11 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
         onDoubleTap: _quickReact,
         child: Container(
           margin: EdgeInsets.only(
-            bottom: widget.isGrouped ? 2.h : 16.h,
+            bottom: widget.isLastInGroup
+                ? 4.h
+                : (widget.isGrouped
+                      ? 0
+                      : 3.h), // Reduced spacing between grouped messages
             left: 16.w,
             right: 16.w,
           ),
@@ -136,9 +141,14 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Avatar
-        if (widget.showAvatar) _buildAvatar(),
-        if (widget.showAvatar) SizedBox(width: 12.w),
+        // Avatar or placeholder to maintain alignment
+        SizedBox(
+          width: 40.w,
+          child: widget.showAvatar
+              ? _buildAvatar()
+              : SizedBox(width: 40.w), // Maintain space for alignment
+        ),
+        SizedBox(width: 12.w),
 
         // Message content
         Expanded(child: _buildMessageColumn()),
@@ -220,17 +230,31 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
             child: _buildAttachments(),
           ),
 
-        // Reactions - now shows proper reaction interface
-        Container(
-          margin: EdgeInsets.only(top: 8.h),
-          child: ReactionsWidget(
-            reactions: _convertReactionsList(widget.message.reactions),
-            onReactionToggle: (reaction, isAdding) {
-              widget.onReact(widget.message, reaction);
-            },
-            isDarkMode: widget.isDarkMode,
+        // Enhanced Reactions with beautiful animations and particle effects
+        // Only show reactions on the last message in a group or standalone messages
+        if (widget.message.reactions.isNotEmpty || widget.isLastInGroup)
+          Container(
+            margin: EdgeInsets.only(
+              top: 2.h,
+            ), // Reduced from 4.h to 2.h for tighter spacing
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * 0.8,
+            ),
+            child: widget.message.reactions.isNotEmpty
+                ? EnhancedReactionsWidget(
+                    reactions: _convertReactionsList(widget.message.reactions),
+                    onReactionTap: (String reaction) {
+                      widget.onReact(widget.message, reaction);
+                    },
+                    onAddReaction: () {
+                      _showEmojiPicker();
+                    },
+                    isDarkMode: widget.isDarkMode,
+                  )
+                : widget.isLastInGroup
+                ? _buildAddReactionButton()
+                : const SizedBox.shrink(), // Don't show add reaction button if not last in group
           ),
-        ),
       ],
     );
   }
@@ -508,6 +532,11 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
             () => widget.onReply(widget.message),
           ),
           _buildOptionTile(
+            PhosphorIcons.smiley(PhosphorIconsStyle.bold),
+            'Add Reaction',
+            () => _showEmojiPicker(),
+          ),
+          _buildOptionTile(
             PhosphorIcons.copy(PhosphorIconsStyle.bold),
             'Copy Text',
             () => _copyMessage(),
@@ -563,12 +592,24 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
   }
 
   void _showEmojiPicker() {
-    // Show emoji picker bottom sheet
+    // Show enhanced reaction picker bottom sheet
     showModalBottomSheet<void>(
       context: context,
-      builder: (context) => SizedBox(
-        height: 300.h,
-        child: const Text('Emoji Picker'), // Replace with actual emoji picker
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => EnhancedReactionPickerImproved(
+        onReactionSelected: (String reaction) {
+          widget.onReact(widget.message, reaction);
+          // Don't call Navigator.pop here - let the picker handle it
+        },
+        recentReactions: const [
+          '❤️',
+          '👍',
+          '😂',
+          '😮',
+          '🔥',
+        ], // Demo recent reactions
+        isDarkMode: widget.isDarkMode,
       ),
     );
   }
@@ -581,16 +622,45 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
   // Utility methods
   String _formatTimestamp(DateTime timestamp) {
     final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final yesterday = today.subtract(const Duration(days: 1));
+    final messageDate = DateTime(
+      timestamp.year,
+      timestamp.month,
+      timestamp.day,
+    );
     final difference = now.difference(timestamp);
 
-    if (difference.inDays > 0) {
-      return '${difference.inDays}d ago';
-    } else if (difference.inHours > 0) {
-      return '${difference.inHours}h ago';
-    } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes}m ago';
+    // Format the time component
+    String timeStr =
+        '${timestamp.hour.toString().padLeft(2, '0')}:${timestamp.minute.toString().padLeft(2, '0')}';
+
+    if (messageDate == today) {
+      // Today: show relative time for recent messages, exact time for older ones
+      if (difference.inHours < 1) {
+        if (difference.inMinutes < 1) {
+          return 'Just now';
+        }
+        return '${difference.inMinutes}m ago';
+      }
+      return timeStr; // Show exact time for messages from earlier today
+    } else if (messageDate == yesterday) {
+      return 'Yesterday, $timeStr';
+    } else if (difference.inDays < 7) {
+      // Within the last week
+      List<String> days = [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday',
+      ];
+      return '${days[timestamp.weekday - 1]}, $timeStr';
     } else {
-      return 'Just now';
+      // Older messages
+      return '${timestamp.day}/${timestamp.month}, $timeStr';
     }
   }
 
@@ -628,6 +698,51 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: Text(widget.message.content, style: TextStyle(fontSize: 64.sp)),
+    );
+  }
+
+  /// Build add reaction button for messages without reactions
+  Widget _buildAddReactionButton() {
+    return GestureDetector(
+      onTap: _showEmojiPicker,
+      child: Container(
+        margin: EdgeInsets.only(top: 4.h),
+        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+        decoration: BoxDecoration(
+          color: widget.isDarkMode
+              ? AppColors.darkContainerBorder.withValues(alpha: 0.2)
+              : AppColors.gray100,
+          borderRadius: BorderRadius.circular(12.r),
+          border: Border.all(
+            color: widget.isDarkMode
+                ? AppColors.darkContainerBorder.withValues(alpha: 0.3)
+                : AppColors.gray200,
+            width: 1,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              PhosphorIcons.smiley(PhosphorIconsStyle.regular),
+              size: 16.sp,
+              color: widget.isDarkMode
+                  ? AppColors.darkTextSecondary
+                  : AppColors.gray600,
+            ),
+            SizedBox(width: 4.w),
+            Text(
+              'React',
+              style: AppTypography.geistRegular12.copyWith(
+                color: widget.isDarkMode
+                    ? AppColors.darkTextSecondary
+                    : AppColors.gray600,
+                fontSize: 12.sp,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

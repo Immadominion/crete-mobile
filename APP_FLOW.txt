@@ -95,6 +95,21 @@ Proposal Messages - Governance posts appear in channels
 Quick Vote - Vote directly from channel message
 Vote Threads - Discussion under proposal messages
 Results Display - Real-time vote counts in channel
+
+Community Customization
+Channel Backgrounds - Community hosts can set custom chat backgrounds for each channel
+- Upload custom background images for different channels
+- Set opacity and overlay effects for readability
+- Preview background changes before applying
+- Background library with preset themes and patterns
+- Seasonal/event-specific background collections
+- User preference to override community backgrounds
+Server Themes - Color schemes and branding customization
+Custom Emojis - Upload community-specific emojis and stickers
+Sound Effects - Custom notification sounds for communities
+Welcome Messages - Customizable onboarding experience for new members
+Channel Customization - Per-channel color schemes and visual themes
+
 Direct Messages
 DM System
 DM List - Private conversations
