@@ -10,9 +10,11 @@ import '../../../domain/models/chat/chat_message.dart';
 import '../community_detail_page.dart';
 import 'widgets/asset_selector_dialog.dart';
 import 'widgets/attachment_options_dialog.dart';
+import 'widgets/channel_header_widget.dart';
 import 'widgets/emoji_picker_widget.dart';
 import 'widgets/enhanced_chat_input.dart';
-import 'widgets/enhanced_message_bubble.dart';
+import 'widgets/messages_list_widget.dart';
+import 'widgets/reply_bar_widget.dart';
 import 'widgets/sticker_picker_widget.dart';
 
 /// Channel chat interface similar to Discord
@@ -108,9 +110,12 @@ class _ChannelChatPageState extends State<ChannelChatPage>
           child: SafeArea(
             child: Column(
               children: [
+                // Channel header (now modularized)
                 _buildHeader(isDarkMode),
+
+                // Messages list (now modularized)
                 Expanded(
-                  child: Container(
+                  child: DecoratedBox(
                     decoration: BoxDecoration(
                       color: isDarkMode
                           ? AppColors.darkBackgroundSecondary
@@ -129,8 +134,14 @@ class _ChannelChatPageState extends State<ChannelChatPage>
                     ),
                   ),
                 ),
+
+                // Reply bar (now modularized)
                 _buildReplyBar(isDarkMode),
+
+                // Input section
                 _buildInputSection(isDarkMode),
+
+                // Emoji & Sticker pickers
                 if (_showEmojiPicker)
                   EmojiPickerWidget(
                     onEmojiSelected: _onEmojiSelected,
@@ -150,85 +161,17 @@ class _ChannelChatPageState extends State<ChannelChatPage>
   }
 
   Widget _buildHeader(bool isDarkMode) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-      decoration: BoxDecoration(
-        color: isDarkMode
-            ? AppColors.darkBackgroundPrimary
-            : AppColors.backgroundPrimary,
-        boxShadow: [
-          if (!isDarkMode)
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              offset: Offset(0, 2),
-              blurRadius: 5,
-            ),
-        ],
-      ),
-      child: Row(
-        children: [
-          // Back button with animation
-          _buildBackButton(isDarkMode),
-          SizedBox(width: 12.w),
-
-          // Channel icon and name
-          Icon(_getChannelIcon(), color: AppColors.primary, size: 20.sp),
-          SizedBox(width: 8.w),
-
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    // Channel name
-                    Text(
-                      widget.channel.name,
-                      style: AppTypography.geistSemiBold15.copyWith(
-                        color: isDarkMode
-                            ? AppColors.darkTextPrimary
-                            : AppColors.gray900,
-                        fontSize: 17.sp,
-                      ),
-                    ),
-                    SizedBox(width: 6.w),
-
-                    // Embedded online indicator
-                    _buildEmbeddedOnlineCount(isDarkMode),
-                  ],
-                ),
-                if (widget.channel.description.isNotEmpty)
-                  Text(
-                    widget.channel.description,
-                    style: AppTypography.geistRegular13.copyWith(
-                      color: isDarkMode
-                          ? AppColors.darkTextSecondary
-                          : AppColors.gray600,
-                      fontSize: 13.sp,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-              ],
-            ),
-          ),
-
-          // Consolidated action button
-          _buildPopupMenuButton(isDarkMode),
-        ],
-      ),
-    );
-  }
-
-  // New method for consolidated actions menu
-  Widget _buildPopupMenuButton(bool isDarkMode) {
-    return _buildIconButton(
-      PhosphorIcons.dotsThreeVertical(PhosphorIconsStyle.bold),
-      isDarkMode,
-      () {
-        final RenderBox button = context.findRenderObject() as RenderBox;
+    return ChannelHeaderWidget(
+      channelName: widget.channel.name,
+      channelDescription: widget.channel.description,
+      channelIcon: _getChannelIcon(),
+      onlineCount: 14, // This would come from a real-time service
+      isDarkMode: isDarkMode,
+      onBackPressed: () => Navigator.pop(context),
+      showMenu: () {
+        final RenderBox button = context.findRenderObject()! as RenderBox;
         final RenderBox overlay =
-            Navigator.of(context).overlay!.context.findRenderObject()
+            Navigator.of(context).overlay!.context.findRenderObject()!
                 as RenderBox;
         final RelativeRect position = RelativeRect.fromRect(
           Rect.fromPoints(
@@ -253,36 +196,38 @@ class _ChannelChatPageState extends State<ChannelChatPage>
           items: [
             PopupMenuItem<String>(
               value: 'members',
+              onTap: _showMembersList,
               child: _buildMenuOption(
                 PhosphorIcons.usersFour(PhosphorIconsStyle.bold),
                 'Members',
                 isDarkMode,
               ),
-              onTap: _showMembersList,
             ),
             PopupMenuItem<String>(
               value: 'search',
+              onTap: _showSearch,
               child: _buildMenuOption(
                 PhosphorIcons.magnifyingGlass(PhosphorIconsStyle.bold),
                 'Search',
                 isDarkMode,
               ),
-              onTap: _showSearch,
             ),
             PopupMenuItem<String>(
               value: 'settings',
+              onTap: _showChannelMenu,
               child: _buildMenuOption(
                 PhosphorIcons.gear(PhosphorIconsStyle.bold),
                 'Channel Settings',
                 isDarkMode,
               ),
-              onTap: _showChannelMenu,
             ),
           ],
         );
       },
     );
   }
+
+  // Menu option builder still used in the ChannelHeaderWidget showMenu callback
 
   Widget _buildMenuOption(
     PhosphorIconData icon,
@@ -307,137 +252,22 @@ class _ChannelChatPageState extends State<ChannelChatPage>
     );
   }
 
-  // New method for embedded online count
-  Widget _buildEmbeddedOnlineCount(bool isDarkMode) {
-    final onlineCount =
-        14; // This would come from a real-time service in production
-
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
-      decoration: BoxDecoration(
-        color: isDarkMode
-            ? AppColors.darkContainerBorder.withOpacity(0.2)
-            : AppColors.gray100,
-        borderRadius: BorderRadius.circular(10.r),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 6.w,
-            height: 6.w,
-            decoration: BoxDecoration(
-              color: Colors.green,
-              shape: BoxShape.circle,
-            ),
-          ),
-          SizedBox(width: 4.w),
-          Text(
-            '$onlineCount',
-            style: AppTypography.geistRegular13.copyWith(
-              color: isDarkMode
-                  ? AppColors.darkTextSecondary
-                  : AppColors.gray600,
-              fontSize: 10.sp,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBackButton(bool isDarkMode) {
-    return Container(
-      decoration: BoxDecoration(
-        color: isDarkMode
-            ? AppColors.darkContainerBorder.withOpacity(0.3)
-            : AppColors.gray100,
-        borderRadius: BorderRadius.circular(8.r),
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(8.r),
-          onTap: () => Navigator.pop(context),
-          child: Padding(
-            padding: EdgeInsets.all(8.w),
-            child: Icon(
-              PhosphorIcons.arrowLeft(PhosphorIconsStyle.bold),
-              color: isDarkMode ? AppColors.darkTextPrimary : AppColors.gray900,
-              size: 20.sp,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  // This method was renamed to avoid duplication with the previous definition
-  Widget _buildIconButton(
-    PhosphorIconData icon,
-    bool isDarkMode,
-    VoidCallback onTap,
-  ) {
-    return Container(
-      decoration: BoxDecoration(
-        color: isDarkMode
-            ? AppColors.darkContainerBorder.withOpacity(0.3)
-            : AppColors.gray100,
-        borderRadius: BorderRadius.circular(8.r),
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(8.r),
-          onTap: onTap,
-          child: Padding(
-            padding: EdgeInsets.all(8.w),
-            child: Icon(
-              icon,
-              color: isDarkMode
-                  ? AppColors.darkTextSecondary
-                  : AppColors.gray600,
-              size: 18.sp,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  // Methods removed as they're now handled by ChannelHeaderWidget
 
   // Original _buildOnlineIndicator method removed as it's no longer used
 
   // Removed unused _buildHeaderAction method
 
   Widget _buildMessagesList(bool isDarkMode) {
-    return ListView.builder(
-      controller: _scrollController,
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-      itemCount: _messages.length,
-      itemBuilder: (context, index) {
-        final message = _messages[index];
-        final isConsecutive =
-            index > 0 &&
-            _messages[index - 1].userId == message.userId &&
-            message.timestamp
-                    .difference(_messages[index - 1].timestamp)
-                    .inMinutes <
-                5;
-
-        return EnhancedMessageBubble(
-          message: message,
-          isCurrentUser: message.userId == 'current_user',
-          isGrouped: isConsecutive,
-          showAvatar: !isConsecutive,
-          showTimestamp: !isConsecutive,
-          onReply: _replyToMessage,
-          onReact: _addReaction,
-          onEdit: _editMessage,
-          onDelete: _deleteMessage,
-          onUserTap: _showUserProfile,
-          isDarkMode: isDarkMode,
-        );
-      },
+    return MessagesListWidget(
+      messages: _messages,
+      scrollController: _scrollController,
+      isDarkMode: isDarkMode,
+      onReply: _replyToMessage,
+      onReact: _addReaction,
+      onEdit: _editMessage,
+      onDelete: _deleteMessage,
+      onUserTap: _showUserProfile,
     );
   }
 
@@ -446,51 +276,14 @@ class _ChannelChatPageState extends State<ChannelChatPage>
   // These methods have been removed as they're now handled by EnhancedMessageBubble
 
   Widget _buildReplyBar(bool isDarkMode) {
-    if (_replyingTo == null) return const SizedBox();
+    if (_replyingTo == null) {
+      return const SizedBox();
+    }
 
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-      decoration: BoxDecoration(
-        color: isDarkMode
-            ? AppColors.darkContainerBorder.withOpacity(0.3)
-            : AppColors.gray100,
-        border: Border(
-          top: BorderSide(
-            color: isDarkMode
-                ? AppColors.darkContainerBorder
-                : AppColors.gray200,
-          ),
-        ),
-      ),
-      child: Row(
-        children: [
-          Icon(
-            PhosphorIcons.arrowBendUpLeft(PhosphorIconsStyle.bold),
-            color: AppColors.primary,
-            size: 16.sp,
-          ),
-          SizedBox(width: 8.w),
-          Expanded(
-            child: Text(
-              'Replying to ${_replyingTo!.username}',
-              style: AppTypography.geistMedium13.copyWith(
-                color: AppColors.primary,
-                fontSize: 13.sp,
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () => setState(() => _replyingTo = null),
-            child: Icon(
-              PhosphorIcons.x(PhosphorIconsStyle.bold),
-              color: isDarkMode
-                  ? AppColors.darkTextSecondary
-                  : AppColors.gray600,
-              size: 16.sp,
-            ),
-          ),
-        ],
-      ),
+    return ReplyBarWidget(
+      replyingTo: _replyingTo!,
+      onCancelReply: _cancelReply,
+      isDarkMode: isDarkMode,
     );
   }
 
@@ -536,10 +329,14 @@ class _ChannelChatPageState extends State<ChannelChatPage>
   // This method has been removed as it's now handled by EnhancedMessageBubble
 
   void _sendMessage() {
-    if (_messageController.text.trim().isEmpty) return;
+    if (_messageController.text.trim().isEmpty) {
+      return;
+    }
 
     // Check if widget is still mounted
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
 
     // Add message to list (in real app, this would be sent to backend)
     final newMessage = ChatMessage(
@@ -647,27 +444,37 @@ class _ChannelChatPageState extends State<ChannelChatPage>
 
   void _toggleEmojiPicker() {
     // Check if widget is still mounted before calling setState
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
 
     setState(() {
       _showEmojiPicker = !_showEmojiPicker;
-      if (_showEmojiPicker) _showStickers = false;
+      if (_showEmojiPicker) {
+        _showStickers = false;
+      }
     });
   }
 
   void _toggleStickers() {
     // Check if widget is still mounted before calling setState
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
 
     setState(() {
       _showStickers = !_showStickers;
-      if (_showStickers) _showEmojiPicker = false;
+      if (_showStickers) {
+        _showEmojiPicker = false;
+      }
     });
   }
 
   void _onEmojiSelected(String emoji) {
     // Check if widget is still mounted to avoid setState after dispose errors
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
 
     final currentText = _messageController.text;
     final selection = _messageController.selection;
@@ -701,7 +508,9 @@ class _ChannelChatPageState extends State<ChannelChatPage>
 
   void _onStickerSelected(String sticker) {
     // Check if widget is still mounted to avoid setState after dispose errors
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
 
     // Send sticker as message
     final newMessage = ChatMessage(
@@ -742,9 +551,22 @@ class _ChannelChatPageState extends State<ChannelChatPage>
   }
 
   void _addReaction(ChatMessage message, String reaction) {
-    // Find the message and add the reaction
+    // Find the message and toggle the reaction
     final messageIndex = _messages.indexWhere((m) => m.id == message.id);
     if (messageIndex != -1) {
+      final List<String> updatedReactions = [...message.reactions];
+
+      // Check if reaction already exists to toggle it
+      if (updatedReactions.contains(reaction)) {
+        updatedReactions.remove(reaction);
+        debugPrint(
+          'Removed reaction $reaction from message: ${message.content}',
+        );
+      } else {
+        updatedReactions.add(reaction);
+        debugPrint('Added reaction $reaction to message: ${message.content}');
+      }
+
       final updatedMessage = ChatMessage(
         id: message.id,
         userId: message.userId,
@@ -753,16 +575,22 @@ class _ChannelChatPageState extends State<ChannelChatPage>
         content: message.content,
         timestamp: message.timestamp,
         attachments: message.attachments,
-        reactions: [...message.reactions, reaction],
+        reactions: updatedReactions,
         isBot: message.isBot,
         replyTo: message.replyTo,
         type: message.type,
+        sentAsset: message.sentAsset,
+        isClaimable: message.isClaimable,
+        isClaimed: message.isClaimed,
+        claimableUntil: message.claimableUntil,
+        mentionedUsers: message.mentionedUsers,
+        taggedRoles: message.taggedRoles,
       );
+
       setState(() {
         _messages[messageIndex] = updatedMessage;
       });
     }
-    debugPrint('Added reaction $reaction to message: ${message.content}');
   }
 
   void _editMessage(ChatMessage message) {
@@ -810,7 +638,9 @@ class _ChannelChatPageState extends State<ChannelChatPage>
 
   void _sendAssetMessage(SentAsset asset) {
     // Check if widget is still mounted
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
 
     // Determine message type based on asset type
     final messageType = switch (asset.type) {

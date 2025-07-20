@@ -218,17 +218,17 @@ class _CompactCommunityCardState extends State<CompactCommunityCard>
     String? imageUrl = widget.community.imageUrl;
 
     // Try to use DAO demo data for image based on community ID
-    int? communityIdInt = int.tryParse(widget.community.id);
+    final int? communityIdInt = int.tryParse(widget.community.id);
     if ((imageUrl == null || imageUrl.isEmpty) && communityIdInt != null) {
       // Use the community ID to find corresponding DAO image (1-based index)
-      int daoIndex = communityIdInt - 1;
+      final int daoIndex = communityIdInt - 1;
       if (daoIndex >= 0 && daoIndex < DaoUiDemoData.myDaos.length) {
         // Use DAO image URL
         imageUrl = DaoUiDemoData.myDaos[daoIndex].imageUrl;
       }
     }
 
-    return Container(
+    return DecoratedBox(
       // Let the Flexible parent handle sizing
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -329,16 +329,16 @@ class _CompactCommunityCardState extends State<CompactCommunityCard>
   Widget _buildFallbackIcon() {
     // Get name from DAO UI demo data if needed
     String displayName = widget.community.name;
-    int? communityIdInt = int.tryParse(widget.community.id);
+    final int? communityIdInt = int.tryParse(widget.community.id);
     if (communityIdInt != null) {
       // Use the community ID to find corresponding DAO name (1-based index)
-      int daoIndex = communityIdInt - 1;
+      final int daoIndex = communityIdInt - 1;
       if (daoIndex >= 0 && daoIndex < DaoUiDemoData.myDaos.length) {
         displayName = DaoUiDemoData.myDaos[daoIndex].name;
       }
     }
 
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         gradient: LinearGradient(
@@ -391,7 +391,7 @@ class _CompactCommunityCardState extends State<CompactCommunityCard>
       );
     }
 
-    return Container(
+    return DecoratedBox(
       // Let the Flexible parent handle sizing
       decoration: BoxDecoration(
         color: widget.isDarkMode
@@ -402,7 +402,7 @@ class _CompactCommunityCardState extends State<CompactCommunityCard>
           bottomRight: Radius.circular(12.r),
         ),
         border: Border(
-          top: BorderSide(color: Colors.grey.withOpacity(0.15), width: 1),
+          top: BorderSide(color: Colors.grey.withOpacity(0.15)),
         ),
       ),
       child: Padding(
@@ -436,10 +436,10 @@ class _CompactCommunityCardState extends State<CompactCommunityCard>
   String _getDisplayName() {
     // Get name from DAO UI demo data if needed
     String displayName = widget.community.name;
-    int? communityIdInt = int.tryParse(widget.community.id);
+    final int? communityIdInt = int.tryParse(widget.community.id);
     if (communityIdInt != null) {
       // Use the community ID to find corresponding DAO name (1-based index)
-      int daoIndex = communityIdInt - 1;
+      final int daoIndex = communityIdInt - 1;
       if (daoIndex >= 0 && daoIndex < DaoUiDemoData.myDaos.length) {
         displayName = DaoUiDemoData.myDaos[daoIndex].name;
       }

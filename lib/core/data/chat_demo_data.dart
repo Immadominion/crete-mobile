@@ -66,11 +66,11 @@ class ChatDemoData {
         userId: 'user3',
         username: 'Maria Santos',
         avatar: 'https://i.pravatar.cc/150?img=3',
-        content: 'Here\'s a little bonus for your help last week!',
+        content: "Here's a little bonus for your help last week!",
         timestamp: DateTime.now().subtract(const Duration(minutes: 7)),
         reactions: ['🙏', '🎉'],
         type: MessageType.token,
-        sentAsset: SentAsset(
+        sentAsset: const SentAsset(
           id: 'token-123',
           type: AssetType.token,
           name: 'BONK',
@@ -90,7 +90,7 @@ class ChatDemoData {
         timestamp: DateTime.now().subtract(const Duration(minutes: 5)),
         reactions: ['🏆', '👏'],
         type: MessageType.role,
-        sentAsset: SentAsset(
+        sentAsset: const SentAsset(
           id: 'role-456',
           type: AssetType.role,
           name: 'Community Contributor',
@@ -108,7 +108,7 @@ class ChatDemoData {
         timestamp: DateTime.now().subtract(const Duration(minutes: 2)),
         reactions: ['😮', '🎁', '👀'],
         type: MessageType.nft,
-        sentAsset: SentAsset(
+        sentAsset: const SentAsset(
           id: 'nft-789',
           type: AssetType.nft,
           name: 'Cosmic Explorer #42',

@@ -148,7 +148,6 @@ class _EnhancedCommunityCardState extends State<EnhancedCommunityCard>
           children: [
             _buildHeader(isMyCommunity),
             Flexible(
-              fit: FlexFit.loose, // Prevent overflow with flexible sizing
               child: _buildContent(isMyCommunity),
             ),
             _buildFooter(isMyCommunity),
@@ -282,7 +281,7 @@ class _EnhancedCommunityCardState extends State<EnhancedCommunityCard>
       decoration: BoxDecoration(
         color: AppColors.success.withOpacity(0.1),
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: AppColors.success.withOpacity(0.3), width: 1),
+        border: Border.all(color: AppColors.success.withOpacity(0.3)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -341,7 +340,7 @@ class _EnhancedCommunityCardState extends State<EnhancedCommunityCard>
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         // Member avatars stack with fixed width
-        Container(
+        SizedBox(
           width: 70.w, // Fixed width container for stack
           height: 32.h,
           child: Stack(
@@ -369,7 +368,7 @@ class _EnhancedCommunityCardState extends State<EnhancedCommunityCard>
                       avatar,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
-                        return Container(
+                        return ColoredBox(
                           color: AppColors.primary,
                           child: Icon(
                             PhosphorIcons.user(PhosphorIconsStyle.bold),
@@ -433,7 +432,6 @@ class _EnhancedCommunityCardState extends State<EnhancedCommunityCard>
               borderRadius: BorderRadius.circular(6.r),
               border: Border.all(
                 color: AppColors.primary.withOpacity(0.2),
-                width: 1,
               ),
             ),
             child: Text(
@@ -465,7 +463,6 @@ class _EnhancedCommunityCardState extends State<EnhancedCommunityCard>
               borderRadius: BorderRadius.circular(8.r),
               border: Border.all(
                 color: AppColors.primary.withOpacity(0.2),
-                width: 1,
               ),
             ),
             child: Text(
@@ -487,7 +484,7 @@ class _EnhancedCommunityCardState extends State<EnhancedCommunityCard>
       decoration: BoxDecoration(
         color: AppColors.success.withOpacity(0.05),
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: AppColors.success.withOpacity(0.3), width: 1),
+        border: Border.all(color: AppColors.success.withOpacity(0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -539,7 +536,6 @@ class _EnhancedCommunityCardState extends State<EnhancedCommunityCard>
                   : (widget.isDarkMode
                         ? AppColors.darkContainerBorder
                         : AppColors.gray200),
-              width: 1,
             ),
           ),
         ),
@@ -606,7 +602,6 @@ class _EnhancedCommunityCardState extends State<EnhancedCommunityCard>
             color: widget.isDarkMode
                 ? AppColors.darkContainerBorder
                 : AppColors.gray200,
-            width: 1,
           ),
         ),
       ),
@@ -621,7 +616,7 @@ class _EnhancedCommunityCardState extends State<EnhancedCommunityCard>
         width: double.infinity,
         padding: EdgeInsets.symmetric(vertical: 12.h),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             colors: [AppColors.primary, AppColors.primaryLight],
           ),
           borderRadius: BorderRadius.circular(8.r),
@@ -662,7 +657,7 @@ class _EnhancedCommunityCardState extends State<EnhancedCommunityCard>
       decoration: BoxDecoration(
         color: AppColors.success.withOpacity(0.1),
         borderRadius: BorderRadius.circular(8.r),
-        border: Border.all(color: AppColors.success.withOpacity(0.3), width: 1),
+        border: Border.all(color: AppColors.success.withOpacity(0.3)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

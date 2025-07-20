@@ -8,11 +8,11 @@ import '../../core/theme/spacing.dart';
 import '../../core/theme/typography.dart';
 import '../../domain/entities/community.dart';
 import 'community_detail_page.dart';
+import 'my_communities_page.dart';
 import 'widgets/communities_header.dart';
 import 'widgets/communities_search_bar.dart';
 import 'widgets/compact_community_card.dart';
 import 'widgets/enhanced_community_card.dart';
-import 'my_communities_page.dart';
 
 /// Communities page - Server list, discover new ones
 /// Shows My Communities (joined servers) and Discover (public servers)
@@ -206,7 +206,7 @@ class _CommunitiesPageState extends State<CommunitiesPage>
                   ),
                   SizedBox(width: 4.w),
                   PhosphorIcon(
-                    PhosphorIcons.arrowRight(PhosphorIconsStyle.regular),
+                    PhosphorIcons.arrowRight(),
                     color: AppColors.primary,
                     size: 14.sp,
                   ),
@@ -296,7 +296,7 @@ class _CommunitiesPageState extends State<CommunitiesPage>
                   ),
                   SizedBox(width: 4.w),
                   PhosphorIcon(
-                    PhosphorIcons.arrowRight(PhosphorIconsStyle.regular),
+                    PhosphorIcons.arrowRight(),
                     color: AppColors.warning,
                     size: 14.sp,
                   ),
@@ -363,7 +363,6 @@ class _CommunitiesPageState extends State<CommunitiesPage>
                 : (Theme.of(context).brightness == Brightness.dark
                       ? AppColors.darkContainerBorder
                       : AppColors.gray200),
-            width: 1,
           ),
         ),
         label: Text(

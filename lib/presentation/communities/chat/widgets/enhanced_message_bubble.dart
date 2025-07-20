@@ -5,6 +5,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../domain/models/chat/chat_message.dart';
+import 'asset_message_card.dart';
+import 'reactions_widget.dart';
 
 /// Enhanced production-level message bubble with beautiful animations and interactions
 class EnhancedMessageBubble extends StatefulWidget {
@@ -167,7 +169,7 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
             widget.message.avatar,
             fit: BoxFit.cover,
             errorBuilder: (context, error, stackTrace) {
-              return Container(
+              return ColoredBox(
                 color: AppColors.primary,
                 child: Center(
                   child: Text(
@@ -218,12 +220,17 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
             child: _buildAttachments(),
           ),
 
-        // Reactions
-        if (widget.message.reactions.isNotEmpty)
-          Container(
-            margin: EdgeInsets.only(top: 8.h),
-            child: _buildReactions(),
+        // Reactions - now shows proper reaction interface
+        Container(
+          margin: EdgeInsets.only(top: 8.h),
+          child: ReactionsWidget(
+            reactions: _convertReactionsList(widget.message.reactions),
+            onReactionToggle: (reaction, isAdding) {
+              widget.onReact(widget.message, reaction);
+            },
+            isDarkMode: widget.isDarkMode,
           ),
+        ),
       ],
     );
   }
@@ -234,241 +241,21 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
 
     return Container(
       margin: EdgeInsets.only(top: 4.h),
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: widget.isDarkMode
-            ? AppColors.darkContainerBorder.withOpacity(0.3)
-            : AppColors.gray100,
-        borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(
-          color: _getAssetBorderColor(asset.type),
-          width: 1.5.w,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Asset header
-          Row(
-            children: [
-              Icon(
-                _getAssetTypeIcon(asset.type),
-                color: _getAssetColor(asset.type),
-                size: 18.sp,
-              ),
-              SizedBox(width: 8.w),
-              Text(
-                _getAssetTypeTitle(asset.type),
-                style: AppTypography.geistMedium13.copyWith(
-                  color: _getAssetColor(asset.type),
-                  fontSize: 14.sp,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 12.h),
-
-          // Asset details
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Asset image
-              if (asset.imageUrl != null)
-                Container(
-                  width: 60.w,
-                  height: 60.w,
-                  decoration: BoxDecoration(
-                    color: widget.isDarkMode
-                        ? AppColors.darkContainerBorder
-                        : AppColors.gray200,
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.r),
-                    child: Image.network(
-                      asset.imageUrl!,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Icon(
-                        _getAssetTypeIcon(asset.type),
-                        color: _getAssetColor(asset.type),
-                        size: 24.sp,
-                      ),
-                    ),
-                  ),
-                )
-              else
-                Container(
-                  width: 60.w,
-                  height: 60.w,
-                  decoration: BoxDecoration(
-                    color: _getAssetColor(asset.type).withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                  child: Icon(
-                    _getAssetTypeIcon(asset.type),
-                    color: _getAssetColor(asset.type),
-                    size: 24.sp,
-                  ),
-                ),
-              SizedBox(width: 12.w),
-
-              // Asset info
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      asset.name,
-                      style: AppTypography.geistSemiBold15.copyWith(
-                        color: widget.isDarkMode
-                            ? AppColors.darkTextPrimary
-                            : AppColors.gray900,
-                      ),
-                    ),
-                    SizedBox(height: 4.h),
-                    Text(
-                      _getAssetDescription(asset),
-                      style: AppTypography.geistRegular13.copyWith(
-                        color: widget.isDarkMode
-                            ? AppColors.darkTextSecondary
-                            : AppColors.gray600,
-                      ),
-                    ),
-
-                    // Claimable info
-                    if (widget.message.isClaimable &&
-                        widget.message.claimableUntil != null)
-                      Container(
-                        margin: EdgeInsets.only(top: 8.h),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 8.w,
-                          vertical: 4.h,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _getClaimableColor().withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              widget.message.isClaimed
-                                  ? PhosphorIcons.checkCircle(
-                                      PhosphorIconsStyle.bold,
-                                    )
-                                  : PhosphorIcons.clockCountdown(
-                                      PhosphorIconsStyle.bold,
-                                    ),
-                              size: 12.sp,
-                              color: _getClaimableColor(),
-                            ),
-                            SizedBox(width: 4.w),
-                            Text(
-                              widget.message.isClaimed
-                                  ? 'Claimed'
-                                  : 'Claimable until ${_formatClaimableDate(widget.message.claimableUntil!)}',
-                              style: AppTypography.geistRegular11.copyWith(
-                                color: _getClaimableColor(),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-
-          // Action button
-          if (widget.message.isClaimable && !widget.message.isClaimed)
-            Container(
-              margin: EdgeInsets.only(top: 12.h),
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  // TODO: Implement claim functionality
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: _getAssetColor(asset.type),
-                  foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 8.h),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                ),
-                child: Text('Claim Now', style: AppTypography.geistMedium13),
-              ),
-            ),
-        ],
+      child: AssetMessageCard(
+        asset: asset,
+        type: widget.message.type,
+        isClaimable: widget.message.isClaimable,
+        claimableUntil: widget.message.claimableUntil,
+        isDarkMode: widget.isDarkMode,
+        onClaim: () {
+          // TODO: Implement claim functionality
+          debugPrint('Claiming asset: ${asset.name}');
+        },
       ),
     );
   }
 
-  Color _getAssetColor(AssetType type) {
-    switch (type) {
-      case AssetType.token:
-        return Colors.amber;
-      case AssetType.nft:
-        return Colors.purple;
-      case AssetType.role:
-        return Colors.blue;
-      case AssetType.tag:
-        return Colors.green;
-    }
-  }
-
-  Color _getAssetBorderColor(AssetType type) {
-    return _getAssetColor(type).withOpacity(0.3);
-  }
-
-  Color _getClaimableColor() {
-    return widget.message.isClaimed ? Colors.green : Colors.orange;
-  }
-
-  PhosphorIconData _getAssetTypeIcon(AssetType type) {
-    switch (type) {
-      case AssetType.token:
-        return PhosphorIcons.coins(PhosphorIconsStyle.bold);
-      case AssetType.nft:
-        return PhosphorIcons.image(PhosphorIconsStyle.bold);
-      case AssetType.role:
-        return PhosphorIcons.user(PhosphorIconsStyle.bold);
-      case AssetType.tag:
-        return PhosphorIcons.tag(PhosphorIconsStyle.bold);
-    }
-  }
-
-  String _getAssetTypeTitle(AssetType type) {
-    switch (type) {
-      case AssetType.token:
-        return 'Token Gift';
-      case AssetType.nft:
-        return 'NFT Asset';
-      case AssetType.role:
-        return 'Role Assignment';
-      case AssetType.tag:
-        return 'Profile Tag';
-    }
-  }
-
-  String _getAssetDescription(SentAsset asset) {
-    switch (asset.type) {
-      case AssetType.token:
-        return '${asset.value} ${asset.name} tokens';
-      case AssetType.nft:
-        return asset.metadata?['collection']?.toString() ??
-            'Digital Collectible';
-      case AssetType.role:
-        return 'Community Role';
-      case AssetType.tag:
-        return 'Profile Tag';
-    }
-  }
-
-  String _formatClaimableDate(DateTime date) {
-    return '${date.month}/${date.day}/${date.year}';
-  }
+  // Methods removed as they're now handled by modular components
 
   Widget _buildUsernameRow() {
     return Row(
@@ -516,41 +303,7 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
     );
   }
 
-  Widget _buildReplyIndicator() {
-    return Container(
-      margin: EdgeInsets.only(bottom: 4.h),
-      child: Row(
-        children: [
-          Container(
-            width: 3.w,
-            height: 20.h,
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(2.r),
-            ),
-          ),
-          SizedBox(width: 8.w),
-          Icon(
-            PhosphorIcons.arrowBendUpLeft(PhosphorIconsStyle.bold),
-            size: 14.sp,
-            color: widget.isDarkMode
-                ? AppColors.darkTextSecondary
-                : AppColors.gray600,
-          ),
-          SizedBox(width: 4.w),
-          Text(
-            'Replying to message',
-            style: AppTypography.geistRegular12.copyWith(
-              color: widget.isDarkMode
-                  ? AppColors.darkTextSecondary
-                  : AppColors.gray600,
-              fontSize: 12.sp,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // Method removed as it's not used
 
   Widget _buildMessageBubble() {
     return Container(
@@ -634,50 +387,7 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
     );
   }
 
-  Widget _buildReactions() {
-    return Wrap(
-      spacing: 6.w,
-      runSpacing: 4.h,
-      children: widget.message.reactions.map((reaction) {
-        return GestureDetector(
-          onTap: () => _animateReaction(reaction),
-          child: AnimatedScale(
-            scale: 1.0,
-            duration: const Duration(milliseconds: 150),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-              decoration: BoxDecoration(
-                color: widget.isDarkMode
-                    ? AppColors.darkContainerBorder.withOpacity(0.5)
-                    : AppColors.gray100,
-                borderRadius: BorderRadius.circular(12.r),
-                border: Border.all(
-                  color: AppColors.primary.withOpacity(0.3),
-                  width: 1,
-                ),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(reaction, style: TextStyle(fontSize: 14.sp)),
-                  SizedBox(width: 4.w),
-                  Text(
-                    '${(widget.message.reactions.length * 0.7).round()}',
-                    style: AppTypography.geistRegular12.copyWith(
-                      color: widget.isDarkMode
-                          ? AppColors.darkTextSecondary
-                          : AppColors.gray600,
-                      fontSize: 11.sp,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      }).toList(),
-    );
-  }
+  // Method removed as it's now handled by ReactionsWidget
 
   Widget _buildQuickActions() {
     return AnimatedOpacity(
@@ -740,6 +450,15 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
         ),
       ),
     );
+  }
+
+  // Helper method to convert reaction list to map for ReactionsWidget
+  Map<String, int> _convertReactionsList(List<String> reactions) {
+    final Map<String, int> reactionCounts = {};
+    for (final reaction in reactions) {
+      reactionCounts[reaction] = (reactionCounts[reaction] ?? 0) + 1;
+    }
+    return reactionCounts;
   }
 
   // Event handlers
@@ -847,7 +566,7 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
     // Show emoji picker bottom sheet
     showModalBottomSheet<void>(
       context: context,
-      builder: (context) => Container(
+      builder: (context) => SizedBox(
         height: 300.h,
         child: const Text('Emoji Picker'), // Replace with actual emoji picker
       ),

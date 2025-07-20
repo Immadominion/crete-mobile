@@ -31,7 +31,7 @@ class _AssetSelectorDialogState extends State<AssetSelectorDialog>
 
   // Demo assets
   final List<SentAsset> _demoTokens = [
-    SentAsset(
+    const SentAsset(
       id: 'token-1',
       type: AssetType.token,
       name: 'BONK',
@@ -39,7 +39,7 @@ class _AssetSelectorDialogState extends State<AssetSelectorDialog>
       imageUrl: 'https://cryptologos.cc/logos/bonk-bonk-logo.png',
       tokenAddress: '7GeR1qvqZaH9LXs4BbevDzSUA2wuHP3V4mR8n2XrZ9by',
     ),
-    SentAsset(
+    const SentAsset(
       id: 'token-2',
       type: AssetType.token,
       name: 'SOL',
@@ -50,7 +50,7 @@ class _AssetSelectorDialogState extends State<AssetSelectorDialog>
   ];
 
   final List<SentAsset> _demoNfts = [
-    SentAsset(
+    const SentAsset(
       id: 'nft-1',
       type: AssetType.nft,
       name: 'Cosmic Explorer #42',
@@ -62,7 +62,7 @@ class _AssetSelectorDialogState extends State<AssetSelectorDialog>
         'creator': 'ArtistX',
       },
     ),
-    SentAsset(
+    const SentAsset(
       id: 'nft-2',
       type: AssetType.nft,
       name: 'PixelPunk #108',
@@ -77,14 +77,14 @@ class _AssetSelectorDialogState extends State<AssetSelectorDialog>
   ];
 
   final List<SentAsset> _demoRoles = [
-    SentAsset(
+    const SentAsset(
       id: 'role-1',
       type: AssetType.role,
       name: 'Community Contributor',
       value: 1,
       imageUrl: 'https://i.imgur.com/XqQLHX6.png',
     ),
-    SentAsset(
+    const SentAsset(
       id: 'role-2',
       type: AssetType.role,
       name: 'Moderator',
@@ -94,14 +94,14 @@ class _AssetSelectorDialogState extends State<AssetSelectorDialog>
   ];
 
   final List<SentAsset> _demoTags = [
-    SentAsset(
+    const SentAsset(
       id: 'tag-1',
       type: AssetType.tag,
       name: 'Web3 Developer',
       value: 1,
       imageUrl: 'https://i.imgur.com/o2q1Vdl.png',
     ),
-    SentAsset(
+    const SentAsset(
       id: 'tag-2',
       type: AssetType.tag,
       name: 'NFT Artist',
@@ -124,7 +124,7 @@ class _AssetSelectorDialogState extends State<AssetSelectorDialog>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: widget.isDarkMode ? AppColors.black : AppColors.white,
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
@@ -213,7 +213,7 @@ class _AssetSelectorDialogState extends State<AssetSelectorDialog>
                 size: 16.sp,
               ),
               SizedBox(width: 8.w),
-              Text('Select', style: AppTypography.geistMedium13),
+              const Text('Select', style: AppTypography.geistMedium13),
             ],
           ),
         ),
@@ -223,7 +223,7 @@ class _AssetSelectorDialogState extends State<AssetSelectorDialog>
             children: [
               Icon(PhosphorIcons.gear(PhosphorIconsStyle.bold), size: 16.sp),
               SizedBox(width: 8.w),
-              Text('Options', style: AppTypography.geistMedium13),
+              const Text('Options', style: AppTypography.geistMedium13),
             ],
           ),
         ),

@@ -4,7 +4,6 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/typography.dart';
-import '../../../../domain/models/chat/chat_message.dart';
 
 /// Enhanced chat input widget with rich features and beautiful animations
 class EnhancedChatInput extends StatefulWidget {
@@ -124,7 +123,7 @@ class _EnhancedChatInputState extends State<EnhancedChatInput>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: widget.isDarkMode
             ? AppColors.darkBackgroundPrimary
@@ -134,7 +133,6 @@ class _EnhancedChatInputState extends State<EnhancedChatInput>
             color: widget.isDarkMode
                 ? AppColors.darkContainerBorder
                 : AppColors.gray200,
-            width: 1,
           ),
         ),
       ),
@@ -184,7 +182,7 @@ class _EnhancedChatInputState extends State<EnhancedChatInput>
           width: 6.w,
           height: 6.w,
           margin: EdgeInsets.only(right: index < 2 ? 2.w : 0),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: AppColors.primary,
             shape: BoxShape.circle,
           ),
@@ -420,7 +418,7 @@ class _EnhancedChatInputState extends State<EnhancedChatInput>
     return AnimatedBuilder(
       animation: _focusAnimation,
       builder: (context, child) {
-        return Container(
+        return DecoratedBox(
           decoration: BoxDecoration(
             color: widget.isDarkMode
                 ? AppColors.darkContainerBorder.withOpacity(0.3)

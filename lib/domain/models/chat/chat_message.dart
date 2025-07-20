@@ -1,4 +1,4 @@
-// No imports needed for this model file
+import 'package:flutter/material.dart'; // Import for Color type
 
 /// Model for chat messages
 class ChatMessage {
@@ -67,6 +67,10 @@ class SentAsset {
     this.imageUrl,
     this.metadata,
     this.tokenAddress,
+    this.description,
+    this.collection,
+    this.network,
+    this.color,
   });
 
   final String id;
@@ -76,6 +80,10 @@ class SentAsset {
   final String? imageUrl;
   final Map<String, dynamic>? metadata;
   final String? tokenAddress;
+  final String? description; // Description for tag or role
+  final String? collection; // Collection for NFT
+  final String? network; // Network for token
+  final Color? color; // Color for tag or role
 }
 
 /// Types of assets that can be sent in chat
