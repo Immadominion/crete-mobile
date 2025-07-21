@@ -173,31 +173,24 @@ class _ChannelChatPageState extends State<ChannelChatPage>
                     children: [
                       // Main chat area with floating scroll-to-bottom button
                       Expanded(
-                        child: Stack(
-                          children: [
-                            DecoratedBox(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(16.r),
-                                  topRight: _showMembersSidebar
-                                      ? Radius.zero
-                                      : Radius.circular(16.r),
-                                ),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(16.r),
-                                  topRight: _showMembersSidebar
-                                      ? Radius.zero
-                                      : Radius.circular(16.r),
-                                ),
-                                child: _buildMessagesWithBackground(isDarkMode),
-                              ),
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(16.r),
+                              topRight: _showMembersSidebar
+                                  ? Radius.zero
+                                  : Radius.circular(16.r),
                             ),
-
-                            // Floating scroll-to-bottom button
-                            _buildScrollToBottomFAB(isDarkMode),
-                          ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(16.r),
+                              topRight: _showMembersSidebar
+                                  ? Radius.zero
+                                  : Radius.circular(16.r),
+                            ),
+                            child: _buildMessagesWithBackground(isDarkMode),
+                          ),
                         ),
                       ),
 
@@ -339,69 +332,59 @@ class _ChannelChatPageState extends State<ChannelChatPage>
     return Stack(
       children: [
         // Enhanced Background with customizable community chat backgrounds
-        Positioned.fill(
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 800),
-            decoration: BoxDecoration(
-              // TODO: Replace with community-specific background from community settings
-              // Community hosts should be able to upload custom chat backgrounds
-              image: const DecorationImage(
-                image: AssetImage('assets/images/chat-bg-01.png'),
-                fit: BoxFit.cover,
-                opacity: 0.08, // Slightly more visible for better ambiance
-              ),
-              // Gradient overlay for better text readability
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  (isDarkMode
-                          ? AppColors.darkBackgroundSecondary
-                          : AppColors.backgroundSecondary)
-                      .withValues(alpha: 0.85),
-                  (isDarkMode
-                          ? AppColors.darkBackgroundSecondary
-                          : AppColors.backgroundSecondary)
-                      .withValues(alpha: 0.95),
-                ],
-              ),
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 800),
+          decoration: BoxDecoration(
+            // TODO: Replace with community-specific background from community settings
+            // Community hosts should be able to upload custom chat backgrounds
+            image: const DecorationImage(
+              image: AssetImage('assets/images/chat-bg-01.png'),
+              fit: BoxFit.cover,
+              opacity: 0.08, // Slightly more visible for better ambiance
+            ),
+            // Gradient overlay for better text readability
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                (isDarkMode
+                        ? AppColors.darkBackgroundSecondary
+                        : AppColors.backgroundSecondary)
+                    .withValues(alpha: 0.85),
+                (isDarkMode
+                        ? AppColors.darkBackgroundSecondary
+                        : AppColors.backgroundSecondary)
+                    .withValues(alpha: 0.95),
+              ],
             ),
           ),
         ),
         // Subtle pattern overlay for texture
-        Positioned.fill(
-          child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: const AssetImage('assets/images/chat-bg-01.png'),
-                fit: BoxFit.cover,
-                opacity: isDarkMode ? 0.02 : 0.03,
-                colorFilter: ColorFilter.mode(
-                  isDarkMode
-                      ? AppColors.primary.withValues(alpha: 0.1)
-                      : AppColors.primary.withValues(alpha: 0.05),
-                  BlendMode.overlay,
-                ),
+        Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: const AssetImage('assets/images/chat-bg-01.png'),
+              fit: BoxFit.cover,
+              opacity: isDarkMode ? 0.02 : 0.03,
+              colorFilter: ColorFilter.mode(
+                isDarkMode
+                    ? AppColors.primary.withValues(alpha: 0.1)
+                    : AppColors.primary.withValues(alpha: 0.05),
+                BlendMode.overlay,
               ),
             ),
           ),
         ),
         // Messages list with enhanced animations and overlays
-        Positioned.fill(
-          child: Stack(
-            children: [
-              _buildMessagesList(isDarkMode),
+        _buildMessagesList(isDarkMode),
 
-              // Scroll to bottom FAB
-              if (_shouldShowScrollToBottom())
-                Positioned(
-                  bottom: 80.h,
-                  right: 16.w,
-                  child: _buildScrollToBottomFAB(isDarkMode),
-                ),
-            ],
+        // Floating scroll-to-bottom button
+        if (_shouldShowScrollToBottom())
+          Positioned(
+            bottom: 80.h,
+            right: 16.w,
+            child: _buildScrollToBottomFAB(isDarkMode),
           ),
-        ),
       ],
     );
   }
@@ -890,11 +873,9 @@ class _ChannelChatPageState extends State<ChannelChatPage>
   }
 
   Widget _buildScrollToBottomFAB(bool isDarkMode) {
-    return AnimatedPositioned(
+    return AnimatedOpacity(
       duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-      bottom: _shouldShowScrollToBottom() ? 20.h : -60.h,
-      right: 20.w,
+      opacity: _shouldShowScrollToBottom() ? 1.0 : 0.0,
       child: FloatingActionButton.small(
         onPressed: _scrollToBottom,
         backgroundColor: AppColors.primary,

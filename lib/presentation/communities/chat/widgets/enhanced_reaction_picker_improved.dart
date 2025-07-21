@@ -219,37 +219,44 @@ class _EnhancedReactionPickerImprovedState
           scale: _scaleAnimation,
           child: Center(
             child: Container(
-              margin: EdgeInsets.all(20.w),
-              constraints: BoxConstraints(maxWidth: 320.w, maxHeight: 480.h),
+              margin: EdgeInsets.all(16.w),
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.9,
+                maxHeight: 480.h,
+              ),
               decoration: BoxDecoration(
                 color: widget.isDarkMode
                     ? AppColors.darkBackgroundSecondary
-                    : AppColors.backgroundPrimary,
-                borderRadius: BorderRadius.circular(24.r),
+                    : AppColors.white,
+                borderRadius: BorderRadius.circular(28.r),
                 border: Border.all(
                   color: widget.isDarkMode
-                      ? AppColors.darkContainerBorder.withValues(alpha: 0.3)
-                      : AppColors.gray200.withValues(alpha: 0.5),
+                      ? AppColors.darkContainerBorder.withOpacity(0.2)
+                      : AppColors.gray200.withOpacity(0.3),
                   width: 1,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(
-                      alpha: widget.isDarkMode ? 0.4 : 0.15,
-                    ),
-                    offset: Offset(0, 8.h),
-                    blurRadius: 24.r,
+                    color: widget.isDarkMode
+                        ? AppColors.black.withOpacity(0.3)
+                        : AppColors.gray900.withOpacity(0.1),
+                    offset: Offset(0, 16.h),
+                    blurRadius: 32.r,
+                    spreadRadius: -4,
+                  ),
+                  BoxShadow(
+                    color: widget.isDarkMode
+                        ? AppColors.black.withOpacity(0.2)
+                        : AppColors.gray600.withOpacity(0.05),
+                    offset: Offset(0, 4.h),
+                    blurRadius: 8.r,
                     spreadRadius: 0,
                   ),
                 ],
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: [
-                  _buildHeader(),
-                  _buildTabBar(),
-                  Flexible(child: _buildTabBarView()),
-                ],
+                children: [_buildHeader(), _buildTabBar(), _buildTabBarView()],
               ),
             ),
           ),
@@ -260,42 +267,64 @@ class _EnhancedReactionPickerImprovedState
 
   Widget _buildHeader() {
     return Container(
-      padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 16.h),
+      padding: EdgeInsets.fromLTRB(24.w, 24.h, 24.w, 20.h),
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
             color: widget.isDarkMode
-                ? AppColors.darkContainerBorder.withValues(alpha: 0.3)
-                : AppColors.gray200.withValues(alpha: 0.5),
+                ? AppColors.darkContainerBorder.withOpacity(0.2)
+                : AppColors.gray200.withOpacity(0.4),
             width: 0.5,
           ),
         ),
       ),
       child: Row(
         children: [
-          Text(
-            'Add Reaction',
-            style: AppTypography.geistSemiBold15.copyWith(
-              color: widget.isDarkMode
-                  ? AppColors.darkTextPrimary
-                  : AppColors.gray900,
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w600,
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+            decoration: BoxDecoration(
+              color: AppColors.primary.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(20.r),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  PhosphorIcons.smiley(PhosphorIconsStyle.bold),
+                  size: 16.sp,
+                  color: AppColors.primary,
+                ),
+                SizedBox(width: 6.w),
+                Text(
+                  'Add Reaction',
+                  style: AppTypography.geistSemiBold15.copyWith(
+                    color: AppColors.primary,
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
             ),
           ),
           const Spacer(),
           GestureDetector(
             onTap: () => Navigator.pop(context),
             child: Container(
-              padding: EdgeInsets.all(8.w),
+              padding: EdgeInsets.all(10.w),
               decoration: BoxDecoration(
                 color: widget.isDarkMode
-                    ? AppColors.darkContainerBorder.withValues(alpha: 0.2)
+                    ? AppColors.darkIconBackground.withOpacity(0.3)
                     : AppColors.gray100,
-                borderRadius: BorderRadius.circular(8.r),
+                borderRadius: BorderRadius.circular(12.r),
+                border: Border.all(
+                  color: widget.isDarkMode
+                      ? AppColors.darkContainerBorder.withOpacity(0.2)
+                      : AppColors.gray200.withOpacity(0.5),
+                  width: 1,
+                ),
               ),
               child: Icon(
-                PhosphorIcons.x(PhosphorIconsStyle.regular),
+                PhosphorIcons.x(PhosphorIconsStyle.bold),
                 size: 16.sp,
                 color: widget.isDarkMode
                     ? AppColors.darkTextSecondary
@@ -310,35 +339,86 @@ class _EnhancedReactionPickerImprovedState
 
   Widget _buildTabBar() {
     return Container(
-      padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 8.h),
-      child: TabBar(
-        controller: _tabController,
-        indicatorColor: AppColors.primary,
-        indicatorWeight: 2.5,
-        indicatorSize: TabBarIndicatorSize.label,
-        labelColor: AppColors.primary,
-        unselectedLabelColor: widget.isDarkMode
-            ? AppColors.darkTextSecondary
-            : AppColors.gray500,
-        labelStyle: AppTypography.geistMedium13.copyWith(
-          fontSize: 11.sp,
-          fontWeight: FontWeight.w500,
+      padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 12.h),
+      child: Container(
+        padding: EdgeInsets.all(3.w),
+        decoration: BoxDecoration(
+          color: widget.isDarkMode
+              ? AppColors.darkIconBackground.withOpacity(0.2)
+              : AppColors.gray100.withOpacity(0.8),
+          borderRadius: BorderRadius.circular(14.r),
+          border: Border.all(
+            color: widget.isDarkMode
+                ? AppColors.darkContainerBorder.withOpacity(0.1)
+                : AppColors.gray200.withOpacity(0.3),
+            width: 1,
+          ),
         ),
-        unselectedLabelStyle: AppTypography.geistRegular12.copyWith(
-          fontSize: 11.sp,
+        child: TabBar(
+          controller: _tabController,
+          indicator: BoxDecoration(
+            color: AppColors.primary,
+            borderRadius: BorderRadius.circular(10.r),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.primary.withOpacity(0.3),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          indicatorSize: TabBarIndicatorSize.tab,
+          dividerColor: Colors.transparent,
+          labelColor: AppColors.white,
+          unselectedLabelColor: widget.isDarkMode
+              ? AppColors.darkTextSecondary
+              : AppColors.gray600,
+          labelStyle: AppTypography.geistSemiBold13.copyWith(
+            fontSize: 8.sp,
+            fontWeight: FontWeight.w600,
+          ),
+          unselectedLabelStyle: AppTypography.geistMedium13.copyWith(
+            fontSize: 8.sp,
+            fontWeight: FontWeight.w500,
+          ),
+          tabs: [
+            Tab(
+              icon: Icon(
+                PhosphorIcons.clockClockwise(PhosphorIconsStyle.bold),
+                size: 18.sp,
+              ),
+              text: 'Recent',
+            ),
+            Tab(
+              icon: Icon(
+                PhosphorIcons.smiley(PhosphorIconsStyle.bold),
+                size: 18.sp,
+              ),
+              text: 'Smileys',
+            ),
+            Tab(
+              icon: Icon(
+                PhosphorIcons.handWaving(PhosphorIconsStyle.bold),
+                size: 18.sp,
+              ),
+              text: 'Hands',
+            ),
+            Tab(
+              icon: Icon(
+                PhosphorIcons.heart(PhosphorIconsStyle.bold),
+                size: 18.sp,
+              ),
+              text: 'Hearts',
+            ),
+          ],
         ),
-        tabs: const [
-          Tab(text: 'Recent'),
-          Tab(text: 'Smileys'),
-          Tab(text: 'Gestures'),
-          Tab(text: 'Hearts'),
-        ],
       ),
     );
   }
 
   Widget _buildTabBarView() {
-    return Expanded(
+    return SizedBox(
+      height: 300.h, // Fixed height instead of Expanded
       child: TabBarView(
         controller: _tabController,
         children: [
@@ -371,12 +451,12 @@ class _EnhancedReactionPickerImprovedState
 
   Widget _buildReactionGrid(List<String> reactions) {
     return Container(
-      padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 20.h),
+      padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 24.h),
       child: GridView.builder(
         shrinkWrap: true,
         physics: const BouncingScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 6,
+          crossAxisCount: 6, // Reduced from 8 to 6 for better spacing
           crossAxisSpacing: 8.w,
           mainAxisSpacing: 8.h,
           childAspectRatio: 1,
@@ -390,31 +470,46 @@ class _EnhancedReactionPickerImprovedState
   Widget _buildReactionButton(String emoji) {
     return Material(
       color: Colors.transparent,
-      borderRadius: BorderRadius.circular(12.r),
+      borderRadius: BorderRadius.circular(16.r),
       child: InkWell(
         onTap: () => _selectReaction(emoji),
-        borderRadius: BorderRadius.circular(12.r),
-        splashColor: AppColors.primary.withValues(alpha: 0.1),
-        highlightColor: AppColors.primary.withValues(alpha: 0.05),
+        borderRadius: BorderRadius.circular(16.r),
+        splashColor: AppColors.primary.withOpacity(0.1),
+        highlightColor: AppColors.primary.withOpacity(0.05),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 150),
           decoration: BoxDecoration(
             color: widget.isDarkMode
-                ? AppColors.darkContainerBorder.withValues(alpha: 0.1)
+                ? AppColors.darkIconBackground.withOpacity(0.3)
                 : AppColors.gray50,
-            borderRadius: BorderRadius.circular(12.r),
-            border: Border.all(color: Colors.transparent, width: 1.5),
+            borderRadius: BorderRadius.circular(16.r),
+            border: Border.all(
+              color: widget.isDarkMode
+                  ? AppColors.darkContainerBorder.withOpacity(0.2)
+                  : AppColors.gray200.withOpacity(0.5),
+              width: 1,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: widget.isDarkMode
+                    ? AppColors.black.withOpacity(0.1)
+                    : AppColors.gray400.withOpacity(0.1),
+                blurRadius: 2,
+                offset: const Offset(0, 1),
+              ),
+            ],
           ),
           child: Center(
             child: Text(
               emoji,
               style: TextStyle(
-                fontSize: 26.sp,
+                fontSize: 24.sp,
                 height: 1.0,
                 decoration: TextDecoration.none,
                 fontFamilyFallback: const [
                   'Apple Color Emoji',
                   'Segoe UI Emoji',
+                  'Noto Color Emoji',
                 ],
               ),
             ),
