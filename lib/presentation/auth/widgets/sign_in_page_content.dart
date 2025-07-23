@@ -85,7 +85,7 @@ class SignInPageContent extends StatelessWidget {
               child: SizedBox(
                 width: 180.w,
                 child: Image.asset(
-                  'assets/icons/transparent/appstore.png',
+                  'assets/icons/transparent/splash-transparent.png',
                   fit: BoxFit.contain,
                 ),
               ),

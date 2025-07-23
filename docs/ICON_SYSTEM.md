@@ -10,7 +10,7 @@ The Crete app uses a flexible icon system that supports multiple themes and easy
 
 1. **Transparent** (Default)
 
-   - Path: `assets/icons/transparent/appstore.png`
+   - Path: `assets/icons/transparent/splash-transparent.png`
    - Usage: Default app icon with transparent background
    - Best for: Universal compatibility across all platforms
 
@@ -132,20 +132,20 @@ The icon configuration is in `pubspec.yaml`:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icons/transparent/appstore.png"
+  image_path: "assets/icons/transparent/splash-transparent.png"
   min_sdk_android: 21
   web:
     generate: true
-    image_path: "assets/icons/transparent/appstore.png"
+    image_path: "assets/icons/transparent/splash-transparent.png"
   windows:
     generate: true
-    image_path: "assets/icons/transparent/appstore.png"
+    image_path: "assets/icons/transparent/splash-transparent.png"
   macos:
     generate: true
-    image_path: "assets/icons/transparent/appstore.png"
+    image_path: "assets/icons/transparent/splash-transparent.png"
   linux:
     generate: true
-    image_path: "assets/icons/transparent/appstore.png"
+    image_path: "assets/icons/transparent/splash-transparent.png"
 ```
 
 ## Dynamic Icon Switching (Future Feature)

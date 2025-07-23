@@ -5,7 +5,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import '../../core/theme/colors.dart';
 import '../../core/theme/typography.dart';
 import '../communities/communities_page.dart';
-import 'chat_page.dart';
+import '../dms/pages/dms_home_page.dart';
 import 'profile_page.dart';
 import 'voice_page.dart';
 import 'widgets/notifications_feed.dart';
@@ -227,7 +227,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   void _navigateToChat() {
     Navigator.push(
       context,
-      MaterialPageRoute<void>(builder: (context) => const ChatPage()),
+      MaterialPageRoute<void>(builder: (context) => const DMSHomePage()),
     );
   }
 

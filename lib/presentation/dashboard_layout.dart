@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../core/theme/colors.dart';
 import '../core/widgets/bottom_navigation_bar.dart';
 import 'communities/communities_page.dart';
-import 'dashboard/chat_page.dart';
 import 'dashboard/home_page.dart';
 import 'dashboard/profile_page.dart';
 import 'dashboard/voice_page.dart';
+import 'dms/pages/dms_home_page.dart';
 
 class DashboardLayout extends StatefulWidget {
   const DashboardLayout({super.key});
@@ -87,7 +87,7 @@ class _DashboardLayoutState extends State<DashboardLayout>
                 RepaintBoundary(
                   child: CommunitiesPage(),
                 ), // Server list, discover new ones
-                RepaintBoundary(child: ChatPage()), // Direct messages
+                RepaintBoundary(child: DMSHomePage()), // Direct messages
                 RepaintBoundary(
                   child: VoicePage(),
                 ), // Active voice channels, calls
