@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -68,37 +69,50 @@ class _ConversationPageState extends State<ConversationPage> {
   }
 
   Widget _buildChatBackground(bool isDarkMode) {
-    return ShaderMask(
-      shaderCallback: (rect) {
-        return LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            isDarkMode
-                ? AppColors.darkBackgroundPrimary.withOpacity(0.95)
-                : AppColors.backgroundPrimary.withOpacity(0.93),
-            isDarkMode
-                ? AppColors.darkBackgroundPrimary
-                : AppColors.backgroundPrimary,
-          ],
-        ).createShader(rect);
-      },
-      blendMode: BlendMode.dstIn,
-      child: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: const AssetImage("assets/images/chat-bg-01.png"),
-            fit: BoxFit.cover,
-            opacity: isDarkMode ? 0.05 : 0.07,
-            colorFilter: ColorFilter.mode(
-              isDarkMode
-                  ? AppColors.darkBackgroundSecondary
-                  : AppColors.gray100,
-              BlendMode.softLight,
+    return Stack(
+      children: [
+        // Doodle SVG pattern
+        Positioned.fill(
+          child: Opacity(
+            // Increase pattern visibility significantly
+            opacity: isDarkMode ? 0.6 : 0.7,
+            child: SvgPicture.asset(
+              'assets/svgs/doodle.svg',
+              fit: BoxFit.cover,
+              // Use colorFilter to make SVG more visible
+              colorFilter: ColorFilter.mode(
+                isDarkMode
+                    ? Colors.white.withOpacity(0.3)
+                    : Colors.black.withOpacity(0.3),
+                BlendMode.srcIn,
+              ),
             ),
           ),
         ),
-      ),
+        // Gradient overlay for readability (subtle)
+        Positioned.fill(
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  // top transparent
+                  (isDarkMode
+                          ? AppColors.darkBackgroundPrimary
+                          : AppColors.backgroundPrimary)
+                      .withOpacity(0.0),
+                  // bottom light tint
+                  (isDarkMode
+                          ? AppColors.darkBackgroundPrimary
+                          : AppColors.backgroundPrimary)
+                      .withOpacity(0.1),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -454,7 +468,7 @@ class _ConversationPageState extends State<ConversationPage> {
   Future<void> _loadOlderMessages() async {
     // TODO: Implement loading older messages from your backend/state
     // For now, simulate a loading delay
-    await Future.delayed(const Duration(seconds: 1));
+    await Future<void>.delayed(const Duration(seconds: 1));
 
     // In a real app, you would fetch older messages here
     print('Loading older messages...');
@@ -736,7 +750,7 @@ class _ConversationPageState extends State<ConversationPage> {
 
       // Add a small delay to simulate network request
       // In a real app, this would be handled by your state management
-      Future.delayed(const Duration(milliseconds: 300), () {
+      Future<void>.delayed(const Duration(milliseconds: 300), () {
         // You would actually update your state here in a real app
         print('Message sent: $sentMessage');
 

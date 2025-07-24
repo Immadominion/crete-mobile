@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../core/data/chat_demo_data.dart';
 import '../../../core/theme/colors.dart';
@@ -331,46 +332,41 @@ class _ChannelChatPageState extends State<ChannelChatPage>
   Widget _buildMessagesWithBackground(bool isDarkMode) {
     return Stack(
       children: [
-        // Enhanced Background with customizable community chat backgrounds
-        AnimatedContainer(
-          duration: const Duration(milliseconds: 800),
-          decoration: BoxDecoration(
-            // TODO: Replace with community-specific background from community settings
-            // Community hosts should be able to upload custom chat backgrounds
-            image: const DecorationImage(
-              image: AssetImage('assets/images/chat-bg-01.png'),
+        // Doodle SVG background pattern
+        Positioned.fill(
+          child: Opacity(
+            opacity: isDarkMode ? 0.6 : 0.7,
+            child: SvgPicture.asset(
+              'assets/svgs/doodle.svg',
               fit: BoxFit.cover,
-              opacity: 0.08, // Slightly more visible for better ambiance
-            ),
-            // Gradient overlay for better text readability
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                (isDarkMode
-                        ? AppColors.darkBackgroundSecondary
-                        : AppColors.backgroundSecondary)
-                    .withValues(alpha: 0.85),
-                (isDarkMode
-                        ? AppColors.darkBackgroundSecondary
-                        : AppColors.backgroundSecondary)
-                    .withValues(alpha: 0.95),
-              ],
+              // Use colorFilter to make SVG more visible
+              colorFilter: ColorFilter.mode(
+                isDarkMode
+                    ? Colors.white.withOpacity(0.3)
+                    : Colors.black.withOpacity(0.3),
+                BlendMode.srcIn,
+              ),
             ),
           ),
         ),
-        // Subtle pattern overlay for texture
-        Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: const AssetImage('assets/images/chat-bg-01.png'),
-              fit: BoxFit.cover,
-              opacity: isDarkMode ? 0.02 : 0.03,
-              colorFilter: ColorFilter.mode(
-                isDarkMode
-                    ? AppColors.primary.withValues(alpha: 0.1)
-                    : AppColors.primary.withValues(alpha: 0.05),
-                BlendMode.overlay,
+        // Gradient overlay for text readability (light transparency)
+        Positioned.fill(
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 800),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  (isDarkMode
+                          ? AppColors.darkBackgroundSecondary
+                          : AppColors.backgroundSecondary)
+                      .withOpacity(0.05),
+                  (isDarkMode
+                          ? AppColors.darkBackgroundSecondary
+                          : AppColors.backgroundSecondary)
+                      .withOpacity(0.1),
+                ],
               ),
             ),
           ),

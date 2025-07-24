@@ -162,12 +162,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       children: [
         Row(
           children: [
-            Icon(
-              PhosphorIcons.house(PhosphorIconsStyle.bold),
-              color: isDarkMode ? AppColors.darkTextPrimary : AppColors.gray900,
-              size: 24.sp,
-            ),
-            SizedBox(width: 8.w),
             Text(
               'Good morning!',
               style: AppTypography.geistSemiBold15.copyWith(

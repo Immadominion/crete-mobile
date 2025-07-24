@@ -79,6 +79,7 @@ flutter:
     - assets/icons/light/dashboard-icons/
     - assets/icons/dark/dashboard-icons/
     - assets/icons/svgs/bottom-navigation/
+    - assets/svgs/
 
   # Fonts
   fonts:
