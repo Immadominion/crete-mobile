@@ -4,10 +4,10 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/typography.dart';
-import '../widgets/dms_header.dart';
-import '../widgets/dms_search_bar.dart';
-import '../widgets/dms_quick_actions.dart';
 import '../widgets/dms_chat_tabs.dart';
+import '../widgets/dms_header.dart';
+import '../widgets/dms_quick_actions.dart';
+import '../widgets/dms_search_bar.dart';
 
 /// Main DMS page that serves as the entry point for direct messaging
 /// and group chat functionality
@@ -77,8 +77,8 @@ class _DMSHomePageState extends State<DMSHomePage>
               padding: EdgeInsets.only(
                 left: 20.w,
                 right: 20.w,
-                top: 50.h,
-                bottom: 20.h,
+                top: 60.h,
+                bottom: 24.h,
               ),
               sliver: SliverToBoxAdapter(
                 child: DMSHeader(
@@ -103,8 +103,8 @@ class _DMSHomePageState extends State<DMSHomePage>
 
             // Quick actions
             SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-              sliver: SliverToBoxAdapter(child: DMSQuickActions()),
+              padding: EdgeInsets.only(bottom: 32.sp),
+              sliver: const SliverToBoxAdapter(child: DMSQuickActions()),
             ),
 
             // Chat tabs (Direct Messages and Group DMs)
@@ -117,12 +117,6 @@ class _DMSHomePageState extends State<DMSHomePage>
                 ),
               ),
             ),
-
-            // Bottom padding
-            SliverPadding(
-              padding: EdgeInsets.only(bottom: 120.h),
-              sliver: const SliverToBoxAdapter(child: SizedBox()),
-            ),
           ],
         ),
       ),
@@ -134,9 +128,10 @@ class _DMSHomePageState extends State<DMSHomePage>
     return FloatingActionButton(
       onPressed: _showNewChatOptions,
       backgroundColor: AppColors.primary,
+      shape: const CircleBorder(),
       elevation: 8,
       child: Icon(
-        PhosphorIcons.plus(PhosphorIconsStyle.regular),
+        PhosphorIcons.radioButton(),
         color: AppColors.white,
         size: 24.sp,
       ),
@@ -189,7 +184,7 @@ class _DMSHomePageState extends State<DMSHomePage>
             _buildNewChatOption(
               'New Direct Message',
               'Start a private conversation',
-              PhosphorIcons.chatCircle(PhosphorIconsStyle.regular),
+              PhosphorIcons.chatCircle(),
               AppColors.primary,
               isDarkMode,
               () => _showNewDMDialog(isDarkMode),
@@ -198,7 +193,7 @@ class _DMSHomePageState extends State<DMSHomePage>
             _buildNewChatOption(
               'Create Group',
               'Start a group conversation',
-              PhosphorIcons.users(PhosphorIconsStyle.regular),
+              PhosphorIcons.users(),
               AppColors.secondary,
               isDarkMode,
               () => _showNewGroupDialog(isDarkMode),
@@ -207,7 +202,7 @@ class _DMSHomePageState extends State<DMSHomePage>
             _buildNewChatOption(
               'Join Voice Room',
               'Connect with community members',
-              PhosphorIcons.waveform(PhosphorIconsStyle.regular),
+              PhosphorIcons.waveform(),
               Colors.purple,
               isDarkMode,
               () => _showActiveVoiceRooms(),
@@ -237,7 +232,7 @@ class _DMSHomePageState extends State<DMSHomePage>
         decoration: BoxDecoration(
           color: color.withOpacity(0.1),
           borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(color: color.withOpacity(0.2), width: 1),
+          border: Border.all(color: color.withOpacity(0.2)),
         ),
         child: Row(
           children: [
@@ -275,7 +270,7 @@ class _DMSHomePageState extends State<DMSHomePage>
               ),
             ),
             Icon(
-              PhosphorIcons.caretRight(PhosphorIconsStyle.regular),
+              PhosphorIcons.caretRight(),
               size: 16.sp,
               color: isDarkMode
                   ? AppColors.darkTextSecondary

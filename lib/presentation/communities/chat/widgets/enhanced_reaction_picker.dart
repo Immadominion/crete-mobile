@@ -95,7 +95,7 @@ class _EnhancedReactionPickerState extends State<EnhancedReactionPicker>
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.5)),
         child: Center(
           child: SlideTransition(
@@ -114,7 +114,6 @@ class _EnhancedReactionPickerState extends State<EnhancedReactionPicker>
                     color: widget.isDarkMode
                         ? AppColors.darkContainerBorder.withValues(alpha: 0.3)
                         : AppColors.gray200.withValues(alpha: 0.5),
-                    width: 1,
                   ),
                   boxShadow: [
                     BoxShadow(
@@ -255,7 +254,6 @@ class _EnhancedReactionPickerState extends State<EnhancedReactionPicker>
         crossAxisCount: 6,
         crossAxisSpacing: 12.w,
         mainAxisSpacing: 12.h,
-        childAspectRatio: 1,
       ),
       itemCount: reactions.length,
       itemBuilder: (context, index) => _buildReactionButton(reactions[index]),
@@ -274,7 +272,7 @@ class _EnhancedReactionPickerState extends State<EnhancedReactionPicker>
           borderRadius: BorderRadius.circular(12.r),
           splashColor: AppColors.primary.withValues(alpha: 0.1),
           highlightColor: AppColors.primary.withValues(alpha: 0.05),
-          child: Container(
+          child: DecoratedBox(
             decoration: BoxDecoration(
               color: widget.isDarkMode
                   ? AppColors.darkContainerBorder.withValues(alpha: 0.15)

@@ -44,10 +44,11 @@ class _CommunitiesPageState extends State<CommunitiesPage>
   void initState() {
     super.initState();
     _fadeController = AnimationController(
-      duration: const Duration(milliseconds: 1200),
+      duration: const Duration(milliseconds: 800), // Reduced animation time
       vsync: this,
     );
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+    _fadeAnimation = Tween<double>(begin: 0.9, end: 1.0).animate(
+      // Start from 0.9 instead of 0.0
       CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut),
     );
 
@@ -59,10 +60,8 @@ class _CommunitiesPageState extends State<CommunitiesPage>
     // before starting animations which helps with semantic updates
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        // Slight delay helps with initialization and semantic update conflicts
-        Future.delayed(const Duration(milliseconds: 50), () {
-          if (mounted) _fadeController.forward();
-        });
+        // Start animation immediately to reduce layout shifts
+        _fadeController.forward();
       }
     });
   }
@@ -82,33 +81,38 @@ class _CommunitiesPageState extends State<CommunitiesPage>
       backgroundColor: isDarkMode
           ? AppColors.darkBackgroundPrimary
           : AppColors.backgroundPrimary,
-      body: FadeTransition(
-        opacity: _fadeAnimation,
-        child: CustomScrollView(
-          slivers: [
-            // Header
-            SliverPadding(
-              padding: EdgeInsets.only(
-                left: 15.8.w,
-                right: 15.8.w,
-                top: 33.h,
-                bottom: 24.h,
-              ),
-              sliver: SliverToBoxAdapter(
+      body: CustomScrollView(
+        // Apply the fade transition to each sliver item instead of the whole view
+        slivers: [
+          // Header
+          SliverPadding(
+            padding: EdgeInsets.only(
+              left: 15.8.w,
+              right: 15.8.w,
+              top: 60.h, // Fixed top padding
+              bottom: 16.h, // Consistent spacing
+            ),
+            sliver: SliverToBoxAdapter(
+              child: FadeTransition(
+                opacity: _fadeAnimation,
                 child: CommunitiesHeader(
                   onCreateCommunity: () => _createNewCommunity(),
                 ),
               ),
             ),
+          ),
 
-            // Search Bar
-            SliverPadding(
-              padding: EdgeInsets.only(
-                left: 15.8.w,
-                right: 15.8.w,
-                bottom: 22.h,
-              ),
-              sliver: SliverToBoxAdapter(
+          // Search Bar - with consistent spacing above and below
+          SliverPadding(
+            padding: EdgeInsets.only(
+              left: 15.8.w,
+              right: 15.8.w,
+              top: 8.h,
+              bottom: 32.h, // Consistent spacing below search bar
+            ),
+            sliver: SliverToBoxAdapter(
+              child: FadeTransition(
+                opacity: _fadeAnimation,
                 child: CommunitiesSearchBar(
                   hintText: 'Search communities...',
                   onFilterTap: () => _filterCommunities(),
@@ -116,30 +120,37 @@ class _CommunitiesPageState extends State<CommunitiesPage>
                 ),
               ),
             ),
-
-            // My Communities Section
-            SliverPadding(
-              padding: EdgeInsets.only(left: 15.8.w, top: AppSpacing.lg.h),
-              sliver: SliverToBoxAdapter(
+          ), // My Communities Section
+          SliverPadding(
+            padding: EdgeInsets.only(left: 15.8.w),
+            sliver: SliverToBoxAdapter(
+              child: FadeTransition(
+                opacity: _fadeAnimation,
                 child: _buildMyCommunitiesSection(isDarkMode),
               ),
             ),
+          ),
 
-            // Discover Section
-            SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: 15.8.w),
-              sliver: SliverToBoxAdapter(
+          // Discover Section
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: 15.8.w),
+            sliver: SliverToBoxAdapter(
+              child: FadeTransition(
+                opacity: _fadeAnimation,
                 child: _buildDiscoverSection(isDarkMode),
               ),
             ),
-
-            // Bottom padding
-            SliverPadding(
-              padding: EdgeInsets.only(bottom: 100.h),
-              sliver: const SliverToBoxAdapter(child: SizedBox()),
+          ), // Bottom padding
+          SliverPadding(
+            padding: EdgeInsets.only(bottom: 100.h),
+            sliver: SliverToBoxAdapter(
+              child: FadeTransition(
+                opacity: _fadeAnimation,
+                child: const SizedBox(),
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

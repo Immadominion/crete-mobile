@@ -7,9 +7,6 @@ import '../../../core/theme/typography.dart';
 
 /// Enhanced header for the DMS page with search toggle and new chat options
 class DMSHeader extends StatelessWidget {
-  final bool isSearching;
-  final VoidCallback onSearchToggle;
-  final VoidCallback onNewChatTap;
 
   const DMSHeader({
     super.key,
@@ -17,6 +14,9 @@ class DMSHeader extends StatelessWidget {
     required this.onSearchToggle,
     required this.onNewChatTap,
   });
+  final bool isSearching;
+  final VoidCallback onSearchToggle;
+  final VoidCallback onNewChatTap;
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +60,10 @@ class DMSHeader extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12.r),
                   border: Border.all(
                     color: AppColors.primary.withOpacity(0.2),
-                    width: 1,
                   ),
                 ),
                 child: Icon(
-                  PhosphorIcons.usersThree(PhosphorIconsStyle.regular),
+                  PhosphorIcons.usersThree(),
                   size: 20.sp,
                   color: AppColors.primary,
                 ),
@@ -89,11 +88,10 @@ class DMSHeader extends StatelessWidget {
                         : (isDarkMode
                               ? AppColors.darkContainerBorder
                               : AppColors.gray200),
-                    width: 1,
                   ),
                 ),
                 child: Icon(
-                  PhosphorIcons.magnifyingGlass(PhosphorIconsStyle.regular),
+                  PhosphorIcons.magnifyingGlass(),
                   size: 20.sp,
                   color: isSearching
                       ? AppColors.white

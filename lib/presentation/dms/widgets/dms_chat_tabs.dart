@@ -9,14 +9,13 @@ import 'chat_card.dart';
 
 /// DMS Chat Tabs widget - Direct Messages and Group DMs tabs
 class DMSChatTabs extends StatelessWidget {
-  final TabController tabController;
-  final String searchQuery;
-
   const DMSChatTabs({
     super.key,
     required this.tabController,
     required this.searchQuery,
   });
+  final TabController tabController;
+  final String searchQuery;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class DMSChatTabs extends StatelessWidget {
       children: [
         // Tab bar
         Container(
-          height: 50.h,
+          height: 40.h,
           decoration: BoxDecoration(
             color: isDarkMode ? AppColors.darkIconBackground : AppColors.gray50,
             borderRadius: BorderRadius.circular(25.r),
@@ -34,15 +33,16 @@ class DMSChatTabs extends StatelessWidget {
               color: isDarkMode
                   ? AppColors.darkContainerBorder
                   : AppColors.gray200,
-              width: 1,
             ),
           ),
           child: TabBar(
             controller: tabController,
             indicator: BoxDecoration(
               color: AppColors.primary,
-              borderRadius: BorderRadius.circular(20.r),
+              borderRadius: BorderRadius.circular(50.r),
             ),
+            splashFactory: NoSplash.splashFactory,
+            indicatorSize: TabBarIndicatorSize.tab,
             dividerColor: Colors.transparent,
             labelColor: AppColors.white,
             unselectedLabelColor: isDarkMode
@@ -52,31 +52,17 @@ class DMSChatTabs extends StatelessWidget {
             unselectedLabelStyle: AppTypography.geistMedium13.copyWith(
               fontSize: 14.sp,
             ),
-            tabs: [
+            tabs: const [
               Tab(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      PhosphorIcons.chatCircle(PhosphorIconsStyle.regular),
-                      size: 16.sp,
-                    ),
-                    SizedBox(width: 8.w),
-                    const Text('Direct Messages'),
-                  ],
+                  children: [Text('Direct Messages')],
                 ),
               ),
               Tab(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      PhosphorIcons.users(PhosphorIconsStyle.regular),
-                      size: 16.sp,
-                    ),
-                    SizedBox(width: 8.w),
-                    const Text('Group DMs'),
-                  ],
+                  children: [Text('Group DMs')],
                 ),
               ),
             ],
@@ -102,9 +88,8 @@ class DMSChatTabs extends StatelessWidget {
 
 /// Direct Messages tab content
 class _DirectMessagesTab extends StatelessWidget {
-  final String searchQuery;
-
   const _DirectMessagesTab({required this.searchQuery});
+  final String searchQuery;
 
   @override
   Widget build(BuildContext context) {
@@ -124,38 +109,6 @@ class _DirectMessagesTab extends StatelessWidget {
                     ? AppColors.darkTextPrimary
                     : AppColors.gray900,
                 fontSize: 18.sp,
-              ),
-            ),
-            GestureDetector(
-              onTap: () => _showNewDMDialog(context),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(16.r),
-                  border: Border.all(
-                    color: AppColors.primary.withOpacity(0.2),
-                    width: 1,
-                  ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      PhosphorIcons.plus(PhosphorIconsStyle.regular),
-                      size: 14.sp,
-                      color: AppColors.primary,
-                    ),
-                    SizedBox(width: 4.w),
-                    Text(
-                      'New',
-                      style: AppTypography.geistMedium13.copyWith(
-                        color: AppColors.primary,
-                        fontSize: 12.sp,
-                      ),
-                    ),
-                  ],
-                ),
               ),
             ),
           ],
@@ -199,7 +152,7 @@ class _DirectMessagesTab extends StatelessWidget {
       },
       {
         'username': 'dave_sol',
-        'message': 'Let\'s discuss the tokenomics tomorrow',
+        'message': "Let's discuss the tokenomics tomorrow",
         'time': '3 hours ago',
         'unreadCount': 0,
         'isOnline': true,
@@ -243,37 +196,13 @@ class _DirectMessagesTab extends StatelessWidget {
         .toList();
   }
 
-  void _showNewDMDialog(BuildContext context) {
-    // TODO: Implement new DM dialog
-    showDialog<void>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('New Direct Message'),
-        content: const Text('Select a user to start a conversation'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Select'),
-          ),
-        ],
-      ),
-    );
-  }
-
   void _navigateToChat(BuildContext context, String username) {
     // Navigate to conversation page
     Navigator.push(
       context,
       MaterialPageRoute<void>(
-        builder: (context) => ConversationPage(
-          conversationId: username,
-          title: username,
-          isGroup: false,
-        ),
+        builder: (context) =>
+            ConversationPage(conversationId: username, title: username),
       ),
     );
   }
@@ -281,9 +210,8 @@ class _DirectMessagesTab extends StatelessWidget {
 
 /// Group DMs tab content
 class _GroupDMsTab extends StatelessWidget {
-  final String searchQuery;
-
   const _GroupDMsTab({required this.searchQuery});
+  final String searchQuery;
 
   @override
   Widget build(BuildContext context) {
@@ -303,38 +231,6 @@ class _GroupDMsTab extends StatelessWidget {
                     ? AppColors.darkTextPrimary
                     : AppColors.gray900,
                 fontSize: 18.sp,
-              ),
-            ),
-            GestureDetector(
-              onTap: () => _showNewGroupDialog(context),
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(16.r),
-                  border: Border.all(
-                    color: AppColors.primary.withOpacity(0.2),
-                    width: 1,
-                  ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      PhosphorIcons.plus(PhosphorIconsStyle.regular),
-                      size: 14.sp,
-                      color: AppColors.primary,
-                    ),
-                    SizedBox(width: 4.w),
-                    Text(
-                      'New',
-                      style: AppTypography.geistMedium13.copyWith(
-                        color: AppColors.primary,
-                        fontSize: 12.sp,
-                      ),
-                    ),
-                  ],
-                ),
               ),
             ),
           ],
@@ -414,27 +310,6 @@ class _GroupDMsTab extends StatelessWidget {
           ),
         )
         .toList();
-  }
-
-  void _showNewGroupDialog(BuildContext context) {
-    // TODO: Implement new group dialog
-    showDialog<void>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('New Group Chat'),
-        content: const Text('Create a new group conversation'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Create'),
-          ),
-        ],
-      ),
-    );
   }
 
   void _navigateToGroupChat(BuildContext context, String groupName) {

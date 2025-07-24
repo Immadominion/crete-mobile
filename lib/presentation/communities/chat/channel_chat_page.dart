@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../../core/data/chat_demo_data.dart';
 import '../../../core/theme/colors.dart';
@@ -55,7 +55,7 @@ class _ChannelChatPageState extends State<ChannelChatPage>
 
   // Demo online members for sidebar
   final List<OnlineMember> _onlineMembers = [
-    OnlineMember(
+    const OnlineMember(
       id: 'user1',
       displayName: 'Sarah Chen',
       avatar: 'https://i.pravatar.cc/150?img=1',
@@ -64,7 +64,7 @@ class _ChannelChatPageState extends State<ChannelChatPage>
       role: 'Admin',
       activity: 'Working on proposal #42',
     ),
-    OnlineMember(
+    const OnlineMember(
       id: 'user2',
       displayName: 'Alex Rodriguez',
       avatar: 'https://i.pravatar.cc/150?img=2',
@@ -73,7 +73,7 @@ class _ChannelChatPageState extends State<ChannelChatPage>
       role: 'Moderator',
       activity: 'Reviewing governance docs',
     ),
-    OnlineMember(
+    const OnlineMember(
       id: 'user3',
       displayName: 'Maria Santos',
       avatar: 'https://i.pravatar.cc/150?img=3',
@@ -82,7 +82,7 @@ class _ChannelChatPageState extends State<ChannelChatPage>
       role: 'Member',
       customStatus: 'Building the future 🚀',
     ),
-    OnlineMember(
+    const OnlineMember(
       id: 'user4',
       displayName: 'Jordan Kim',
       avatar: 'https://i.pravatar.cc/150?img=4',
@@ -91,7 +91,7 @@ class _ChannelChatPageState extends State<ChannelChatPage>
       role: 'Core Team',
       activity: 'In meeting',
     ),
-    OnlineMember(
+    const OnlineMember(
       id: 'user5',
       displayName: 'Chris Wilson',
       avatar: 'https://i.pravatar.cc/150?img=5',
@@ -888,7 +888,7 @@ class _ChannelChatPageState extends State<ChannelChatPage>
                 right: -2,
                 child: Container(
                   padding: EdgeInsets.all(4.w),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.red,
                     shape: BoxShape.circle,
                   ),

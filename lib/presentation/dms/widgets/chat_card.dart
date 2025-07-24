@@ -6,20 +6,6 @@ import '../../../core/theme/typography.dart';
 
 /// Enhanced chat card widget for displaying individual conversations
 class ChatCard extends StatelessWidget {
-  final String username;
-  final String message;
-  final String time;
-  final int unreadCount;
-  final bool isOnline;
-  final bool isTyping;
-  final bool isGroup;
-  final int? memberCount;
-  final bool hasReaction;
-  final bool hasAttachment;
-  final bool isPinned;
-  final bool hasNftGift;
-  final VoidCallback onTap;
-
   const ChatCard({
     super.key,
     required this.username,
@@ -36,6 +22,19 @@ class ChatCard extends StatelessWidget {
     this.isPinned = false,
     this.hasNftGift = false,
   });
+  final String username;
+  final String message;
+  final String time;
+  final int unreadCount;
+  final bool isOnline;
+  final bool isTyping;
+  final bool isGroup;
+  final int? memberCount;
+  final bool hasReaction;
+  final bool hasAttachment;
+  final bool isPinned;
+  final bool hasNftGift;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -44,28 +43,22 @@ class ChatCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(16.w),
+        padding: EdgeInsets.symmetric(vertical: 8.w, horizontal: 12.h),
         decoration: BoxDecoration(
           color: isDarkMode ? AppColors.darkIconBackground : AppColors.white,
-          borderRadius: BorderRadius.circular(16.r),
+          borderRadius: isGroup
+              ? BorderRadius.circular(16.r)
+              : BorderRadius.circular(24.r),
           border: Border.all(
             color: isDarkMode
                 ? AppColors.darkContainerBorder
                 : AppColors.gray200,
-            width: 1,
           ),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.primary.withOpacity(0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 2),
-            ),
-          ],
         ),
         child: Row(
           children: [
             _buildAvatar(isDarkMode),
-            SizedBox(width: 16.w),
+            SizedBox(width: 12.w),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,22 +82,13 @@ class ChatCard extends StatelessWidget {
           width: 48.w,
           height: 48.h,
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: isGroup
-                  ? [AppColors.secondary, AppColors.primaryLight]
-                  : [AppColors.primary, AppColors.primaryLight],
+            gradient: const LinearGradient(
+              colors: [AppColors.secondary, AppColors.primaryLight],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(16.r),
-            boxShadow: [
-              BoxShadow(
-                color: (isGroup ? AppColors.secondary : AppColors.primary)
-                    .withOpacity(0.3),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
-              ),
-            ],
+            shape: isGroup ? BoxShape.rectangle : BoxShape.circle,
+            borderRadius: isGroup ? BorderRadius.circular(8.r) : null,
           ),
           child: Center(
             child: isGroup
@@ -133,7 +117,7 @@ class ChatCard extends StatelessWidget {
                 color: AppColors.secondary,
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isDarkMode
+                  color: !isDarkMode
                       ? AppColors.darkIconBackground
                       : AppColors.white,
                   width: 2.w,
@@ -180,10 +164,10 @@ class ChatCard extends StatelessWidget {
               if (memberCount != null) ...[
                 SizedBox(width: 8.w),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                  padding: EdgeInsets.symmetric(horizontal: 6.w),
                   decoration: BoxDecoration(
                     color: AppColors.secondary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8.r),
+                    shape: BoxShape.circle,
                   ),
                   child: Text(
                     '$memberCount',
@@ -214,20 +198,6 @@ class ChatCard extends StatelessWidget {
         Expanded(
           child: Row(
             children: [
-              if (isTyping)
-                Padding(
-                  padding: EdgeInsets.only(right: 6.w),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.more_horiz,
-                        size: 12.sp,
-                        color: AppColors.primary,
-                      ),
-                      SizedBox(width: 4.w),
-                    ],
-                  ),
-                ),
               if (hasAttachment)
                 Padding(
                   padding: EdgeInsets.only(right: 6.w),
@@ -250,7 +220,7 @@ class ChatCard extends StatelessWidget {
                 ),
               Flexible(
                 child: Text(
-                  isTyping ? 'is typing...' : message,
+                  isTyping ? '$username is typing...' : message,
                   style: AppTypography.geistRegular12.copyWith(
                     color: isTyping
                         ? AppColors.primary
@@ -267,6 +237,7 @@ class ChatCard extends StatelessWidget {
             ],
           ),
         ),
+        SizedBox(width: 3.w),
         Row(
           children: [
             if (hasReaction)
@@ -281,10 +252,9 @@ class ChatCard extends StatelessWidget {
               ),
             if (unreadCount > 0)
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                 decoration: BoxDecoration(
                   color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(12.r),
+                  borderRadius: BorderRadius.circular(50.r),
                 ),
                 constraints: BoxConstraints(minWidth: 20.w),
                 child: Text(

@@ -118,7 +118,7 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
             alignment: widget.isMe
                 ? Alignment.centerRight
                 : Alignment.centerLeft,
-            child: child!,
+            child: child,
           );
         },
         child: Stack(
@@ -188,7 +188,7 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
                                       PhosphorIconsStyle.fill,
                                     )
                                   : PhosphorIcons.check(
-                                      PhosphorIconsStyle.regular,
+                                      
                                     ),
                               size: 12.sp,
                               color: widget.isRead
@@ -240,23 +240,23 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildActionButton(
-              icon: PhosphorIcons.arrowBendUpLeft(PhosphorIconsStyle.regular),
+              icon: PhosphorIcons.arrowBendUpLeft(),
               onTap: widget.onReply,
               tooltip: 'Reply',
             ),
             _buildActionButton(
-              icon: PhosphorIcons.smileySticker(PhosphorIconsStyle.regular),
+              icon: PhosphorIcons.smileySticker(),
               onTap: () => widget.onReact?.call('😊'),
               tooltip: 'React',
             ),
             if (widget.isMe) ...[
               _buildActionButton(
-                icon: PhosphorIcons.pencilSimple(PhosphorIconsStyle.regular),
+                icon: PhosphorIcons.pencilSimple(),
                 onTap: widget.onEdit,
                 tooltip: 'Edit',
               ),
               _buildActionButton(
-                icon: PhosphorIcons.trash(PhosphorIconsStyle.regular),
+                icon: PhosphorIcons.trash(),
                 onTap: widget.onDelete,
                 tooltip: 'Delete',
                 isDestructive: true,
@@ -282,7 +282,7 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
           width: 32.w,
           height: 32.h,
           margin: EdgeInsets.symmetric(horizontal: 2.w),
-          decoration: BoxDecoration(shape: BoxShape.circle),
+          decoration: const BoxDecoration(shape: BoxShape.circle),
           child: Icon(
             icon,
             size: 18.sp,
@@ -317,7 +317,6 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
                 color: widget.isDarkMode
                     ? AppColors.darkContainerBorder
                     : AppColors.gray200,
-                width: 1,
               ),
             ),
             child: Row(

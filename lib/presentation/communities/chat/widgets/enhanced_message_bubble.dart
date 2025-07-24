@@ -6,8 +6,8 @@ import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/typography.dart';
 import '../../../../domain/models/chat/chat_message.dart';
 import 'asset_message_card.dart';
-import 'enhanced_reactions_widget.dart';
 import 'enhanced_reaction_picker_improved.dart';
+import 'enhanced_reactions_widget.dart';
 
 /// Enhanced production-level message bubble with beautiful animations and interactions
 class EnhancedMessageBubble extends StatefulWidget {
@@ -632,7 +632,7 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
     final difference = now.difference(timestamp);
 
     // Format the time component
-    String timeStr =
+    final String timeStr =
         '${timestamp.hour.toString().padLeft(2, '0')}:${timestamp.minute.toString().padLeft(2, '0')}';
 
     if (messageDate == today) {
@@ -648,7 +648,7 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
       return 'Yesterday, $timeStr';
     } else if (difference.inDays < 7) {
       // Within the last week
-      List<String> days = [
+      final List<String> days = [
         'Monday',
         'Tuesday',
         'Wednesday',
@@ -717,14 +717,13 @@ class _EnhancedMessageBubbleState extends State<EnhancedMessageBubble>
             color: widget.isDarkMode
                 ? AppColors.darkContainerBorder.withValues(alpha: 0.3)
                 : AppColors.gray200,
-            width: 1,
           ),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              PhosphorIcons.smiley(PhosphorIconsStyle.regular),
+              PhosphorIcons.smiley(),
               size: 16.sp,
               color: widget.isDarkMode
                   ? AppColors.darkTextSecondary

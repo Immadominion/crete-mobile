@@ -77,8 +77,6 @@ class _MessagesListWidgetState extends State<MessagesListWidget>
               100.h +
               widget
                   .bottomPadding, // Extra bottom padding for input area + typing indicator
-          left: 0,
-          right: 0,
         ),
         itemCount: widget.messages.length * 2 - 1, // Double for spacers
         physics: const BouncingScrollPhysics(), // iOS-style bouncing
@@ -197,9 +195,9 @@ class _MessagesListWidgetState extends State<MessagesListWidget>
     final dateOnly = DateTime(date.year, date.month, date.day);
 
     if (dateOnly == today) {
-      return "Today";
+      return 'Today';
     } else if (dateOnly == yesterday) {
-      return "Yesterday";
+      return 'Yesterday';
     } else {
       // Check if it's within the current year
       if (date.year == now.year) {

@@ -17,9 +17,10 @@ class DMSQuickActions extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
+          SizedBox(width: 20.w),
           _buildQuickActionChip(
             'Voice Rooms',
-            PhosphorIcons.waveform(PhosphorIconsStyle.regular),
+            PhosphorIcons.waveform(),
             AppColors.secondary,
             isDarkMode,
             onTap: () => _showActiveVoiceRooms(),
@@ -27,7 +28,7 @@ class DMSQuickActions extends StatelessWidget {
           SizedBox(width: 12.w),
           _buildQuickActionChip(
             'Calls',
-            PhosphorIcons.phone(PhosphorIconsStyle.regular),
+            PhosphorIcons.phone(),
             Colors.green,
             isDarkMode,
             onTap: () => _showCallHistory(),
@@ -35,7 +36,7 @@ class DMSQuickActions extends StatelessWidget {
           SizedBox(width: 12.w),
           _buildQuickActionChip(
             'Archived',
-            PhosphorIcons.archive(PhosphorIconsStyle.regular),
+            PhosphorIcons.archive(),
             Colors.orange,
             isDarkMode,
             onTap: () => _showArchivedChats(),
@@ -43,12 +44,13 @@ class DMSQuickActions extends StatelessWidget {
           SizedBox(width: 12.w),
           _buildQuickActionChip(
             'Requests',
-            PhosphorIcons.userPlus(PhosphorIconsStyle.regular),
+            PhosphorIcons.userPlus(),
             Colors.blue,
             isDarkMode,
             badge: 2,
             onTap: () => _showChatRequests(),
           ),
+          SizedBox(width: 20.w),
         ],
       ),
     );
@@ -65,11 +67,11 @@ class DMSQuickActions extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
         decoration: BoxDecoration(
           color: color.withOpacity(0.1),
           borderRadius: BorderRadius.circular(20.r),
-          border: Border.all(color: color.withOpacity(0.2), width: 1),
+          border: Border.all(color: color.withOpacity(0.2)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -82,8 +84,7 @@ class DMSQuickActions extends StatelessWidget {
                     top: -2,
                     right: -2,
                     child: Container(
-                      padding: EdgeInsets.all(2.w),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.red,
                         shape: BoxShape.circle,
                       ),
@@ -103,7 +104,7 @@ class DMSQuickActions extends StatelessWidget {
                   ),
               ],
             ),
-            SizedBox(width: 6.w),
+            SizedBox(width: 4.w),
             Text(
               label,
               style: AppTypography.geistMedium13.copyWith(

@@ -233,7 +233,6 @@ class _EnhancedReactionPickerImprovedState
                   color: widget.isDarkMode
                       ? AppColors.darkContainerBorder.withOpacity(0.2)
                       : AppColors.gray200.withOpacity(0.3),
-                  width: 1,
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -250,7 +249,6 @@ class _EnhancedReactionPickerImprovedState
                         : AppColors.gray600.withOpacity(0.05),
                     offset: Offset(0, 4.h),
                     blurRadius: 8.r,
-                    spreadRadius: 0,
                   ),
                 ],
               ),
@@ -320,7 +318,6 @@ class _EnhancedReactionPickerImprovedState
                   color: widget.isDarkMode
                       ? AppColors.darkContainerBorder.withOpacity(0.2)
                       : AppColors.gray200.withOpacity(0.5),
-                  width: 1,
                 ),
               ),
               child: Icon(
@@ -351,7 +348,6 @@ class _EnhancedReactionPickerImprovedState
             color: widget.isDarkMode
                 ? AppColors.darkContainerBorder.withOpacity(0.1)
                 : AppColors.gray200.withOpacity(0.3),
-            width: 1,
           ),
         ),
         child: TabBar(
@@ -459,7 +455,6 @@ class _EnhancedReactionPickerImprovedState
           crossAxisCount: 6, // Reduced from 8 to 6 for better spacing
           crossAxisSpacing: 8.w,
           mainAxisSpacing: 8.h,
-          childAspectRatio: 1,
         ),
         itemCount: reactions.length,
         itemBuilder: (context, index) => _buildReactionButton(reactions[index]),
@@ -487,7 +482,6 @@ class _EnhancedReactionPickerImprovedState
               color: widget.isDarkMode
                   ? AppColors.darkContainerBorder.withOpacity(0.2)
                   : AppColors.gray200.withOpacity(0.5),
-              width: 1,
             ),
             boxShadow: [
               BoxShadow(

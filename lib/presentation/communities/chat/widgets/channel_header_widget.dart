@@ -96,7 +96,6 @@ class _ChannelHeaderWidgetState extends State<ChannelHeaderWidget>
               color: widget.isDarkMode
                   ? AppColors.darkContainerBorder.withOpacity(0.3)
                   : AppColors.gray200.withOpacity(0.5),
-              width: 1,
             ),
           ),
           boxShadow: [

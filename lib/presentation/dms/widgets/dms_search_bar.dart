@@ -7,16 +7,15 @@ import '../../../core/theme/typography.dart';
 
 /// Animated search bar for DMS with enhanced functionality
 class DMSSearchBar extends StatelessWidget {
-  final bool isSearching;
-  final TextEditingController searchController;
-  final FocusNode searchFocusNode;
-
   const DMSSearchBar({
     super.key,
     required this.isSearching,
     required this.searchController,
     required this.searchFocusNode,
   });
+  final bool isSearching;
+  final TextEditingController searchController;
+  final FocusNode searchFocusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,7 @@ class DMSSearchBar extends StatelessWidget {
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      height: isSearching ? 56.h : 0,
+      height: isSearching ? 46.h : 0,
       margin: EdgeInsets.only(bottom: isSearching ? 20.h : 0),
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 200),
@@ -38,13 +37,12 @@ class DMSSearchBar extends StatelessWidget {
               color: isDarkMode
                   ? AppColors.darkContainerBorder
                   : AppColors.gray200,
-              width: 1,
             ),
           ),
           child: Row(
             children: [
               Icon(
-                PhosphorIcons.magnifyingGlass(PhosphorIconsStyle.regular),
+                PhosphorIcons.magnifyingGlass(),
                 size: 20.sp,
                 color: isDarkMode
                     ? AppColors.darkTextSecondary
@@ -53,6 +51,8 @@ class DMSSearchBar extends StatelessWidget {
               SizedBox(width: 12.w),
               Expanded(
                 child: TextField(
+                  // Vertically center the text when borders are removed
+                  textAlignVertical: TextAlignVertical.center,
                   controller: searchController,
                   focusNode: searchFocusNode,
                   style: AppTypography.geistRegular14.copyWith(
@@ -68,6 +68,12 @@ class DMSSearchBar extends StatelessWidget {
                           : AppColors.gray500,
                     ),
                     border: InputBorder.none,
+                    isDense: true, // reduce default padding
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    focusedErrorBorder: InputBorder.none,
                     contentPadding: EdgeInsets.zero,
                   ),
                 ),
@@ -76,7 +82,7 @@ class DMSSearchBar extends StatelessWidget {
                 GestureDetector(
                   onTap: () => searchController.clear(),
                   child: Icon(
-                    PhosphorIcons.x(PhosphorIconsStyle.regular),
+                    PhosphorIcons.x(),
                     size: 18.sp,
                     color: isDarkMode
                         ? AppColors.darkTextSecondary

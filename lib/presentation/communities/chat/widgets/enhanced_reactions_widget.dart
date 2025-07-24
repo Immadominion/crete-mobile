@@ -196,7 +196,6 @@ class _EnhancedReactionsWidgetState extends State<EnhancedReactionsWidget>
             color: widget.isDarkMode
                 ? AppColors.darkContainerBorder
                 : AppColors.gray200,
-            width: 1,
           ),
           boxShadow: [
             BoxShadow(
@@ -251,7 +250,6 @@ class _EnhancedReactionsWidgetState extends State<EnhancedReactionsWidget>
                   color: widget.isDarkMode
                       ? AppColors.darkContainerBorder
                       : AppColors.gray300,
-                  width: 1,
                 ),
               ),
               child: Icon(

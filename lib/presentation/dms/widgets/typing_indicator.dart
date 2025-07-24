@@ -85,7 +85,7 @@ class _TypingIndicatorState extends State<TypingIndicator>
     if (_containerKey.currentContext != null &&
         widget.onHeightChanged != null) {
       final RenderBox box =
-          _containerKey.currentContext!.findRenderObject() as RenderBox;
+          _containerKey.currentContext!.findRenderObject()! as RenderBox;
       widget.onHeightChanged!(box.size.height);
     }
   }

@@ -1,27 +1,25 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/typography.dart';
-import '../widgets/typing_indicator.dart';
 import '../widgets/enhanced_message_bubble.dart';
+import '../widgets/typing_indicator.dart';
 
 /// Individual conversation page for direct messages or group chats
 class ConversationPage extends StatefulWidget {
-  final String conversationId;
-  final String title;
-  final bool isGroup;
-
   const ConversationPage({
     super.key,
     required this.conversationId,
     required this.title,
     this.isGroup = false,
   });
+  final String conversationId;
+  final String title;
+  final bool isGroup;
 
   @override
   State<ConversationPage> createState() => _ConversationPageState();
@@ -136,7 +134,7 @@ class _ConversationPageState extends State<ConversationPage> {
               child: Container(
                 padding: EdgeInsets.all(8.w),
                 child: Icon(
-                  PhosphorIcons.arrowLeft(PhosphorIconsStyle.regular),
+                  PhosphorIcons.arrowLeft(),
                   color: isDarkMode
                       ? AppColors.darkTextPrimary
                       : AppColors.gray900,
@@ -225,7 +223,7 @@ class _ConversationPageState extends State<ConversationPage> {
                           Container(
                             width: 8.w,
                             height: 8.h,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: AppColors.secondary,
                               shape: BoxShape.circle,
                             ),
@@ -251,19 +249,19 @@ class _ConversationPageState extends State<ConversationPage> {
       ),
       actions: [
         _buildAppBarActionButton(
-          icon: PhosphorIcons.phone(PhosphorIconsStyle.regular),
+          icon: PhosphorIcons.phone(),
           color: isDarkMode ? AppColors.darkTextPrimary : AppColors.gray700,
           onTap: _startVoiceCall,
           tooltip: 'Voice Call',
         ),
         _buildAppBarActionButton(
-          icon: PhosphorIcons.videoCamera(PhosphorIconsStyle.regular),
+          icon: PhosphorIcons.videoCamera(),
           color: isDarkMode ? AppColors.darkTextPrimary : AppColors.gray700,
           onTap: _startVideoCall,
           tooltip: 'Video Call',
         ),
         _buildAppBarActionButton(
-          icon: PhosphorIcons.dotsThreeVertical(PhosphorIconsStyle.regular),
+          icon: PhosphorIcons.dotsThreeVertical(),
           color: isDarkMode ? AppColors.darkTextPrimary : AppColors.gray700,
           onTap: _showMoreOptions,
           tooltip: 'More Options',
@@ -303,7 +301,7 @@ class _ConversationPageState extends State<ConversationPage> {
     // TODO: Implement navigation to profile
     print('Navigating to profile');
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Viewing ${widget.title}\'s profile')),
+      SnackBar(content: Text("Viewing ${widget.title}'s profile")),
     );
   }
 
@@ -323,7 +321,7 @@ class _ConversationPageState extends State<ConversationPage> {
       {
         'id': '2',
         'content':
-            'I\'m doing great! Just working on some new features for the app.',
+            "I'm doing great! Just working on some new features for the app.",
         'timestamp': '10:32 AM',
         'isMe': true,
         'isRead': true,
@@ -344,7 +342,7 @@ class _ConversationPageState extends State<ConversationPage> {
       {
         'id': '4',
         'content':
-            'Sure! We\'re working on a new DMS system that will make messaging much better.',
+            "Sure! We're working on a new DMS system that will make messaging much better.",
         'timestamp': '10:37 AM',
         'isMe': true,
         'isRead': false,
@@ -394,7 +392,6 @@ class _ConversationPageState extends State<ConversationPage> {
                         color: isDarkMode
                             ? AppColors.darkContainerBorder
                             : AppColors.gray200,
-                        width: 1,
                       ),
                     ),
                     child: Text(
@@ -423,23 +420,23 @@ class _ConversationPageState extends State<ConversationPage> {
               return Padding(
                 padding: EdgeInsets.only(bottom: isNextSameUser ? 8.h : 16.h),
                 child: EnhancedMessageBubble(
-                  message: message['content'] as String,
-                  timestamp: message['timestamp'] as String,
-                  isMe: message['isMe'] as bool,
+                  message: message['content']! as String,
+                  timestamp: message['timestamp']! as String,
+                  isMe: message['isMe']! as bool,
                   isDarkMode: isDarkMode,
-                  isRead: message['isRead'] as bool,
-                  hasReactions: message['hasReactions'] as bool,
-                  reactions: (message['reactions'] as Map<String, int>),
-                  hasAttachment: message['hasAttachment'] as bool,
+                  isRead: message['isRead']! as bool,
+                  hasReactions: message['hasReactions']! as bool,
+                  reactions: message['reactions']! as Map<String, int>,
+                  hasAttachment: message['hasAttachment']! as bool,
                   isLastInGroup: isLastInGroup,
-                  onReply: () => _replyToMessage(message['id'] as String),
+                  onReply: () => _replyToMessage(message['id']! as String),
                   onReact: (emoji) =>
-                      _addReaction(message['id'] as String, emoji),
-                  onEdit: message['isMe'] as bool
-                      ? () => _editMessage(message['id'] as String)
+                      _addReaction(message['id']! as String, emoji),
+                  onEdit: message['isMe']! as bool
+                      ? () => _editMessage(message['id']! as String)
                       : null,
-                  onDelete: message['isMe'] as bool
-                      ? () => _deleteMessage(message['id'] as String)
+                  onDelete: message['isMe']! as bool
+                      ? () => _deleteMessage(message['id']! as String)
                       : null,
                 ),
               );
@@ -491,7 +488,7 @@ class _ConversationPageState extends State<ConversationPage> {
     // and update the message input to show reply context
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(SnackBar(content: Text('Replying to message')));
+    ).showSnackBar(const SnackBar(content: Text('Replying to message')));
   }
 
   void _addReaction(String messageId, String emoji) {
@@ -529,7 +526,7 @@ class _ConversationPageState extends State<ConversationPage> {
     // and change the send button to an update button
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(SnackBar(content: Text('Editing message')));
+    ).showSnackBar(const SnackBar(content: Text('Editing message')));
   }
 
   void _deleteMessage(String messageId) {
@@ -539,7 +536,7 @@ class _ConversationPageState extends State<ConversationPage> {
     // In a real app, this would remove the message from state
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(SnackBar(content: Text('Message deleted')));
+    ).showSnackBar(const SnackBar(content: Text('Message deleted')));
   }
 
   Widget _buildMessageInput(bool isDarkMode) {
@@ -552,7 +549,6 @@ class _ConversationPageState extends State<ConversationPage> {
             color: isDarkMode
                 ? AppColors.darkContainerBorder
                 : AppColors.gray200,
-            width: 1,
           ),
         ),
         boxShadow: [
@@ -573,7 +569,7 @@ class _ConversationPageState extends State<ConversationPage> {
             children: [
               // Attachment button with hover effect
               _buildIconButton(
-                icon: PhosphorIcons.plus(PhosphorIconsStyle.regular),
+                icon: PhosphorIcons.plus(),
                 onTap: _showAttachmentOptions,
                 color: AppColors.primary,
                 tooltip: 'Add attachment',
@@ -596,7 +592,6 @@ class _ConversationPageState extends State<ConversationPage> {
                       color: isDarkMode
                           ? AppColors.darkContainerBorder
                           : AppColors.gray200,
-                      width: 1,
                     ),
                   ),
                   child: Row(
@@ -618,6 +613,12 @@ class _ConversationPageState extends State<ConversationPage> {
                                   : AppColors.gray500,
                             ),
                             border: InputBorder.none,
+                            isDense: true, // reduce default padding
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            focusedErrorBorder: InputBorder.none,
                             contentPadding: EdgeInsets.zero,
                             isCollapsed: true,
                           ),
@@ -637,9 +638,7 @@ class _ConversationPageState extends State<ConversationPage> {
                         child: Padding(
                           padding: EdgeInsets.only(left: 8.w),
                           child: Icon(
-                            PhosphorIcons.smileySticker(
-                              PhosphorIconsStyle.regular,
-                            ),
+                            PhosphorIcons.smileySticker(),
                             color: isDarkMode
                                 ? AppColors.darkTextSecondary
                                 : AppColors.gray500,
@@ -653,15 +652,16 @@ class _ConversationPageState extends State<ConversationPage> {
               ),
 
               // Conditional render of either recording button or send button
-              _messageController.text.isEmpty
-                  ? _buildIconButton(
-                      icon: PhosphorIcons.microphone(PhosphorIconsStyle.fill),
-                      onTap: _startVoiceRecording,
-                      color: AppColors.secondary,
-                      background: AppColors.secondary.withOpacity(0.1),
-                      tooltip: 'Record voice message',
-                    )
-                  : _buildSendButton(isDarkMode),
+              if (_messageController.text.isEmpty)
+                _buildIconButton(
+                  icon: PhosphorIcons.microphone(PhosphorIconsStyle.fill),
+                  onTap: _startVoiceRecording,
+                  color: AppColors.secondary,
+                  background: AppColors.secondary.withOpacity(0.1),
+                  tooltip: 'Record voice message',
+                )
+              else
+                _buildSendButton(isDarkMode),
             ],
           ),
 
@@ -800,19 +800,17 @@ class _ConversationPageState extends State<ConversationPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: Icon(
-                PhosphorIcons.userCircle(PhosphorIconsStyle.regular),
-              ),
+              leading: Icon(PhosphorIcons.userCircle()),
               title: const Text('View Profile'),
               onTap: () => Navigator.pop(context),
             ),
             ListTile(
-              leading: Icon(PhosphorIcons.gear(PhosphorIconsStyle.regular)),
+              leading: Icon(PhosphorIcons.gear()),
               title: const Text('Chat Settings'),
               onTap: () => Navigator.pop(context),
             ),
             ListTile(
-              leading: Icon(PhosphorIcons.prohibit(PhosphorIconsStyle.regular)),
+              leading: Icon(PhosphorIcons.prohibit()),
               title: const Text('Block User'),
               onTap: () => Navigator.pop(context),
             ),
@@ -842,19 +840,17 @@ class _ConversationPageState extends State<ConversationPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: Icon(PhosphorIcons.image(PhosphorIconsStyle.regular)),
+              leading: Icon(PhosphorIcons.image()),
               title: const Text('Photo'),
               onTap: () => Navigator.pop(context),
             ),
             ListTile(
-              leading: Icon(PhosphorIcons.file(PhosphorIconsStyle.regular)),
+              leading: Icon(PhosphorIcons.file()),
               title: const Text('Document'),
               onTap: () => Navigator.pop(context),
             ),
             ListTile(
-              leading: Icon(
-                PhosphorIcons.currencyCircleDollar(PhosphorIconsStyle.regular),
-              ),
+              leading: Icon(PhosphorIcons.currencyCircleDollar()),
               title: const Text('Send Tokens'),
               onTap: () => Navigator.pop(context),
             ),

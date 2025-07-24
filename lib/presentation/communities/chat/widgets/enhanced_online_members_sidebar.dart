@@ -368,8 +368,8 @@ class _EnhancedOnlineMembersSidebarState
   }
 
   Widget _buildAvatarFallback(OnlineMember member) {
-    return Container(
-      decoration: BoxDecoration(
+    return DecoratedBox(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [AppColors.primary, AppColors.primaryLight],
           begin: Alignment.topLeft,
