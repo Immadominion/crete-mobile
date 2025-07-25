@@ -4,9 +4,9 @@ import '../core/theme/colors.dart';
 import '../core/widgets/bottom_navigation_bar.dart';
 import 'communities/communities_page.dart';
 import 'dashboard/home_page.dart';
-import 'dashboard/profile_page.dart';
-import 'dashboard/voice_page.dart';
 import 'dms/pages/dms_home_page.dart';
+import 'profile/pages/profile_page.dart';
+import 'events/pages/voice_hub_page.dart';
 
 class DashboardLayout extends StatefulWidget {
   const DashboardLayout({super.key});
@@ -89,8 +89,8 @@ class _DashboardLayoutState extends State<DashboardLayout>
                 ), // Server list, discover new ones
                 RepaintBoundary(child: DMSHomePage()), // Direct messages
                 RepaintBoundary(
-                  child: VoicePage(),
-                ), // Active voice channels, calls
+                  child: VoiceHubPage(),
+                ), // Events hub - voice channels, meetings, governance
                 RepaintBoundary(
                   child: ProfilePage(),
                 ), // Settings, wallet, AI manager

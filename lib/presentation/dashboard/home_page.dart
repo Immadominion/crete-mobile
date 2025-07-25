@@ -6,13 +6,13 @@ import '../../core/theme/colors.dart';
 import '../../core/theme/typography.dart';
 import '../communities/communities_page.dart';
 import '../dms/pages/dms_home_page.dart';
-import 'profile_page.dart';
-import 'voice_page.dart';
+import '../profile/pages/profile_page.dart';
+import '../events/pages/creative_voice_hub_page.dart';
+import '../events/widgets/voice_hub_quick_access.dart';
 import 'widgets/notifications_feed.dart';
 import 'widgets/quick_actions_grid.dart';
 import 'widgets/recent_activity_section.dart';
 import 'widgets/stats_overview_section.dart';
-import 'widgets/voice_channels_section.dart';
 import 'widgets/wallet_status_card.dart';
 
 /// Modern home page with animated sections and proper navigation
@@ -114,14 +114,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 ),
               ),
 
-              // Voice Channels Section
+              // Voice Hub Quick Access Section
               SliverPadding(
                 padding: EdgeInsets.fromLTRB(16.w, 32.h, 16.w, 0),
                 sliver: SliverToBoxAdapter(
-                  child: VoiceChannelsSection(
-                    channels: _getVoiceChannels(),
-                    onSeeAll: _navigateToVoice,
-                  ),
+                  child: VoiceHubQuickAccess(onSeeAll: _navigateToVoice),
                 ),
               ),
 
@@ -188,6 +185,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   void _handleWalletTap() {
     if (_isWalletConnected) {
       // Navigate to wallet details or show wallet menu
+      //TODO:
       Navigator.push(
         context,
         MaterialPageRoute<void>(builder: (context) => const ProfilePage()),
@@ -208,7 +206,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   void _navigateToVoice() {
     Navigator.push(
       context,
-      MaterialPageRoute<void>(builder: (context) => const VoicePage()),
+      MaterialPageRoute<void>(
+        builder: (context) => const CreativeVoiceHubPage(),
+      ),
     );
   }
 
@@ -288,25 +288,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         icon: PhosphorIcons.at(PhosphorIconsStyle.bold),
         iconColor: AppColors.warning,
         onTap: _navigateToChat,
-      ),
-    ];
-  }
-
-  List<VoiceChannelItem> _getVoiceChannels() {
-    return [
-      VoiceChannelItem(
-        name: 'General Voice',
-        community: 'CryptoDAO',
-        memberCount: 3,
-        isActive: true,
-        onJoin: _navigateToVoice,
-      ),
-      VoiceChannelItem(
-        name: 'Governance Meeting',
-        community: 'DeFi Collective',
-        memberCount: 7,
-        isActive: true,
-        onJoin: _navigateToVoice,
       ),
     ];
   }

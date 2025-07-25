@@ -48,7 +48,7 @@ class DashboardIcons {
     0: 'Home',
     1: 'Communities', // Server list, discover new ones
     2: 'Chat', // Direct messages
-    3: 'Voice', // Active voice channels, calls
+    3: 'Events', // Events hub - voice channels, meetings, governance
     4: 'Profile', // Settings, wallet, AI manager
   };
 }

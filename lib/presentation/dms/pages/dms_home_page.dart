@@ -130,10 +130,13 @@ class _DMSHomePageState extends State<DMSHomePage>
       backgroundColor: AppColors.primary,
       shape: const CircleBorder(),
       elevation: 8,
-      child: Icon(
-        PhosphorIcons.radioButton(),
-        color: AppColors.white,
-        size: 24.sp,
+      child: Transform(
+        transform: Matrix4.rotationX(180),
+        child: Icon(
+          PhosphorIcons.flyingSaucer(),
+          color: AppColors.white,
+          size: 24.sp,
+        ),
       ),
     );
   }
