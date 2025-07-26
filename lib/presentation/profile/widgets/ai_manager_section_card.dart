@@ -12,117 +12,59 @@ class AiManagerSectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 0.w, vertical: 12.h),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(28.r),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-          child: Container(
-            padding: EdgeInsets.all(24.w),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(28.r),
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  (isDarkMode ? Colors.white : Colors.black).withOpacity(0.1),
-                  (isDarkMode ? Colors.white : Colors.black).withOpacity(0.05),
-                ],
-              ),
-              border: Border.all(
-                color: (isDarkMode ? Colors.white : Colors.black).withOpacity(
-                  0.1,
+    return BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Section header with AI glow effect
+          Text(
+            'Zeus Agent',
+            style: AppTypography.heading5.copyWith(
+              color: isDarkMode ? Colors.white : AppColors.gray900,
+              fontWeight: FontWeight.bold,
+              shadows: [
+                Shadow(
+                  color: isDarkMode
+                      ? Colors.black.withOpacity(0.2)
+                      : Colors.white.withOpacity(0.6),
+                  offset: const Offset(0, 1),
+                  blurRadius: 2,
                 ),
-                width: 1,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.08),
-                  blurRadius: 16,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Section header with AI glow effect
-                Row(
-                  children: [
-                    Container(
-                      width: 12.w,
-                      height: 12.w,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: RadialGradient(
-                          colors: [
-                            AppColors.primary,
-                            AppColors.primary.withOpacity(0.3),
-                          ],
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.primary.withOpacity(0.6),
-                            blurRadius: 8,
-                            spreadRadius: 2,
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(width: 12.w),
-                    Text(
-                      'Zeus',
-                      style: AppTypography.heading4.copyWith(
-                        color: isDarkMode ? Colors.white : AppColors.gray900,
-                        fontWeight: FontWeight.bold,
-                        shadows: [
-                          Shadow(
-                            color: isDarkMode
-                                ? Colors.black.withOpacity(0.2)
-                                : Colors.white.withOpacity(0.6),
-                            offset: const Offset(0, 1),
-                            blurRadius: 2,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 24.h),
-
-                // AI features with neural network design
-                _buildAiFeatureCard(
-                  PhosphorIcons.bell(PhosphorIconsStyle.bold),
-                  'Smart Notifications',
-                  'AI-powered notification filtering',
-                  true,
-                  const Color(0xFF9146FF),
-                ),
-                SizedBox(height: 12.h),
-                _buildAiFeatureCard(
-                  PhosphorIcons.chatCircleText(PhosphorIconsStyle.bold),
-                  'Channel Summaries',
-                  'Catch up on missed conversations',
-                  false,
-                  const Color(0xFF5865F2),
-                ),
-                SizedBox(height: 12.h),
-                _buildAiFeatureCard(
-                  PhosphorIcons.microphone(PhosphorIconsStyle.bold),
-                  'Voice Transcription',
-                  'Convert voice to text automatically',
-                  true,
-                  const Color(0xFF00D4AA),
-                ),
-                SizedBox(height: 16.h),
-
-                // AI Preferences button
-                _buildAiPreferencesButton(),
               ],
             ),
           ),
-        ),
+          SizedBox(height: 8.h),
+
+          // AI features with neural network design
+          _buildAiFeatureCard(
+            PhosphorIcons.bell(PhosphorIconsStyle.bold),
+            'Smart Notifications',
+            'AI-powered notification filtering',
+            true,
+            const Color(0xFF9146FF),
+          ),
+          SizedBox(height: 12.h),
+          _buildAiFeatureCard(
+            PhosphorIcons.chatCircleText(PhosphorIconsStyle.bold),
+            'Channel Summaries',
+            'Catch up on missed conversations',
+            false,
+            const Color(0xFF5865F2),
+          ),
+          SizedBox(height: 12.h),
+          _buildAiFeatureCard(
+            PhosphorIcons.microphone(PhosphorIconsStyle.bold),
+            'Voice Transcription',
+            'Convert voice to text automatically',
+            true,
+            const Color(0xFF00D4AA),
+          ),
+          SizedBox(height: 16.h),
+
+          // AI Preferences button
+          _buildAiPreferencesButton(),
+        ],
       ),
     );
   }
